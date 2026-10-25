@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Trophy, Award, Clock, ArrowUp, ArrowDown } from 'lucide-react';
 import { LEADERBOARD_USERS } from '../data/languages';
+import { DESI_LEAGUES } from '../data/innovations';
 import Mascot from './Mascot';
+import { sounds } from '../utils/audio';
 
 export default function Leaderboard({ 
   userXP = 240, 
@@ -11,9 +13,14 @@ export default function Leaderboard({
 }) {
   const isDark = theme === 'dark';
 
+  // Determine current league from user XP
+  const currentLeague = DESI_LEAGUES.slice().reverse().find(l => userXP >= l.minXp) || DESI_LEAGUES[0];
+  const [selectedLeagueId, setSelectedLeagueId] = useState(currentLeague.id);
+  const activeLeague = DESI_LEAGUES.find(l => l.id === selectedLeagueId) || currentLeague;
+
   const allUsers = [
     ...LEADERBOARD_USERS,
-    { rank: 8, name: 'You (Learner)', avatar: '🎯', xp: userXP, league: 'Amethyst', country: 'India', isUser: true }
+    { rank: 8, name: 'You (Learner)', avatar: '🎯', xp: userXP, league: activeLeague.name, country: 'India', isUser: true }
   ].sort((a, b) => b.xp - a.xp).map((u, i) => ({ ...u, rank: i + 1 }));
 
   const badges = [
@@ -44,33 +51,65 @@ export default function Leaderboard({
   ];
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pb-16 select-none">
+    <div className="max-w-4xl mx-auto space-y-6 pb-16 select-none">
       
-      {/* League Header */}
-      <div className="bg-gradient-to-r from-purple-800 via-indigo-800 to-purple-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden border border-purple-500/20">
+      {/* Desi Regional League Selector Pills */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+        {DESI_LEAGUES.map((l) => {
+          const isSelected = l.id === activeLeague.id;
+          const isCurrent = l.id === currentLeague.id;
+          return (
+            <button
+              key={l.id}
+              onClick={() => {
+                sounds.playPop();
+                setSelectedLeagueId(l.id);
+              }}
+              className={`px-4 py-2.5 rounded-2xl font-black text-xs uppercase tracking-wider flex items-center gap-2 transition cursor-pointer shrink-0 border-2 ${
+                isSelected
+                  ? 'bg-gradient-to-r ' + l.color + ' text-white border-white/40 shadow-lg scale-105'
+                  : 'bg-[#18262d] border-[#38464f] text-slate-300 hover:border-slate-400'
+              }`}
+            >
+              <span className="text-base">{l.icon}</span>
+              <span>{l.name}</span>
+              {isCurrent && (
+                <span className="px-1.5 py-0.5 rounded-full text-[9px] bg-white/20 text-white font-extrabold">
+                  YOU
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* League Header Banner */}
+      <div className={`bg-gradient-to-r ${activeLeague.color} rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden border border-white/20`}>
         <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-black uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full backdrop-blur">
-                Tier: Amethyst League 💎
+              <span className="text-xs font-black uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full backdrop-blur flex items-center gap-1.5">
+                <span>{activeLeague.icon}</span>
+                <span>{activeLeague.name} • {activeLeague.nativeName}</span>
               </span>
-              <span className="text-xs font-semibold text-purple-200 flex items-center gap-1">
+              <span className="text-xs font-semibold text-white/80 flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5" /> 3 days left
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-black mt-2">
-              All-India Polyglot Leaderboard
+              All-India Desi Cultural Leaderboard
             </h1>
-            <p className="text-sm text-purple-200 font-semibold mt-1 max-w-xl">
-              Top 3 learners advance to the prestigious Diamond League this Sunday midnight!
+            <p className="text-sm text-white/90 font-semibold mt-1 max-w-xl">
+              Top 3 learners advance to the next regional league this Sunday midnight!
             </p>
           </div>
 
           <div className="bg-white/10 backdrop-blur-md px-6 py-4 rounded-3xl border border-white/20 text-center shrink-0">
-            <p className="text-[11px] font-black text-purple-200 uppercase tracking-wider">Your Rank</p>
+            <p className="text-[11px] font-black text-white/80 uppercase tracking-wider">Your Rank</p>
             <p className="text-3xl font-black text-amber-300">
               #{allUsers.find(u => u.isUser)?.rank || 4}
             </p>
+            <p className="text-[10px] text-white/70 font-bold mt-0.5">{userXP} Total XP</p>
           </div>
         </div>
       </div>

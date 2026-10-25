@@ -31,6 +31,13 @@ export default function ShopView({
       outfitId: 'shades'
     },
     {
+      id: 'headphones',
+      name: 'Studio DJ Headphones',
+      desc: 'Premium over-ear stereo headphones for acute listening practice.',
+      price: 130,
+      outfitId: 'headphones'
+    },
+    {
       id: 'chaiwala',
       name: 'Tapri Chaiwala Apron',
       desc: 'Authentic red tea stall apron with cutting chai pocket.',
@@ -50,6 +57,62 @@ export default function ShopView({
       desc: 'Hand-loomed festive kurta with golden Nehru buttons.',
       price: 180,
       outfitId: 'kurta'
+    },
+    {
+      id: 'veshti',
+      name: 'Pattu Veshti & Golden Angavastram (Tamil)',
+      desc: 'Traditional Tamil pure silk dhoti with golden zari border and sacred tilak.',
+      price: 200,
+      outfitId: 'veshti'
+    },
+    {
+      id: 'pancha',
+      name: 'Andhra Pancha Kattu & Kanduva (Telugu)',
+      desc: 'Regal Telugu cream silk dhoti with crimson kanduva and Srichurnam tilak.',
+      price: 200,
+      outfitId: 'pancha'
+    },
+    {
+      id: 'dhuti',
+      name: 'Bengali Dhuti Panjabi & Uttariyo (Bengali)',
+      desc: 'Festive crimson embroidered silk kurta with cream pleated dhoti.',
+      price: 200,
+      outfitId: 'dhuti'
+    },
+    {
+      id: 'peta',
+      name: 'Mysore Royal Peta & Shalya (Kannada)',
+      desc: 'Grand Mysore royal turban with gold kalasa jewel and silk shalya.',
+      price: 220,
+      outfitId: 'peta'
+    },
+    {
+      id: 'kasavu',
+      name: 'Kerala Kasavu Mundu & Neriyathu (Malayalam)',
+      desc: 'Pure handloom Kasavu with broad gold zari and sacred sandalwood paste.',
+      price: 200,
+      outfitId: 'kasavu'
+    },
+    {
+      id: 'fheta',
+      name: 'Peshwai Puneri Fheta & Chandrakor (Marathi)',
+      desc: 'Royal saffron pleated turban with gold zaree feather and Shivaji crescent tilak.',
+      price: 220,
+      outfitId: 'fheta'
+    },
+    {
+      id: 'pagri',
+      name: 'Patiala Shahi Pagri & Turrha (Punjabi)',
+      desc: 'Vibrant royal saffron Patiala turban with upright plume turrha.',
+      price: 220,
+      outfitId: 'pagri'
+    },
+    {
+      id: 'kediyu',
+      name: 'Kutch Embroidered Kediyu & Chorno (Gujarati)',
+      desc: 'Traditional colorful Gujarati flared frock kurta with mirror-work accents.',
+      price: 210,
+      outfitId: 'kediyu'
     }
   ];
 
@@ -225,7 +288,7 @@ export default function ShopView({
                           sounds.playFanfare();
                           onSpendGems(outfit.price, outfit.outfitId);
                         } else {
-                          alert(`You need ${outfit.price - gems} more Chai points! Complete lessons to earn points.`);
+                          sounds.playWrong();
                         }
                       }}
                       disabled={gems < outfit.price}

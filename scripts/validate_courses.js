@@ -1,16 +1,24 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const dir = path.join(__dirname, '../src/data/courses');
 
 let errors = [];
 let questionCount = 0;
 let lessonCount = 0;
 
-fs.readdirSync(dir).forEach(file => {
+for (const file of fs.readdirSync(dir)) {
   if (file.endsWith('.js')) {
-    const course = require(path.join(dir, file));
-    const key = Object.keys(course)[0];
-    const c = course[key];
+    const content = fs.readFileSync(path.join(dir, file), 'utf8');
+    const jsonMatch = content.match(/export const \w+ = ([\s\S]+);/);
+    if (!jsonMatch) {
+      errors.push(file + ': failed to match export const');
+      continue;
+    }
+    const c = JSON.parse(jsonMatch[1]);
     
     if (!c.alphabet || c.alphabet.length === 0) {
       errors.push(file + ': missing or empty alphabet');
@@ -65,7 +73,7 @@ fs.readdirSync(dir).forEach(file => {
       });
     });
   }
-});
+}
 
 console.log('Tested ' + lessonCount + ' lessons, ' + questionCount + ' questions across all courses.');
 if (errors.length > 0) {

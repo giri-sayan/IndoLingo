@@ -9,12 +9,15 @@ export default function Header({
   streak = 3,
   gems = 240,
   hearts = 5,
+  onRefillHearts,
+  onPracticeHeart,
   showTransliteration,
   onToggleTransliteration,
   onSelectTab,
   theme = 'light',
   onToggleTheme,
-  onOpenSettings
+  onOpenSettings,
+  className = ''
 }) {
   const isDark = theme === 'dark';
   const [activePopover, setActivePopover] = useState(null);
@@ -34,8 +37,9 @@ export default function Header({
 
   return (
     <header ref={headerRef} className={`sticky top-0 z-30 backdrop-blur border-b px-4 py-2.5 sm:px-6 transition-colors select-none ${
-      isDark ? 'bg-[#131f24]/95 border-slate-800 text-white' : 'bg-white/95 border-slate-200 text-slate-800'
-    }`}>
+      isDark ? 'bg-[#131f24]/95 border-[#2b3e48] text-white' : 'bg-white/95 border-slate-200 text-slate-800'
+    } ${className}`}>
+
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         
         {/* Left: Mobile Logo & Language Selector Pill */}
@@ -50,7 +54,7 @@ export default function Header({
           >
             <TigerLogo size={36} />
             <span className="font-black text-xl tracking-tight bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 bg-clip-text text-transparent">
-              IndianLingo
+              IndoLingo
             </span>
           </div>
 
@@ -60,7 +64,7 @@ export default function Header({
               sounds.playPop();
               onOpenLanguageSelector();
             }}
-            className={`flex items-center gap-2.5 px-3 py-1.5 rounded-2xl border-2 transition-all cursor-pointer ${
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-2xl border-2 transition-all cursor-pointer ${
               isDark 
                 ? 'border-slate-700 bg-slate-800/80 hover:border-emerald-500 text-slate-200' 
                 : 'border-slate-200 hover:border-emerald-400 hover:bg-emerald-50/50 text-slate-700'
@@ -68,11 +72,11 @@ export default function Header({
             title="Switch Course"
           >
             <span className="text-xl leading-none">{selectedLanguage.flagEmoji}</span>
-            <div className="text-left hidden sm:block">
+            <div className="text-left">
               <p className="text-xs font-black uppercase tracking-wider leading-none">
                 {selectedLanguage.name}
               </p>
-              <p className="text-[10px] text-slate-400 font-bold leading-none mt-0.5">
+              <p className="text-[10px] text-slate-400 font-bold leading-none mt-0.5 hidden sm:block">
                 {selectedLanguage.nativeName}
               </p>
             </div>
@@ -125,9 +129,27 @@ export default function Header({
                   </button>
                 </div>
                 <div className="flex justify-between my-4">
-                  {[...Array(7)].map((_, i) => (
-                    <div key={i} className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center text-white text-[10px] font-bold">✓</div>
-                  ))}
+                  {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, i) => {
+                    const todayIdx = (new Date().getDay() + 6) % 7; // Monday = 0
+                    const isToday = i === todayIdx;
+                    const isPast = i < todayIdx;
+                    return (
+                      <div key={i} className="flex flex-col items-center gap-1">
+                        <span className={`text-[10px] font-black ${isToday ? 'text-orange-500' : 'text-slate-400'}`}>
+                          {day}
+                        </span>
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${
+                          isToday
+                            ? 'bg-orange-500 text-white shadow-sm'
+                            : isPast
+                            ? 'bg-emerald-500 text-white'
+                            : 'bg-slate-200 dark:bg-slate-700 text-slate-400'
+                        }`}>
+                          {isToday ? '🔥' : isPast ? '✓' : ''}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
                 <p className="text-sm font-bold text-slate-500 dark:text-slate-400">Practice today to extend your streak!</p>
               </div>
@@ -201,15 +223,35 @@ export default function Header({
                   {hearts >= 5 ? 'All hearts are full!' : 'Next heart in 3h 42m'}
                 </p>
                 {hearts < 5 ? (
-                  <button 
-                    onClick={() => { setActivePopover(null); onSelectTab('shop'); }} 
-                    className="w-full py-3 rounded-2xl font-black text-sm text-white uppercase tracking-wider btn-duo-blue cursor-pointer mb-2"
-                  >
-                    REFILL NOW (20 🫖)
-                  </button>
+                  <div className="space-y-2">
+                    {onPracticeHeart && (
+                      <button
+                        onClick={() => {
+                          setActivePopover(null);
+                          onPracticeHeart();
+                        }}
+                        className="w-full py-2.5 rounded-2xl font-black text-xs uppercase tracking-wider btn-duo-green text-white cursor-pointer"
+                      >
+                        PRACTICE (+1 ❤️ FREE)
+                      </button>
+                    )}
+                    <button 
+                      onClick={() => {
+                        setActivePopover(null);
+                        if (onRefillHearts && gems >= 20) {
+                          onRefillHearts();
+                        } else {
+                          onSelectTab('shop');
+                        }
+                      }} 
+                      className="w-full py-2.5 rounded-2xl font-black text-xs text-white uppercase tracking-wider btn-duo-blue cursor-pointer mb-2"
+                    >
+                      {gems >= 20 ? 'REFILL NOW (20 🫖)' : 'GET GEMS IN SHOP 🛒'}
+                    </button>
+                  </div>
                 ) : (
                   <div className="py-2 text-xs font-black uppercase tracking-wider text-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl">
-                    Ready to Learn
+                    Ready to Learn ✓
                   </div>
                 )}
               </div>

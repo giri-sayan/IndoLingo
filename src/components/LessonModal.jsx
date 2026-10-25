@@ -15,11 +15,16 @@ export default function LessonModal({
   onClose,
   showTransliteration,
   equippedOutfit = 'default',
-  theme = 'light'
+  theme = 'light',
+  gems = 0,
+  onRefillHearts,
+  onOpenShop,
+  onPracticeHeart
 }) {
   const isDark = theme === 'dark';
-  const questions = lesson?.questions || [];
+  const [questionsList, setQuestionsList] = useState(lesson?.questions || []);
   const [currentIdx, setCurrentIdx] = useState(0);
+  const [isReviewStage, setIsReviewStage] = useState(false);
   
   // Interaction states
   const [selectedOption, setSelectedOption] = useState(null); // for multiple-choice & fill-blank & listening
@@ -30,16 +35,29 @@ export default function LessonModal({
   const [pairError, setPairError] = useState(false);
 
   // Status & Feedback
-  const [status, setStatus] = useState('idle'); // 'idle' | 'correct' | 'wrong' | 'completed' | 'failed'
-  const [correctCount, setCorrectCount] = useState(0);
+  const [status, setStatus] = useState(hearts <= 0 ? 'failed' : 'idle'); // 'idle' | 'correct' | 'wrong' | 'completed' | 'failed'
+  const [_correctCount, setCorrectCount] = useState(0);
   const [showQuitConfirm, setShowQuitConfirm] = useState(false);
   const [_combo, setCombo] = useState(0);
   const [maxCombo, setMaxCombo] = useState(0);
 
+  // Reset or initialize question queue on lesson change
+  useEffect(() => {
+    if (lesson?.questions) {
+      setQuestionsList([...lesson.questions]);
+      setCurrentIdx(0);
+      setIsReviewStage(false);
+      resetQuestionState();
+      if (hearts <= 0) {
+        setStatus('failed');
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lesson, isOpen]);
 
-
-  const currentQ = questions[currentIdx];
-  const progressPercent = questions.length > 0 ? ((currentIdx) / questions.length) * 100 : 0;
+  const baseQuestionsCount = lesson?.questions?.length || 1;
+  const currentQ = questionsList[currentIdx];
+  const progressPercent = questionsList.length > 0 ? ((currentIdx) / questionsList.length) * 100 : 0;
 
   // Speak prompt on change if audio exists
   useEffect(() => {
@@ -94,17 +112,50 @@ export default function LessonModal({
       setStatus('wrong');
       setCombo(0);
       onDeductHeart();
-      if (hearts <= 1) {
-        setStatus('failed');
-      }
+      // Queue question for review at the end of the lesson
+      setQuestionsList(prev => [...prev, { ...currentQ, isReview: true }]);
+
+      // Record mistake into Spaced Repetition (SM-2) Mistake Dojo
+      try {
+        const raw = localStorage.getItem('bhasha_srs_mistakes');
+        const list = raw ? JSON.parse(raw) : [];
+        const itemKey = currentQ.audioText || currentQ.prompt;
+        if (!list.some(item => item.key === itemKey)) {
+          const correctAns = currentQ.options?.find(o => o.correct)?.text || currentQ.targetSentence || currentQ.audioText || currentQ.prompt;
+          list.push({
+            id: 'srs_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+            key: itemKey,
+            prompt: currentQ.prompt,
+            answer: correctAns,
+            nativeWord: currentQ.audioText || (correctAns.includes('(') ? correctAns.split('(')[0].trim() : correctAns),
+            roman: currentQ.targetRoman || (correctAns.includes('(') ? correctAns.split('(')[1].replace(')', '').trim() : ''),
+            meaning: currentQ.explanation || currentQ.prompt,
+            langId: selectedLanguage?.id || 'tamil',
+            langCode: selectedLanguage?.code || 'ta-IN',
+            easeFactor: 2.5,
+            interval: 1,
+            reps: 0,
+            dueDate: Date.now()
+          });
+          localStorage.setItem('bhasha_srs_mistakes', JSON.stringify(list));
+        }
+      } catch {}
     }
-  }, [currentQ, status, selectedOption, selectedSentenceWords, matchedPairs, onDeductHeart, hearts]);
+  }, [currentQ, status, selectedOption, selectedSentenceWords, matchedPairs, onDeductHeart, selectedLanguage]);
 
   // Move to next question or complete lesson
   const handleContinue = useCallback(() => {
+    if (hearts <= 0) {
+      setStatus('failed');
+      return;
+    }
     sounds.playPop();
-    if (currentIdx + 1 < questions.length) {
-      setCurrentIdx(prev => prev + 1);
+    if (currentIdx + 1 < questionsList.length) {
+      const nextIdx = currentIdx + 1;
+      setCurrentIdx(nextIdx);
+      if (nextIdx >= baseQuestionsCount) {
+        setIsReviewStage(true);
+      }
       resetQuestionState();
     } else {
       // Completed lesson!
@@ -115,9 +166,14 @@ export default function LessonModal({
         origin: { y: 0.6 }
       });
       setStatus('completed');
-      onCompleteLesson(lesson.id, lesson.xp || 20);
+      const isFlawless = questionsList.length === baseQuestionsCount;
+      if (isFlawless) {
+        const prev = Number(localStorage.getItem('bhasha_flawless') || 0);
+        localStorage.setItem('bhasha_flawless', prev + 1);
+      }
+      onCompleteLesson(lesson.id, lesson.xp || 20, isFlawless);
     }
-  }, [currentIdx, questions.length, lesson, onCompleteLesson]);
+  }, [hearts, currentIdx, questionsList.length, baseQuestionsCount, lesson, onCompleteLesson]);
 
   // Keyboard Shortcuts: 1-9 for choices, Enter for Check / Continue
   useEffect(() => {
@@ -166,6 +222,7 @@ export default function LessonModal({
 
   // Handle Match Pairs tap
   const handlePairClick = (side, item) => {
+    if (pairError) return;
     sounds.playPop();
     if (side === 'left') {
       if (matchedPairs.includes(item.left)) return;
@@ -201,8 +258,15 @@ export default function LessonModal({
         sounds.playCorrect();
         setStatus('correct');
         setCorrectCount(prev => prev + 1);
+        setCombo(prev => {
+          const next = prev + 1;
+          setMaxCombo(m => Math.max(m, next));
+          return next;
+        });
       }
     } else {
+      sounds.playWrong();
+      setCombo(0);
       setPairError(true);
       setTimeout(() => {
         setSelectedPairLeft(null);
@@ -294,7 +358,7 @@ export default function LessonModal({
             </div>
 
             {/* Stats Summary Cards */}
-            {correctCount === questions.length && (
+            {questionsList.length === baseQuestionsCount && (
               <div className="flex justify-center mb-2 animate-bounce">
                 <span className="text-sm font-black uppercase tracking-widest text-amber-500 bg-amber-100 dark:bg-amber-900/40 border-2 border-amber-400 px-4 py-1.5 rounded-full shadow-lg flex items-center gap-2">
                   ✨ NO MISTAKES! ✨
@@ -309,9 +373,9 @@ export default function LessonModal({
                 <p className="text-xs font-black text-amber-500 uppercase">Total XP</p>
                 <div className="mt-1">
                   <p className="text-2xl font-black text-amber-500">
-                    +{lesson.xp + (correctCount === questions.length ? 5 : 0)}
+                    +{lesson.xp + (questionsList.length === baseQuestionsCount ? 5 : 0)}
                   </p>
-                  {correctCount === questions.length && (
+                  {questionsList.length === baseQuestionsCount && (
                     <p className="text-[10px] font-bold text-amber-600 mt-0.5 whitespace-nowrap">Perfect Bonus: +5</p>
                   )}
                 </div>
@@ -321,7 +385,7 @@ export default function LessonModal({
               }`}>
                 <p className="text-xs font-black text-emerald-600 dark:text-emerald-400 uppercase">Accuracy</p>
                 <p className="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">
-                  {Math.round((correctCount / questions.length) * 100)}%
+                  {Math.round((baseQuestionsCount / Math.max(1, questionsList.length)) * 100)}%
                 </p>
               </div>
               <div className={`border-2 rounded-2xl p-4 col-span-1 ${
@@ -365,27 +429,52 @@ export default function LessonModal({
                 Don't Give Up! कोई बात नहीं!
               </h2>
               <p className="text-sm font-bold text-slate-500 dark:text-slate-400 mt-1">
-                Refill hearts with Chai points in the Shop to keep learning!
+                Practice to regain a heart for free, or refill all hearts with Chai points!
               </p>
             </div>
 
-            <div className="flex gap-3 max-w-md mx-auto">
-              <button
-                onClick={() => {
-                  resetQuestionState();
-                  setCurrentIdx(0);
-                }}
-                className={`flex-1 py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider border-2 transition cursor-pointer ${
-                  isDark ? 'border-slate-700 bg-slate-800 hover:bg-slate-700' : 'border-slate-200 hover:bg-slate-50 text-slate-700'
-                }`}
-              >
-                Retry Lesson
-              </button>
+            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              {onPracticeHeart && (
+                <button
+                  onClick={() => {
+                    onPracticeHeart();
+                    resetQuestionState();
+                    setStatus('idle');
+                  }}
+                  className="flex-1 py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider btn-duo-green text-white cursor-pointer shadow-md flex items-center justify-center gap-1.5"
+                >
+                  <Heart className="w-4 h-4 fill-white text-white" /> PRACTICE (+1 ❤️ FREE)
+                </button>
+              )}
+
+              {gems >= 20 && onRefillHearts ? (
+                <button
+                  onClick={() => {
+                    onRefillHearts();
+                    resetQuestionState();
+                    setStatus('idle');
+                  }}
+                  className="flex-1 py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider btn-duo-blue text-white cursor-pointer shadow-md"
+                >
+                  REFILL ALL (20 🫖)
+                </button>
+              ) : onOpenShop ? (
+                <button
+                  onClick={() => {
+                    onClose();
+                    onOpenShop();
+                  }}
+                  className="flex-1 py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider btn-duo-purple text-white cursor-pointer"
+                >
+                  VISIT SHOP 🛒
+                </button>
+              ) : null}
+
               <button
                 onClick={onClose}
-                className="flex-1 py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider btn-duo-blue text-white cursor-pointer"
+                className="flex-1 py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider border-2 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 cursor-pointer"
               >
-                Back to Path
+                BACK TO PATH
               </button>
             </div>
           </div>
@@ -394,6 +483,11 @@ export default function LessonModal({
         {/* ACTIVE QUESTION CONTAINER */}
         {status !== 'completed' && status !== 'failed' && currentQ && (
           <div className="space-y-6">
+            {isReviewStage && (
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-500 text-xs font-black uppercase tracking-wider animate-in fade-in">
+                <span>🔁</span> Previous Mistake — Let's practice what you missed!
+              </div>
+            )}
             
             {/* Header prompt with Mascot Speech Bubble */}
             <div className="flex items-start gap-4">
@@ -401,7 +495,7 @@ export default function LessonModal({
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-xs font-black uppercase tracking-wider text-slate-400">
-                    Question {currentIdx + 1} of {questions.length}
+                    Question {currentIdx + 1} of {questionsList.length}
                   </span>
                   <span className="text-xs font-bold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-lg uppercase">
                     {currentQ.type.replace('-', ' ')}
@@ -419,7 +513,11 @@ export default function LessonModal({
                 isDark ? 'bg-slate-800/60 border-slate-700' : 'bg-slate-50 border-slate-200/80'
               }`}>
                 <button
-                  onClick={() => sounds.speak(currentQ.audioText, selectedLanguage.code)}
+                  onClick={() => {
+                    const prev = Number(localStorage.getItem('bhasha_audio_count') || 0);
+                    localStorage.setItem('bhasha_audio_count', prev + 1);
+                    sounds.speak(currentQ.audioText, selectedLanguage.code);
+                  }}
                   className="p-3 rounded-xl btn-duo-blue text-white cursor-pointer"
                   title="Listen (Native Speed)"
                 >
@@ -427,12 +525,9 @@ export default function LessonModal({
                 </button>
                 <button
                   onClick={() => {
-                    if (typeof window !== 'undefined' && window.speechSynthesis) {
-                      const u = new SpeechSynthesisUtterance(currentQ.audioText);
-                      u.lang = selectedLanguage.code;
-                      u.rate = 0.6; // Turtle slow
-                      window.speechSynthesis.speak(u);
-                    }
+                    const prev = Number(localStorage.getItem('bhasha_audio_count') || 0);
+                    localStorage.setItem('bhasha_audio_count', prev + 1);
+                    sounds.speak(currentQ.audioText, selectedLanguage.code, 0.6);
                   }}
                   className={`p-3 rounded-xl border-2 transition cursor-pointer ${
                     isDark ? 'border-slate-700 hover:bg-slate-700 text-slate-300' : 'border-slate-200 hover:bg-slate-100 text-slate-600'
@@ -487,7 +582,9 @@ export default function LessonModal({
                         }`}>
                           {idx + 1}
                         </span>
-                        <span className="font-extrabold">{opt.text}</span>
+                        <span className="font-extrabold">
+                          {showTransliteration ? opt.text : (opt.text.includes('(') ? opt.text.split('(')[0].trim() : opt.text)}
+                        </span>
                       </div>
                     </button>
                   );
@@ -592,7 +689,7 @@ export default function LessonModal({
                               : 'bg-white border-slate-200 border-b-slate-300 text-slate-800 hover:border-emerald-400'
                           } ${pairError && isSelected ? 'animate-shake bg-rose-100 border-rose-400 text-rose-900' : ''}`}
                         >
-                          {p.left}
+                          {showTransliteration ? p.left : (p.left.includes('(') ? p.left.split('(')[0].trim() : p.left)}
                         </button>
                       );
                     })}
@@ -676,7 +773,16 @@ export default function LessonModal({
                   <h4 className="font-black text-lg text-rose-900 dark:text-rose-200">
                     Correct solution:
                   </h4>
-                  <p className="text-xs text-rose-800 dark:text-rose-300 font-bold">
+                  {currentQ?.type === 'sentence-builder' ? (
+                    <p className="text-sm font-black text-rose-950 dark:text-rose-100">
+                      {currentQ.targetSentence} {currentQ.targetRoman ? `(${currentQ.targetRoman})` : ''}
+                    </p>
+                  ) : currentQ?.options?.find(o => o.correct) ? (
+                    <p className="text-sm font-black text-rose-950 dark:text-rose-100">
+                      {currentQ.options.find(o => o.correct).text}
+                    </p>
+                  ) : null}
+                  <p className="text-xs text-rose-800 dark:text-rose-300 font-bold mt-0.5">
                     {currentQ?.explanation || 'Review and keep practicing!'}
                   </p>
                 </div>

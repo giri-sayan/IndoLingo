@@ -13,7 +13,8 @@ export default function SettingsModal({
   onToggleTransliteration,
   dailyGoalXP,
   onChangeDailyGoal,
-  onResetProgress
+  onResetProgress,
+  selectedLanguage
 }) {
   const [activeTab, setActiveTab] = useState('appearance'); // 'appearance' | 'audio' | 'learning' | 'account'
 
@@ -138,7 +139,7 @@ export default function SettingsModal({
               <div>
                 <h3 className="font-extrabold text-sm">Theme Selection</h3>
                 <p className={`text-xs mt-0.5 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
-                  Choose how IndianLingo looks on your device.
+                  Choose how IndoLingo looks on your device.
                 </p>
               </div>
 
@@ -236,14 +237,18 @@ export default function SettingsModal({
                 <div>
                   <p className="font-bold text-xs">Indian Accent Speech Engine</p>
                   <p className={`text-[11px] ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
-                    Test native Indian pronunciation (Web Speech Synthesis)
+                    Test native {selectedLanguage?.name || 'Indian'} voice synthesis
                   </p>
                 </div>
                 <button
-                  onClick={() => sounds.speak('नमस्ते! आप कैसे हैं?', 'hi-IN')}
+                  onClick={() => {
+                    const phrase = selectedLanguage?.greeting ? selectedLanguage.greeting.split('(')[0].trim() : 'नमस्ते';
+                    const code = selectedLanguage?.code || 'hi-IN';
+                    sounds.speak(phrase, code);
+                  }}
                   className="px-3 py-1.5 rounded-xl text-xs font-bold btn-3d-blue text-white cursor-pointer"
                 >
-                  Test Audio 🔊
+                  Test {selectedLanguage?.flagEmoji || '🔊'} Audio
                 </button>
               </div>
             </div>

@@ -1,4 +1,4 @@
-# IndianLingo 🇮🇳
+# IndoLingo 🇮🇳
 
 A vibrant, gamified Duolingo-style web application for learning Indian languages, featuring interactive lessons, Akshara (script) writing practice, cultural stories, and comprehensive courses.
 

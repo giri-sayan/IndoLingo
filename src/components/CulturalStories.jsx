@@ -6,11 +6,20 @@ import { sounds } from '../utils/audio';
 export default function CulturalStories({ onEarnChaiPoints, theme = 'light' }) {
   const isDark = theme === 'dark';
   const [selectedStory, setSelectedStory] = useState(CULTURAL_STORIES[0]);
-  const [readStories, setReadStories] = useState({});
+  const [readStories, setReadStories] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('bhasha_read_stories') || '{}');
+    } catch {
+      return {};
+    }
+  });
 
   const handleFinishStory = (storyId) => {
+    if (readStories[storyId]) return;
     sounds.playCorrect();
-    setReadStories(prev => ({ ...prev, [storyId]: true }));
+    const updated = { ...readStories, [storyId]: true };
+    setReadStories(updated);
+    localStorage.setItem('bhasha_read_stories', JSON.stringify(updated));
     onEarnChaiPoints?.(15);
   };
 
@@ -118,7 +127,13 @@ export default function CulturalStories({ onEarnChaiPoints, theme = 'light' }) {
               <p className="text-base font-black mt-0.5">{selectedStory.desiWord}</p>
             </div>
             <button
-              onClick={() => sounds.speak(selectedStory.desiWord.split('(')[0].trim(), 'hi-IN')}
+              onClick={() => {
+                sounds.speak(selectedStory.desiWord.split('(')[0].trim(), selectedStory.langCode || 'hi-IN');
+                try {
+                  const prev = Number(localStorage.getItem('bhasha_audio_count') || 0);
+                  localStorage.setItem('bhasha_audio_count', prev + 1);
+                } catch {}
+              }}
               className="p-3 rounded-xl btn-duo-orange text-white cursor-pointer"
               title="Listen pronunciation"
             >

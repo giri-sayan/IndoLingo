@@ -7,7 +7,7 @@
   }
 }
 
-/* IndianLingo Theme Variables - Distinctive Royal Indian Tech Palette */
+/* IndoLingo Theme Variables - Distinctive Royal Indian Tech Palette */
 :root {
   --bg-main: #ffffff;
   --bg-card: #ffffff;
@@ -48,7 +48,7 @@ html.theme-saffron {
   --text-muted: #9c4221;
 }
 
-/* IndianLingo 3D Chunky Buttons */
+/* IndoLingo 3D Chunky Buttons */
 .btn-duo-green {
   background-color: #059669;
   border-bottom: 4px solid #047857;
@@ -153,7 +153,7 @@ html.dark .btn-duo-gray {
   color: #6a7c87;
 }
 
-/* IndianLingo Option Tile / Card */
+/* IndoLingo Option Tile / Card */
 .btn-duo-card {
   border: 2px solid #e5e5e5;
   border-bottom-width: 4px;
@@ -219,7 +219,7 @@ html.dark .btn-duo-card:hover:not(:disabled) {
   transition: all 0.08s ease;
 }
 
-/* IndianLingo Progress Bar Gloss */
+/* IndoLingo Progress Bar Gloss */
 .progress-gloss {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
 }

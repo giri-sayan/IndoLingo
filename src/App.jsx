@@ -18,7 +18,8 @@ import { sounds } from './utils/audio';
 
 export default function App() {
   // Theme state: 'light' | 'dark' | 'saffron'
-  const [theme, setTheme] = useState(() => localStorage.getItem('bhasha_theme') || 'light');
+  const [theme, setTheme] = useState(() => localStorage.getItem('bhasha_theme') || 'dark');
+
 
   // Selected Indian language (defaults to Hindi)
   const [selectedLanguage, setSelectedLanguage] = useState(() => {
@@ -112,18 +113,38 @@ export default function App() {
   // Start a lesson
   const handleStartLesson = (lesson, unit) => {
     if (hearts <= 0) {
-      alert('Out of hearts! Refill hearts with Chai points in the Shop to keep learning.');
-      setActiveTab('shop');
-      return;
+      setHearts(5);
     }
     setActiveLesson(lesson);
     setActiveUnit(unit);
   };
 
+  // Jump to lesson & unlock prior lessons in path
+  const handleUnlockUpToLesson = (targetLessonId) => {
+    const allLessons = selectedLanguage.units?.flatMap(u => u.lessons || []) || [];
+    const targetIdx = allLessons.findIndex(l => l.id === targetLessonId);
+    if (targetIdx !== -1) {
+      setCompletedLessons(prev => {
+        const next = { ...prev };
+        for (let i = 0; i <= targetIdx; i++) {
+          next[allLessons[i].id] = true;
+        }
+        return next;
+      });
+      sounds.playFanfare();
+    }
+  };
+
+  // Practice to earn +1 heart for free
+  const handlePracticeHeart = () => {
+    sounds.playCorrect();
+    setHearts(prev => Math.min(5, prev + 1));
+  };
+
   // Complete a lesson
-  const handleCompleteLesson = (lessonId, _xp) => {
+  const handleCompleteLesson = (lessonId, _xp, isFlawless = false) => {
     setCompletedLessons(prev => ({ ...prev, [lessonId]: true }));
-    setGems(prev => prev + 25);
+    setGems(prev => prev + 25 + (isFlawless ? 5 : 0));
     setStreak(prev => prev + 1);
   };
 
@@ -159,7 +180,6 @@ export default function App() {
       setCompletedLessons(prev => ({ ...prev, [key]: true }));
       setGems(prev => prev + 50);
       sounds.playFanfare();
-      alert('🎉 +50 Chai Points added to your balance!');
     }
   };
 
@@ -172,6 +192,11 @@ export default function App() {
     setEquippedOutfit('default');
     setUnlockedOutfits(['default']);
     localStorage.removeItem('bhasha_completed');
+    localStorage.removeItem('bhasha_read_stories');
+    localStorage.removeItem('bhasha_claimed_quests');
+    localStorage.removeItem('bhasha_flawless');
+    localStorage.removeItem('bhasha_akshara_count');
+    localStorage.removeItem('bhasha_audio_count');
     sounds.playPop();
   };
 
@@ -179,27 +204,38 @@ export default function App() {
 
   return (
     <div className={`min-h-screen flex flex-row font-sans transition-colors duration-200 ${
-      theme === 'dark' ? 'bg-[#131f24] text-white' : 'bg-white text-slate-800'
+      theme === 'dark' 
+        ? 'bg-[#131f24] text-white' 
+        : theme === 'saffron'
+        ? 'bg-[#fffaf0] text-[#4a2810]'
+        : 'bg-white text-slate-800'
     }`}>
       
       {/* Duolingo Left Fixed Navigation Sidebar */}
       <Sidebar
         activeTab={activeTab}
         onSelectTab={setActiveTab}
+        selectedLanguage={selectedLanguage}
+        onOpenLanguageSelector={() => setIsLangModalOpen(true)}
         onOpenSettings={() => setIsSettingsOpen(true)}
         theme={theme}
+        onToggleTheme={handleToggleTheme}
+        showTransliteration={showTransliteration}
+        onToggleTransliteration={handleToggleTransliteration}
       />
 
       {/* Main Column (Header + Content Area) */}
       <div className="flex-1 flex flex-col min-w-0">
         
-        {/* Top Header Bar */}
+        {/* Top Header Bar (Mobile only for Learn view, or compact top bar for other full-width views) */}
         <Header
           selectedLanguage={selectedLanguage}
           onOpenLanguageSelector={() => setIsLangModalOpen(true)}
           streak={streak}
           gems={gems}
           hearts={hearts}
+          onRefillHearts={handleRefillHearts}
+          onPracticeHeart={handlePracticeHeart}
           soundMuted={soundMuted}
           onToggleSound={handleToggleSound}
           showTransliteration={showTransliteration}
@@ -209,6 +245,7 @@ export default function App() {
           theme={theme}
           onToggleTheme={handleToggleTheme}
           onOpenSettings={() => setIsSettingsOpen(true)}
+          className={activeTab === 'learn' ? 'lg:hidden' : ''}
         />
 
         {/* Dynamic Main View */}
@@ -222,29 +259,34 @@ export default function App() {
                   selectedLanguage={selectedLanguage}
                   completedLessons={completedLessons}
                   onStartLesson={handleStartLesson}
+                  onUnlockUpToLesson={handleUnlockUpToLesson}
                   onClaimChest={handleClaimChest}
                   onOpenGuidebook={(unit) => setGuidebookUnit(unit)}
                   equippedOutfit={equippedOutfit}
+                  theme={theme}
                 />
               </div>
 
               {/* Right Gamification Sidebar */}
               <RightSidebar
                 selectedLanguage={selectedLanguage}
+                onOpenLanguageSelector={() => setIsLangModalOpen(true)}
                 streak={streak}
                 hearts={hearts}
                 gems={gems}
                 onRefillHearts={handleRefillHearts}
+                onPracticeHeart={handlePracticeHeart}
                 onOpenLeagues={() => setActiveTab('leaderboard')}
                 onOpenQuests={() => setActiveTab('quests')}
                 onOpenShop={() => setActiveTab('shop')}
                 equippedOutfit={equippedOutfit}
                 completedLessonsCount={completedLessonsCount}
+                theme={theme}
               />
             </div>
           )}
 
-          {activeTab === 'akshara' && (
+          {(activeTab === 'practice' || activeTab === 'akshara') && (
             <AksharaTrainer
               selectedLanguage={selectedLanguage}
               onAddGems={(amount) => setGems(prev => prev + amount)}
@@ -260,6 +302,7 @@ export default function App() {
               theme={theme}
             />
           )}
+
 
           {activeTab === 'quests' && (
             <QuestsView
@@ -319,6 +362,13 @@ export default function App() {
           showTransliteration={showTransliteration}
           equippedOutfit={equippedOutfit}
           theme={theme}
+          gems={gems}
+          onRefillHearts={handleRefillHearts}
+          onPracticeHeart={handlePracticeHeart}
+          onOpenShop={() => {
+            setActiveLesson(null);
+            setActiveTab('shop');
+          }}
         />
       )}
 
@@ -340,6 +390,10 @@ export default function App() {
         selectedLanguage={selectedLanguage}
         onSelectLanguage={(lang) => {
           setSelectedLanguage(lang);
+          setActiveTab('learn');
+          if (hearts <= 0) {
+            setHearts(5);
+          }
         }}
         theme={theme}
       />
@@ -357,6 +411,7 @@ export default function App() {
         dailyGoalXP={dailyGoalXP}
         onChangeDailyGoal={setDailyGoalXP}
         onResetProgress={handleResetProgress}
+        selectedLanguage={selectedLanguage}
       />
 
     </div>

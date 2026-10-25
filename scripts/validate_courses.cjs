@@ -79,5 +79,5 @@ if (errors.length > 0) {
   errors.forEach(e => console.log(' - ' + e));
   process.exit(1);
 } else {
-  console.log('SUCCESS: All 111 lessons and 279 questions are 100% valid and verified!');
+  console.log('SUCCESS: All ' + lessonCount + ' lessons and ' + questionCount + ' questions are 100% valid and verified!');
 }

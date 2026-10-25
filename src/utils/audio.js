@@ -3,6 +3,13 @@ class SoundFX {
   constructor() {
     this.ctx = null;
     this.muted = false;
+    this.voices = [];
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      this.voices = window.speechSynthesis.getVoices();
+      window.speechSynthesis.onvoiceschanged = () => {
+        this.voices = window.speechSynthesis.getVoices();
+      };
+    }
   }
 
   init() {
@@ -119,21 +126,28 @@ class SoundFX {
     });
   }
 
-  speak(text, langCode = 'hi-IN') {
+  speak(text, langCode = 'hi-IN', rate = 0.9) {
     if (this.muted || typeof window === 'undefined' || !window.speechSynthesis) return;
-    window.speechSynthesis.cancel(); // Stop ongoing speech
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = langCode;
-    utterance.rate = 0.9; // Slightly slower for language learners
-    
-    // Try to find native voice if available
-    const voices = window.speechSynthesis.getVoices();
-    const voice = voices.find(v => v.lang.startsWith(langCode.split('-')[0]));
-    if (voice) {
-      utterance.voice = voice;
-    }
+    if (!text || typeof text !== 'string' || !text.trim()) return;
+    try {
+      window.speechSynthesis.cancel(); // Stop ongoing speech
+      const safeLangCode = typeof langCode === 'string' && langCode ? langCode : 'hi-IN';
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = safeLangCode;
+      utterance.rate = rate; // Configurable speech rate
+      
+      // Try to find native voice if available
+      const voicesList = this.voices.length > 0 ? this.voices : window.speechSynthesis.getVoices();
+      const prefix = safeLangCode.split('-')[0].toLowerCase();
+      const voice = voicesList.find(v => v.lang && v.lang.toLowerCase().startsWith(prefix));
+      if (voice) {
+        utterance.voice = voice;
+      }
 
-    window.speechSynthesis.speak(utterance);
+      window.speechSynthesis.speak(utterance);
+    } catch (e) {
+      console.warn('Speech synthesis error:', e);
+    }
   }
 }
 

@@ -10,7 +10,16 @@ export default function QuestsView({
   theme = 'light'
 }) {
   const isDark = theme === 'dark';
-  const [claimedQuests, setClaimedQuests] = useState({});
+  const [claimedQuests, setClaimedQuests] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('bhasha_claimed_quests') || '{}');
+    } catch {
+      return {};
+    }
+  });
+
+  const aksharaCount = Number(localStorage.getItem('bhasha_akshara_count') || (completedLessonsCount > 0 ? 8 : 4));
+  const audioCount = Number(localStorage.getItem('bhasha_audio_count') || (completedLessonsCount > 0 ? 6 : 3));
 
   const quests = [
     {
@@ -37,7 +46,7 @@ export default function QuestsView({
       id: 'q-akshara',
       title: 'Practice 10 Akshara characters',
       desc: 'Test your phonetic recognition in Script Studio',
-      current: 7,
+      current: Math.min(10, aksharaCount),
       target: 10,
       reward: 10,
       icon: Sparkles,
@@ -47,7 +56,7 @@ export default function QuestsView({
       id: 'q-listen',
       title: 'Listen to 5 native audio phrases',
       desc: 'Sharpen your Indian language ear with native voice clips',
-      current: 5,
+      current: Math.min(5, audioCount),
       target: 5,
       reward: 15,
       icon: Award,
@@ -56,17 +65,25 @@ export default function QuestsView({
   ];
 
   const handleClaim = (quest) => {
+    if (claimedQuests[quest.id]) return;
     sounds.playFanfare();
     confetti({
       particleCount: 80,
       spread: 60,
       origin: { y: 0.6 }
     });
-    setClaimedQuests(prev => ({ ...prev, [quest.id]: true }));
+    const updated = { ...claimedQuests, [quest.id]: true };
+    setClaimedQuests(updated);
+    localStorage.setItem('bhasha_claimed_quests', JSON.stringify(updated));
     onAddGems?.(quest.reward);
   };
 
   const completedCount = quests.filter(q => q.current >= q.target).length;
+
+  const now = new Date();
+  const monthName = now.toLocaleString('en-US', { month: 'long' });
+  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  const daysLeft = Math.max(1, endOfMonth.getDate() - now.getDate());
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 pb-16">
@@ -78,7 +95,7 @@ export default function QuestsView({
         <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="space-y-2 text-center sm:text-left">
             <span className="text-xs font-black uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full backdrop-blur">
-              September Challenge • 16 Days Left
+              {monthName} Challenge • {daysLeft} {daysLeft === 1 ? 'Day' : 'Days'} Left
             </span>
             <h1 className="text-2xl sm:text-3xl font-black">
               Sheru's Royal Chai Quest 🐯

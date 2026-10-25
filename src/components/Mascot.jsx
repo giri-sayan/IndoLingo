@@ -470,6 +470,20 @@ export default function Mascot({ mood = 'happy', message = '', size = 120, class
           </g>
         )}
 
+        {outfit === 'headphones' && (
+          <g id="outfit-headphones" className="drop-shadow-md">
+            {/* Headband spanning over top of head */}
+            <path d="M 52 48 C 50 16, 150 16, 148 48" stroke="#1E293B" strokeWidth="6" fill="none" strokeLinecap="round" />
+            <path d="M 54 46 C 54 22, 146 22, 146 46" stroke="#3B82F6" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+            {/* Left Ear Cup */}
+            <ellipse cx="50" cy="46" rx="9" ry="15" transform="rotate(-15 50 46)" fill="#0F172A" stroke="#3B82F6" strokeWidth="2" />
+            <ellipse cx="50" cy="46" rx="5" ry="9" transform="rotate(-15 50 46)" fill="#1E293B" />
+            {/* Right Ear Cup */}
+            <ellipse cx="150" cy="46" rx="9" ry="15" transform="rotate(15 150 46)" fill="#0F172A" stroke="#3B82F6" strokeWidth="2" />
+            <ellipse cx="150" cy="46" rx="5" ry="9" transform="rotate(15 150 46)" fill="#1E293B" />
+          </g>
+        )}
+
         {outfit === 'royal' && (
           <g id="outfit-royal" className="drop-shadow-lg">
             {/* Royal Saffron Turban / Pagri */}
@@ -509,6 +523,115 @@ export default function Mascot({ mood = 'happy', message = '', size = 120, class
             <circle cx="100" cy="132" r="2" fill="#D97706" />
             <circle cx="100" cy="144" r="2" fill="#D97706" />
             <circle cx="100" cy="156" r="2" fill="#D97706" />
+          </g>
+        )}
+
+        {outfit === 'veshti' && (
+          <g id="outfit-veshti">
+            {/* Traditional Tamil Pattu Silk Veshti wrap with golden zari border */}
+            <path d="M 68 136 C 58 148, 60 168, 74 174 C 88 178, 112 178, 126 174 C 140 168, 142 148, 132 136 Z" fill="#FFFDF5" stroke="#E2E8F0" strokeWidth="1.5" />
+            {/* Golden Zari Border (கரை) */}
+            <path d="M 72 166 C 86 172, 114 172, 128 166 L 126 174 C 112 178, 88 178, 74 174 Z" fill="#F59E0B" stroke="#D97706" strokeWidth="1" />
+            <line x1="100" y1="136" x2="100" y2="174" stroke="#FBBF24" strokeWidth="1.2" strokeDasharray="2,2" />
+            {/* Angavastram (Golden Silk Shawl draped over shoulder) */}
+            <path d="M 74 116 Q 84 130 92 150 L 98 148 Q 90 128 80 114 Z" fill="#FDE68A" stroke="#F59E0B" strokeWidth="1" />
+            {/* Golden Vibhuti & Kungumam Tilak on Forehead */}
+            <line x1="90" y1="52" x2="110" y2="52" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" />
+            <line x1="92" y1="55" x2="108" y2="55" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" />
+            <circle cx="100" cy="53.5" r="1.5" fill="#DC2626" />
+          </g>
+        )}
+
+        {outfit === 'pancha' && (
+          <g id="outfit-pancha">
+            {/* Andhra Pancha Kattu (Silk dhoti with gold zari) */}
+            <path d="M 68 136 C 58 148, 60 168, 74 174 C 88 178, 112 178, 126 174 C 140 168, 142 148, 132 136 Z" fill="#FFFBEB" stroke="#FDE68A" strokeWidth="1.5" />
+            <path d="M 72 166 C 86 172, 114 172, 128 166 L 126 174 C 112 178, 88 178, 74 174 Z" fill="#F59E0B" stroke="#D97706" strokeWidth="1" />
+            {/* Crimson Red Kanduva draped over shoulder */}
+            <path d="M 72 116 Q 86 130 96 152 L 102 148 Q 92 126 78 114 Z" fill="#DC2626" stroke="#991B1B" strokeWidth="1" />
+            <line x1="74" y1="116" x2="100" y2="152" stroke="#FBBF24" strokeWidth="1.5" />
+            {/* Telugu Srichurnam Tilak on forehead */}
+            <line x1="97" y1="50" x2="97" y2="56" stroke="#FFFFFF" strokeWidth="1.2" />
+            <line x1="100" y1="49" x2="100" y2="57" stroke="#DC2626" strokeWidth="1.8" />
+            <line x1="103" y1="50" x2="103" y2="56" stroke="#FFFFFF" strokeWidth="1.2" />
+          </g>
+        )}
+
+        {outfit === 'dhuti' && (
+          <g id="outfit-dhuti">
+            {/* Bengali Crimson Panjabi Kurta */}
+            <path d="M 70 120 C 60 134, 62 166, 75 174 C 88 178, 112 178, 125 174 C 138 166, 140 134, 130 120 Z" fill="#B91C1C" stroke="#991B1B" strokeWidth="1.5" />
+            <path d="M 92 114 L 108 114 L 106 126 L 94 126 Z" fill="#FBBF24" stroke="#D97706" strokeWidth="1" />
+            <circle cx="100" cy="136" r="1.5" fill="#FDE68A" />
+            <circle cx="100" cy="146" r="1.5" fill="#FDE68A" />
+            {/* Cream folded Uttariyo shawl */}
+            <path d="M 72 114 Q 86 132 94 154 L 100 150 Q 90 126 78 112 Z" fill="#FEF3C7" stroke="#F59E0B" strokeWidth="1" />
+            {/* Chandan Tilak */}
+            <circle cx="100" cy="52" r="2.5" fill="#FFFFFF" stroke="#FEF3C7" strokeWidth="0.8" />
+          </g>
+        )}
+
+        {outfit === 'peta' && (
+          <g id="outfit-peta" className="drop-shadow-lg">
+            {/* Royal Mysore Peta Turban */}
+            <ellipse cx="100" cy="40" rx="38" ry="18" fill="#7F1D1D" stroke="#991B1B" strokeWidth="1.5" />
+            <path d="M 64 42 Q 100 24 136 42 Q 100 30 64 42 Z" fill="#F59E0B" />
+            <path d="M 70 36 Q 100 20 130 36" stroke="#FBBF24" strokeWidth="2" fill="none" />
+            <ellipse cx="100" cy="30" rx="4" ry="6" fill="#FBBF24" stroke="#D97706" strokeWidth="1" />
+            <circle cx="100" cy="30" r="2" fill="#DC2626" />
+            {/* Maroon Silk Shalya over body */}
+            <path d="M 72 118 Q 84 132 94 152 L 100 148 Q 88 126 78 114 Z" fill="#991B1B" stroke="#7F1D1D" strokeWidth="1" />
+            <line x1="74" y1="120" x2="98" y2="152" stroke="#FBBF24" strokeWidth="1.5" />
+          </g>
+        )}
+
+        {outfit === 'kasavu' && (
+          <g id="outfit-kasavu">
+            {/* Kerala Kasavu Mundu with broad gold border */}
+            <path d="M 68 136 C 58 148, 60 168, 74 174 C 88 178, 112 178, 126 174 C 140 168, 142 148, 132 136 Z" fill="#FEFDF8" stroke="#E2E8F0" strokeWidth="1.5" />
+            <path d="M 70 164 C 86 172, 114 172, 130 164 L 126 174 C 112 178, 88 178, 74 174 Z" fill="#F59E0B" stroke="#B45309" strokeWidth="1" />
+            {/* Kasavu Neriyathu */}
+            <path d="M 72 114 Q 84 130 94 152 L 100 148 Q 88 126 78 112 Z" fill="#FFFBEB" stroke="#F59E0B" strokeWidth="1" />
+            {/* Sandalwood Chandanam on forehead */}
+            <ellipse cx="100" cy="52" rx="6" ry="2" fill="#FEF08A" stroke="#CA8A04" strokeWidth="0.8" />
+          </g>
+        )}
+
+        {outfit === 'fheta' && (
+          <g id="outfit-fheta" className="drop-shadow-lg">
+            {/* Peshwai Puneri Saffron Fheta */}
+            <ellipse cx="100" cy="38" rx="40" ry="18" fill="#EA580C" stroke="#C2410C" strokeWidth="1.5" />
+            <path d="M 62 42 Q 100 20 138 42 Q 100 28 62 42 Z" fill="#F97316" />
+            <path d="M 126 36 L 144 26 L 138 48 Z" fill="#EA580C" stroke="#C2410C" strokeWidth="1" />
+            <path d="M 70 42 Q 100 32 130 42" stroke="#FBBF24" strokeWidth="2" fill="none" />
+            <ellipse cx="100" cy="30" rx="4" ry="5" fill="#FBBF24" />
+            {/* Shivaji Chandrakor Crescent Tilak */}
+            <path d="M 96 52 Q 100 56 104 52 Q 100 54 96 52 Z" fill="#DC2626" />
+            <circle cx="100" cy="56" r="1" fill="#DC2626" />
+          </g>
+        )}
+
+        {outfit === 'pagri' && (
+          <g id="outfit-pagri" className="drop-shadow-lg">
+            {/* Patiala Shahi Saffron Pagri with Turrha */}
+            <ellipse cx="100" cy="38" rx="42" ry="20" fill="#F59E0B" stroke="#D97706" strokeWidth="1.5" />
+            <path d="M 60 44 Q 100 16 140 44 Q 100 28 60 44 Z" fill="#FBBF24" />
+            <path d="M 66 38 Q 100 12 134 38 Q 100 22 66 38 Z" fill="#FDE047" />
+            <path d="M 96 16 L 104 16 L 108 6 L 92 6 Z" fill="#EA580C" stroke="#B45309" strokeWidth="1" />
+            <line x1="92" y1="6" x2="108" y2="6" stroke="#FEF08A" strokeWidth="1.5" />
+          </g>
+        )}
+
+        {outfit === 'kediyu' && (
+          <g id="outfit-kediyu">
+            {/* Gujarati Kutch Kediyu Frock Kurta with mirror-work */}
+            <path d="M 66 122 C 54 136, 56 166, 72 174 C 88 178, 112 178, 128 174 C 144 166, 146 136, 134 122 Z" fill="#1E3A8A" stroke="#172554" strokeWidth="1.5" />
+            <path d="M 76 130 L 124 130 L 132 168 L 68 168 Z" fill="#DC2626" stroke="#991B1B" strokeWidth="1" />
+            <circle cx="85" cy="148" r="3" fill="#FFFFFF" stroke="#FBBF24" strokeWidth="1" />
+            <circle cx="100" cy="148" r="3" fill="#FFFFFF" stroke="#FBBF24" strokeWidth="1" />
+            <circle cx="115" cy="148" r="3" fill="#FFFFFF" stroke="#FBBF24" strokeWidth="1" />
+            <circle cx="92" cy="160" r="2.5" fill="#FFFFFF" stroke="#FBBF24" strokeWidth="1" />
+            <circle cx="108" cy="160" r="2.5" fill="#FFFFFF" stroke="#FBBF24" strokeWidth="1" />
           </g>
         )}
       </svg>

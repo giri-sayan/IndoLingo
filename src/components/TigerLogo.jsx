@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * TigerLogo - The official brand mark of IndianLingo
+ * TigerLogo - The official brand mark of IndoLingo
  * Features the Royal Bengal Tiger cub with signature Indian Tricolor
  * (Saffron, White, Green) cheek hairs, Bengal stripes, and cultural Tilak.
  */
@@ -14,7 +14,7 @@ export default function TigerLogo({ size = 42, className = '', withBadge = true 
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={`select-none transition-transform duration-300 ${className}`}
-      aria-label="IndianLingo Tiger Logo"
+      aria-label="IndoLingo Tiger Logo"
     >
       <defs>
         {/* Warm Royal Bengal Tiger fur gradient */}
