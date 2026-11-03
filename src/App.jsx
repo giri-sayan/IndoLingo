@@ -13,6 +13,7 @@ import QuestsView from './components/QuestsView';
 import ShopView from './components/ShopView';
 import ProfileView from './components/ProfileView';
 import SettingsModal from './components/SettingsModal';
+import InstallAppModal from './components/InstallAppModal';
 import { INDIAN_LANGUAGES } from './data/languages';
 import { sounds } from './utils/audio';
 
@@ -63,6 +64,7 @@ export default function App() {
   // Modals
   const [isLangModalOpen, setIsLangModalOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isInstallModalOpen, setIsInstallModalOpen] = useState(false);
   const [activeLesson, setActiveLesson] = useState(null);
   const [activeUnit, setActiveUnit] = useState(null);
   const [guidebookUnit, setGuidebookUnit] = useState(null);
@@ -222,6 +224,7 @@ export default function App() {
         onToggleTheme={handleToggleTheme}
         showTransliteration={showTransliteration}
         onToggleTransliteration={handleToggleTransliteration}
+        onOpenInstallModal={() => setIsInstallModalOpen(true)}
       />
 
       {/* Main Column (Header + Content Area) */}
@@ -245,6 +248,7 @@ export default function App() {
           theme={theme}
           onToggleTheme={handleToggleTheme}
           onOpenSettings={() => setIsSettingsOpen(true)}
+          onOpenInstallModal={() => setIsInstallModalOpen(true)}
           className={activeTab === 'learn' ? 'lg:hidden' : ''}
         />
 
@@ -412,6 +416,14 @@ export default function App() {
         onChangeDailyGoal={setDailyGoalXP}
         onResetProgress={handleResetProgress}
         selectedLanguage={selectedLanguage}
+        onOpenInstallModal={() => setIsInstallModalOpen(true)}
+      />
+
+      {/* Free Progressive Web App (PWA) Install Modal */}
+      <InstallAppModal
+        isOpen={isInstallModalOpen}
+        onClose={() => setIsInstallModalOpen(false)}
+        theme={theme}
       />
 
     </div>

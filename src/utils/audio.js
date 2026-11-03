@@ -1,4 +1,4 @@
-// Web Audio API synthesizer for playful Duolingo-style sound effects
+// Web Audio API synthesizer for playful Duolingo-style sound effects & Mobile Haptics
 class SoundFX {
   constructor() {
     this.ctx = null;
@@ -24,7 +24,16 @@ class SoundFX {
     }
   }
 
+  vibrate(pattern = 10) {
+    if (typeof window !== 'undefined' && typeof navigator !== 'undefined' && navigator.vibrate) {
+      try {
+        navigator.vibrate(pattern);
+      } catch {}
+    }
+  }
+
   playCorrect() {
+    this.vibrate([15, 50, 20]);
     if (this.muted) return;
     this.init();
     if (!this.ctx) return;
@@ -58,6 +67,7 @@ class SoundFX {
   }
 
   playWrong() {
+    this.vibrate([40, 40, 40]);
     if (this.muted) return;
     this.init();
     if (!this.ctx) return;
@@ -80,6 +90,7 @@ class SoundFX {
   }
 
   playPop() {
+    this.vibrate(8);
     if (this.muted) return;
     this.init();
     if (!this.ctx) return;
@@ -101,6 +112,7 @@ class SoundFX {
   }
 
   playFanfare() {
+    this.vibrate([20, 60, 20, 60, 50]);
     if (this.muted) return;
     this.init();
     if (!this.ctx) return;

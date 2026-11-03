@@ -291,12 +291,12 @@ export default function LessonModal({
   };
 
   return (
-    <div className={`fixed inset-0 z-50 flex flex-col justify-between overflow-y-auto animate-in fade-in duration-200 select-none ${
+    <div className={`fixed inset-0 z-50 flex flex-col justify-between overflow-hidden animate-in fade-in duration-200 select-none ${
       isDark ? 'bg-[#131f24] text-white' : 'bg-white text-slate-800'
     }`}>
       
       {/* Top Header Bar */}
-      <div className={`max-w-4xl mx-auto w-full px-4 sm:px-8 py-4 flex items-center justify-between gap-4 border-b ${
+      <div className={`shrink-0 max-w-4xl mx-auto w-full px-4 sm:px-8 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3 flex items-center justify-between gap-4 border-b ${
         isDark ? 'border-slate-800' : 'border-slate-100'
       }`}>
         {/* Exit Button */}
@@ -337,7 +337,7 @@ export default function LessonModal({
       </div>
 
       {/* Main Interactive Stage */}
-      <div className="flex-1 max-w-2xl mx-auto w-full px-4 sm:px-8 py-6 flex flex-col justify-center">
+      <div className="flex-1 max-w-2xl mx-auto w-full px-4 sm:px-8 py-6 flex flex-col justify-center overflow-y-auto overscroll-contain">
 
         {/* COMPLETED SUCCESS SCREEN */}
         {status === 'completed' && (
@@ -734,14 +734,14 @@ export default function LessonModal({
 
       {/* Bottom Feedback Drawer */}
       {status !== 'completed' && status !== 'failed' && (
-        <div className={`border-t-2 px-4 sm:px-8 py-5 transition-colors ${
+        <div className={`shrink-0 border-t-2 px-4 sm:px-8 pt-3.5 pb-[max(1rem,env(safe-area-inset-bottom))] transition-colors z-20 shadow-lg ${
           status === 'correct' 
-            ? isDark ? 'bg-emerald-950/80 border-emerald-800/60' : 'bg-emerald-100 border-emerald-300'
+            ? isDark ? 'bg-emerald-950/95 border-emerald-800/60' : 'bg-emerald-100 border-emerald-300'
             : status === 'wrong'
-            ? isDark ? 'bg-rose-950/80 border-rose-900/60' : 'bg-rose-100 border-rose-300'
+            ? isDark ? 'bg-rose-950/95 border-rose-900/60' : 'bg-rose-100 border-rose-300'
             : isDark ? 'bg-[#131f24] border-slate-800' : 'bg-white border-slate-100'
         }`}>
-          <div className="max-w-2xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="max-w-2xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
             
             {/* Feedback Message */}
             {status === 'idle' ? (
@@ -749,12 +749,12 @@ export default function LessonModal({
                 Press Enter ↵ or tap Check when ready
               </div>
             ) : status === 'correct' ? (
-               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-sm">
-                  <CheckCircle2 className="w-7 h-7" />
+               <div className="flex items-center gap-3 w-full sm:w-auto">
+                <div className="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+                  <CheckCircle2 className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="font-black text-lg text-emerald-900 dark:text-emerald-200">
+                  <h4 className="font-black text-base sm:text-lg text-emerald-900 dark:text-emerald-200">
                     Excellent! शाबाश!
                   </h4>
                   {currentQ?.explanation && (
@@ -765,24 +765,24 @@ export default function LessonModal({
                 </div>
               </div>
             ) : (
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full bg-rose-600 text-white flex items-center justify-center shrink-0 shadow-sm">
-                  <XCircle className="w-7 h-7" />
+              <div className="flex items-center gap-3 w-full sm:w-auto">
+                <div className="w-10 h-10 rounded-full bg-rose-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+                  <XCircle className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="font-black text-lg text-rose-900 dark:text-rose-200">
+                  <h4 className="font-black text-base sm:text-lg text-rose-900 dark:text-rose-200">
                     Correct solution:
                   </h4>
                   {currentQ?.type === 'sentence-builder' ? (
-                    <p className="text-sm font-black text-rose-950 dark:text-rose-100">
+                    <p className="text-xs sm:text-sm font-black text-rose-950 dark:text-rose-100">
                       {currentQ.targetSentence} {currentQ.targetRoman ? `(${currentQ.targetRoman})` : ''}
                     </p>
                   ) : currentQ?.options?.find(o => o.correct) ? (
-                    <p className="text-sm font-black text-rose-950 dark:text-rose-100">
+                    <p className="text-xs sm:text-sm font-black text-rose-950 dark:text-rose-100">
                       {currentQ.options.find(o => o.correct).text}
                     </p>
                   ) : null}
-                  <p className="text-xs text-rose-800 dark:text-rose-300 font-bold mt-0.5">
+                  <p className="text-[11px] text-rose-800 dark:text-rose-300 font-bold mt-0.5">
                     {currentQ?.explanation || 'Review and keep practicing!'}
                   </p>
                 </div>
@@ -790,12 +790,12 @@ export default function LessonModal({
             )}
 
             {/* Action Buttons */}
-            <div>
+            <div className="w-full sm:w-auto">
               {status === 'idle' ? (
                 <button
                   onClick={handleCheckAnswer}
                   disabled={isCheckDisabled()}
-                  className={`px-10 py-3.5 rounded-2xl font-black text-sm uppercase tracking-wider transition-all cursor-pointer ${
+                  className={`w-full sm:w-auto px-10 py-3.5 rounded-2xl font-black text-sm uppercase tracking-wider transition-all cursor-pointer ${
                     isCheckDisabled()
                       ? 'btn-duo-gray'
                       : 'btn-duo-green text-white shadow-md'
@@ -806,7 +806,7 @@ export default function LessonModal({
               ) : (
                 <button
                   onClick={handleContinue}
-                  className={`px-10 py-3.5 rounded-2xl font-black text-sm uppercase tracking-wider transition-all cursor-pointer ${
+                  className={`w-full sm:w-auto px-10 py-3.5 rounded-2xl font-black text-sm uppercase tracking-wider transition-all cursor-pointer ${
                     status === 'correct' ? 'btn-duo-green text-white' : 'btn-duo-red text-white'
                   }`}
                 >

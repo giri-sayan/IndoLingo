@@ -14,7 +14,8 @@ export default function SettingsModal({
   dailyGoalXP,
   onChangeDailyGoal,
   onResetProgress,
-  selectedLanguage
+  selectedLanguage,
+  onOpenInstallModal
 }) {
   const [activeTab, setActiveTab] = useState('appearance'); // 'appearance' | 'audio' | 'learning' | 'account'
 
@@ -189,6 +190,31 @@ export default function SettingsModal({
                   </p>
                 </div>
               </div>
+
+              {/* Install Mobile App Section */}
+              {onOpenInstallModal && (
+                <div className={`p-4 rounded-2xl border-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                  theme === 'dark' ? 'bg-emerald-950/30 border-emerald-800/60' : 'bg-emerald-50 border-emerald-200'
+                }`}>
+                  <div>
+                    <div className="flex items-center gap-1.5 font-black text-xs text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-0.5">
+                      <span>📲</span> Install Mobile App (₹0 Free)
+                    </div>
+                    <p className={`text-[11px] font-bold ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>
+                      Add IndoLingo to your Android or iPhone home screen with offline lessons.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      onClose();
+                      onOpenInstallModal();
+                    }}
+                    className="px-4 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider btn-duo-green text-white shrink-0 shadow-sm cursor-pointer"
+                  >
+                    INSTALL APP
+                  </button>
+                </div>
+              )}
             </div>
           )}
 

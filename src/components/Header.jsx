@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Flame, Heart, Sun, Moon, Settings, ChevronDown, X } from 'lucide-react';
+import { Flame, Heart, Sun, Moon, Settings, ChevronDown, X, Smartphone } from 'lucide-react';
 import { sounds } from '../utils/audio';
 import TigerLogo from './TigerLogo';
 
@@ -17,6 +17,7 @@ export default function Header({
   theme = 'light',
   onToggleTheme,
   onOpenSettings,
+  onOpenInstallModal,
   className = ''
 }) {
   const isDark = theme === 'dark';
@@ -257,6 +258,21 @@ export default function Header({
               </div>
             )}
           </div>
+
+          {/* Install Mobile App Button */}
+          {onOpenInstallModal && (
+            <button
+              onClick={() => {
+                sounds.playPop();
+                onOpenInstallModal();
+              }}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-2xl border text-xs font-black transition cursor-pointer bg-emerald-500/15 border-emerald-500/40 text-emerald-500 hover:bg-emerald-500 hover:text-white"
+              title="Install IndoLingo App on Android / iOS (₹0 Free)"
+            >
+              <Smartphone className="w-4 h-4" />
+              <span className="hidden sm:inline">App</span>
+            </button>
+          )}
 
           {/* Dark / Light Theme Quick Toggle */}
           <button

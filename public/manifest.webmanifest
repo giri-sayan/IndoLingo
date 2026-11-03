@@ -1,0 +1,56 @@
+{
+  "name": "IndoLingo • Learn Indian Languages",
+  "short_name": "IndoLingo",
+  "description": "Master 9 Indian languages with gamified lessons, native audio, Akshara script tracing, and cultural stories.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#131f24",
+  "theme_color": "#131f24",
+  "categories": ["education", "games"],
+  "icons": [
+    {
+      "src": "/tiger-logo.svg",
+      "sizes": "192x192 256x256 384x384 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/tiger-logo.svg",
+      "sizes": "192x192 256x256 384x384 512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "48x48 72x72 96x96 128x128",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Daily Lessons",
+      "short_name": "Learn",
+      "description": "Jump directly to your language path",
+      "url": "/?tab=learn",
+      "icons": [{ "src": "/tiger-logo.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Script & Akshara Studio",
+      "short_name": "Practice",
+      "description": "Practice writing and speaking native alphabets",
+      "url": "/?tab=practice",
+      "icons": [{ "src": "/tiger-logo.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Chai Stories",
+      "short_name": "Stories",
+      "description": "Read folklore and cultural stories",
+      "url": "/?tab=stories",
+      "icons": [{ "src": "/tiger-logo.svg", "sizes": "192x192" }]
+    }
+  ]
+}
