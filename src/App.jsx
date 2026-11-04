@@ -25,8 +25,16 @@ export default function App() {
   });
 
 
-  // Selected Indian language (defaults to Hindi)
+  // Selected Indian language (defaults to Hindi, supports ?lang= URL query param)
   const [selectedLanguage, setSelectedLanguage] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const langParam = params.get('lang');
+      if (langParam) {
+        const found = INDIAN_LANGUAGES.find(l => l.id.toLowerCase() === langParam.toLowerCase());
+        if (found) return found;
+      }
+    }
     const saved = localStorage.getItem('bhasha_lang');
     if (saved) {
       const found = INDIAN_LANGUAGES.find(l => l.id === saved);
@@ -241,7 +249,7 @@ export default function App() {
   const completedLessonsCount = Object.keys(completedLessons).filter(k => !k.startsWith('chest_')).length;
 
   return (
-    <div className={`min-h-screen flex flex-row font-sans transition-colors duration-200 ${
+    <div className={`min-h-screen flex flex-row font-sans transition-colors duration-200 overflow-x-clip max-w-full w-full ${
       theme === 'light' 
         ? 'bg-white text-slate-800'
         : 'bg-[#131f24] text-white'
@@ -262,7 +270,7 @@ export default function App() {
       />
 
       {/* Main Column (Header + Content Area) */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 max-w-full overflow-x-clip">
         
         {/* Top Header Bar (Mobile/Tablet only for Learn view, or compact top bar for other full-width views) */}
         <Header
@@ -292,7 +300,7 @@ export default function App() {
         />
 
         {/* Dynamic Main View */}
-        <main className="flex-1 w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 pb-28 lg:pb-12">
+        <main className="flex-1 w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 pb-28 lg:pb-12 max-w-full overflow-x-clip">
           
           {activeTab === 'learn' && (
             <div className="flex flex-col xl:flex-row gap-6 xl:gap-8 items-start justify-center w-full">

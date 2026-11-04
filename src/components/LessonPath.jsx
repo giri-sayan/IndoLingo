@@ -44,9 +44,21 @@ export default function LessonPath({
   equippedOutfit = 'default',
   _theme = 'dark'
 }) {
-  // Active selected node popover state: { lesson, unit }
-  const [selectedNode, setSelectedNode] = useState(null);
-  const [isDismissed, setIsDismissed] = useState(false);
+  // Active selected node popover state: { lesson, unit } (Supports URL helper ?test_node= for testing)
+  const [selectedNode, setSelectedNode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const testNodeParam = params.get('test_node');
+      if (testNodeParam !== null) {
+        const idx = parseInt(testNodeParam, 10);
+        const l = selectedLanguage?.units[0]?.lessons[idx];
+        if (l) {
+          return { lesson: l, unit: selectedLanguage.units[0] };
+        }
+      }
+    }
+    return null;
+  });
   const [showGraduationModal, setShowGraduationModal] = useState(false);
   const [freeStudyMode, setFreeStudyMode] = useState(() => {
     return localStorage.getItem('bhasha_free_study_mode') === 'true';
@@ -77,46 +89,38 @@ export default function LessonPath({
   // Click outside to dismiss popover without blocking page scroll
   React.useEffect(() => {
     const handleDocumentClick = (e) => {
-      if (!isDismissed || selectedNode) {
+      if (selectedNode) {
         if (!e.target.closest('.lesson-popover-card') && !e.target.closest('.lesson-node-btn')) {
           setSelectedNode(null);
-          setIsDismissed(true);
         }
       }
     };
     document.addEventListener('click', handleDocumentClick);
     return () => document.removeEventListener('click', handleDocumentClick);
-  }, [selectedNode, isDismissed]);
+  }, [selectedNode]);
 
   const handleDismissPopover = () => {
     sounds.playPop();
     setSelectedNode(null);
-    setIsDismissed(true);
   };
 
   const handleNodeClick = (lesson, unit) => {
     sounds.playPop();
-    const isCompleted = !!completedLessons[lesson.id];
-    const unitLessons = unit.lessons || [];
-    const lessonIdx = unitLessons.findIndex(l => l.id === lesson.id);
-    const unitIdx = selectedLanguage.units.findIndex(u => u.id === unit.id);
-    const isPrevCompleted = lessonIdx === 0 
-      ? (unitIdx === 0 || !!completedLessons[selectedLanguage.units[unitIdx - 1]?.lessons?.slice(-1)[0]?.id])
-      : !!completedLessons[unitLessons[lessonIdx - 1]?.id];
-    const isCurrent = !isCompleted && isPrevCompleted;
+    const isThisPopoverOpen = selectedNode?.lesson.id === lesson.id;
 
-    const isThisPopoverOpen = selectedNode 
-      ? selectedNode.lesson.id === lesson.id 
-      : (!isDismissed && isCurrent);
-
-    // If popover is already open, start lesson! Otherwise toggle popover.
+    // If popover is already open, start lesson! Otherwise open popover.
     if (isThisPopoverOpen) {
       setSelectedNode(null);
-      setIsDismissed(false);
       onStartLesson(lesson, unit);
     } else {
-      setIsDismissed(false);
       setSelectedNode({ lesson, unit });
+      // Smoothly scroll the node row into view so the popover is fully visible
+      setTimeout(() => {
+        const el = document.getElementById(`lesson-row-${lesson.id}`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 50);
     }
   };
 
@@ -286,8 +290,13 @@ export default function LessonPath({
               </div>
             </div>
 
+            {/* Duolingo Semicircular Banner Connector Tab (frame 004 match) */}
+            <div className="flex justify-center -mt-0.5 mb-1 pointer-events-none">
+              <div className={`w-16 h-3.5 ${unitTheme.bg} rounded-b-2xl shadow-xs`} />
+            </div>
+
             {/* Stepping Stones Path */}
-            <div className={`py-10 relative flex flex-col items-center gap-7 w-full overflow-visible ${selectedNode?.unit.id === unit.id ? 'z-50' : 'z-20'}`}>
+            <div className={`py-6 relative flex flex-col items-center gap-7 w-full overflow-visible ${selectedNode?.unit.id === unit.id ? 'z-50' : 'z-20'}`}>
               {unitLessons.map((lesson, lessonIdx) => {
                 const isCompleted = !!completedLessons[lesson.id];
                 const isPrevCompleted = lessonIdx === 0 
@@ -298,28 +307,21 @@ export default function LessonPath({
                 const isStrictLocked = !isCompleted && !isPrevCompleted;
                 const isLocked = !freeStudyMode && isStrictLocked;
 
-                // S-curve winding offsets: 0, -42px, 0, 42px
+                // S-curve winding offsets: 0, -48px, 0, 48px
                 const offsets = ['translate-x-0', '-translate-x-12 sm:-translate-x-16', 'translate-x-0', 'translate-x-12 sm:translate-x-16'];
                 const offsetClass = offsets[lessonIdx % 4];
 
-                const isPopoverOpen = selectedNode 
-                  ? selectedNode.lesson.id === lesson.id 
-                  : (!isDismissed && isCurrent);
+                const isPopoverOpen = selectedNode?.lesson.id === lesson.id;
 
-                // Counter-offset on mobile so popover is always centered on screen and never bleeds outside app frame
-                const popoverCounterOffset = (lessonIdx % 4 === 1)
-                  ? 'translate-x-12 sm:translate-x-0'
+                // Open popover above if near bottom of unit (last 2 lessons)
+                const openAbove = lessonIdx >= Math.max(1, unitLessons.length - 2);
+
+                // Exact matching caret alignment relative to centered popover card (immune to transform bugs)
+                const caretPositionClass = (lessonIdx % 4 === 1)
+                  ? 'left-[calc(50%-3.5rem)] sm:left-[calc(50%-4.5rem)]'
                   : (lessonIdx % 4 === 3)
-                  ? '-translate-x-12 sm:translate-x-0'
-                  : '';
-
-                const horizontalAlign = 'left-1/2 -translate-x-1/2';
-
-                const arrowAlign = (lessonIdx % 4 === 1)
-                  ? '-translate-x-10 sm:mx-auto'
-                  : (lessonIdx % 4 === 3)
-                  ? 'translate-x-10 sm:mx-auto'
-                  : 'mx-auto';
+                  ? 'left-[calc(50%+2.5rem)] sm:left-[calc(50%+3.5rem)]'
+                  : 'left-[calc(50%-0.5rem)]';
 
                 // Dynamic icon based on lesson type & index
                 const isExam = lessonIdx === unitLessons.length - 1;
@@ -329,40 +331,40 @@ export default function LessonPath({
                 return (
                   <div 
                     key={lesson.id} 
-                    className={`relative flex items-center justify-center transition-transform ${offsetClass} ${isPopoverOpen ? 'z-50' : 'z-20'}`}
+                    id={`lesson-row-${lesson.id}`}
+                    className={`relative w-full flex items-center justify-center ${isPopoverOpen ? 'z-50' : 'z-20'}`}
                   >
-                    {/* Left Quest Avatar Badge (Exact Match to Duolingo App Screenshot) */}
-                    {lessonIdx === 0 && (
-                      <div className="absolute -left-20 sm:-left-28 top-0 z-10 flex flex-col items-center select-none">
-                        <div className="p-1 sm:p-1.5 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-700 border-2 border-indigo-300 shadow-xl flex flex-col items-center animate-bounce-subtle cursor-pointer hover:scale-105 transition">
-                          <span className="text-xl sm:text-2xl">🧙‍♀️</span>
-                          <span className="text-[8px] sm:text-[9px] font-black uppercase text-white bg-indigo-950/90 px-1 sm:px-1.5 py-0.5 rounded-full mt-0.5 shadow-sm">
-                            20 days
-                          </span>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Right Companion Mascot Silhouette (Exact Match to Duolingo App Screenshot) */}
-                    {lessonIdx === 2 && (
-                      <div className="absolute -right-20 sm:-right-28 top-0 z-10 flex flex-col items-center select-none opacity-50 hover:opacity-90 transition">
-                        <div className="relative">
-                          <Mascot mood="idle" size={54} outfit={equippedOutfit} />
-                        </div>
-                        <div className="flex items-center gap-0.5 sm:gap-1 mt-0.5 text-slate-500 text-[10px] sm:text-xs">
-                          <span>★</span><span>★</span><span>★</span>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Milestone 3D Node Button Container */}
+                    {/* Node container with zigzag translation offset */}
                     <div 
-                      id={isCurrent ? 'active-lesson-node' : undefined}
-                      className={`relative flex flex-col items-center justify-center ${isPopoverOpen ? 'z-50' : ''}`}
+                      id={isCurrent ? 'active-lesson-node' : `lesson-node-${lesson.id}`}
+                      className={`relative flex items-center justify-center transition-transform ${offsetClass}`}
                     >
-                      
-                      {/* Floating Duolingo START Bubble */}
-                      {isCurrent && !isPopoverOpen && (
+                      {/* Left Quest Avatar Badge (Exact Match to Duolingo App Screenshot) */}
+                      {lessonIdx === 0 && (
+                        <div className="absolute left-1 sm:-left-16 md:-left-24 top-0 z-10 flex flex-col items-center select-none pointer-events-auto">
+                          <div className="p-1 sm:p-1.5 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-700 border-2 border-indigo-300 shadow-xl flex flex-col items-center animate-bounce-subtle cursor-pointer hover:scale-105 transition pointer-events-auto">
+                            <span className="text-xl sm:text-2xl">🧙‍♀️</span>
+                            <span className="text-[8px] sm:text-[9px] font-black uppercase text-white bg-indigo-950/90 px-1 sm:px-1.5 py-0.5 rounded-full mt-0.5 shadow-sm">
+                              20 days
+                            </span>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Right Companion Mascot Silhouette (Exact Match to Duolingo App Screenshot) */}
+                      {lessonIdx === 2 && (
+                        <div className="absolute right-1 sm:-right-16 md:-right-24 top-0 z-10 flex flex-col items-center select-none opacity-60 hover:opacity-100 transition pointer-events-auto">
+                          <div className="relative">
+                            <Mascot mood="idle" size={48} outfit={equippedOutfit} />
+                          </div>
+                          <div className="flex items-center gap-0.5 sm:gap-1 mt-0.5 text-slate-500 text-[10px] sm:text-xs">
+                            <span>★</span><span>★</span><span>★</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Floating Duolingo START Bubble (ONLY when current and NO popover is open!) */}
+                      {isCurrent && !selectedNode && (
                         <div className="absolute -top-11 z-30 animate-bounce flex flex-col items-center pointer-events-none">
                           <div className={`px-3 py-1 rounded-xl ${unitTheme.bg} text-white font-black text-xs uppercase tracking-wider shadow-md`}>
                             START
@@ -433,63 +435,78 @@ export default function LessonPath({
                           <Star className="w-7 h-7 stroke-[2]" />
                         )}
                       </button>
+                    </div>
 
-                      {/* Iconic Duolingo Lesson Popover Card (Screenshot Match) */}
-                      {isPopoverOpen && (
-                        <div className={`lesson-popover-card absolute top-full mt-3 ${horizontalAlign} ${popoverCounterOffset} z-50 w-[min(calc(100vw-2rem),21rem)] sm:w-84 animate-in zoom-in-95 duration-150`}>
-                          {/* Top arrow pointing directly to the node */}
-                          <div className={`w-4 h-4 ${unitTheme.bg} rotate-45 ${arrowAlign} -mb-2 shadow-sm relative z-30`} />
+                    {/* Iconic Duolingo Lesson Popover Card - CENTERING IN THE ROW & NEVER BLEEDING */}
+                    {isPopoverOpen && (
+                      <div 
+                        className={`lesson-popover-card absolute inset-x-0 mx-auto z-50 w-[min(calc(100vw-2.5rem),21rem)] max-w-[calc(100vw-2.5rem)] select-none pointer-events-auto ${
+                          openAbove ? 'bottom-[calc(100%+0.75rem)]' : 'top-[calc(100%+0.75rem)]'
+                        }`}
+                      >
+                        {/* Top caret pointing UP at node when popover is below */}
+                        {!openAbove && (
+                          <div 
+                            className={`w-4 h-4 ${unitTheme.bg} rotate-45 absolute -top-2 ${caretPositionClass} shadow-[-2px_-2px_4px_rgba(0,0,0,0.1)] z-10`} 
+                          />
+                        )}
 
-                          <div className={`${unitTheme.bg} text-white rounded-3xl p-5 sm:p-6 shadow-2xl relative z-20 space-y-3.5`}>
-                            {/* Close button */}
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDismissPopover();
-                              }}
-                              className="absolute top-4 right-4 p-1 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition cursor-pointer"
-                              title="Close"
-                            >
-                              <X className="w-4 h-4" />
-                            </button>
+                        {/* Popover Card Body */}
+                        <div className={`${unitTheme.bg} text-white rounded-3xl p-5 sm:p-6 shadow-2xl relative z-20 space-y-3.5`}>
+                          {/* Close button */}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDismissPopover();
+                            }}
+                            className="absolute top-4 right-4 p-1 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition cursor-pointer"
+                            title="Close"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
 
-                            <div>
-                              <h3 className="text-base sm:text-lg font-black leading-snug text-white pr-6">
-                                {lesson.title}
-                              </h3>
-                              <p className="text-xs sm:text-sm font-bold text-white/80 mt-1">
-                                Lesson {lessonIdx + 1} of {unitLessons.length}
-                              </p>
-                            </div>
+                          <div>
+                            <h3 className="text-base sm:text-lg font-black leading-snug text-white pr-6">
+                              {lesson.title}
+                            </h3>
+                            <p className="text-xs sm:text-sm font-bold text-white/80 mt-1">
+                              Lesson {lessonIdx + 1} of {unitLessons.length}
+                            </p>
+                          </div>
 
-                            {/* Massive Chunky 3D White Button (Screenshot Match) */}
+                          {/* Massive Chunky 3D White Button (Screenshot Match) */}
+                          <button
+                            onClick={() => {
+                              setSelectedNode(null);
+                              onStartLesson(lesson, unit);
+                            }}
+                            className={`w-full py-3.5 sm:py-4 px-6 rounded-2xl bg-white hover:bg-slate-50 font-black text-sm sm:text-base uppercase tracking-wider ${unitTheme.btnText} shadow-[0_5px_0_rgba(0,0,0,0.18)] active:translate-y-1 active:shadow-none transition cursor-pointer flex items-center justify-center gap-2`}
+                          >
+                            <span>{isCompleted ? 'PRACTICE +10 XP' : `CONTINUE +${lesson.xp || 25} XP`}</span>
+                          </button>
+
+                          {/* Guidebook link inside popover */}
+                          <div className="pt-0.5 text-center">
                             <button
                               onClick={() => {
                                 setSelectedNode(null);
-                                onStartLesson(lesson, unit);
+                                onOpenGuidebook(unit);
                               }}
-                              className={`w-full py-3.5 sm:py-4 px-6 rounded-2xl bg-white hover:bg-slate-50 font-black text-sm sm:text-base uppercase tracking-wider ${unitTheme.btnText} shadow-[0_5px_0_rgba(0,0,0,0.18)] active:translate-y-1 active:shadow-none transition cursor-pointer flex items-center justify-center gap-2`}
+                              className="text-xs font-black text-white/80 hover:text-white underline underline-offset-2 cursor-pointer transition"
                             >
-                              <span>{isCompleted ? 'PRACTICE +10 XP' : `CONTINUE +${lesson.xp || 25} XP`}</span>
+                              📖 View Unit Guidebook
                             </button>
-
-                            {/* Guidebook link inside popover */}
-                            <div className="pt-0.5 text-center">
-                              <button
-                                onClick={() => {
-                                  setSelectedNode(null);
-                                  onOpenGuidebook(unit);
-                                }}
-                                className="text-xs font-black text-white/80 hover:text-white underline underline-offset-2 cursor-pointer transition"
-                              >
-                                📖 View Unit Guidebook
-                              </button>
-                            </div>
                           </div>
                         </div>
-                      )}
-                    </div>
 
+                        {/* Bottom caret pointing DOWN at node when popover is above */}
+                        {openAbove && (
+                          <div 
+                            className={`w-4 h-4 ${unitTheme.bg} rotate-45 absolute -bottom-2 ${caretPositionClass} shadow-[2px_2px_4px_rgba(0,0,0,0.1)] z-10`} 
+                          />
+                        )}
+                      </div>
+                    )}
                   </div>
                 );
               })}

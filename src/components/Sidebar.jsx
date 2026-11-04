@@ -30,17 +30,6 @@ function DuoBirdhouseIcon({ className = "w-5 h-5" }) {
   );
 }
 
-function DuoChestIcon({ className = "w-5 h-5" }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className}>
-      <path d="M4 10V19C4 20.1 4.9 21 6 21H18C19.1 21 20 20.1 20 19V10H4Z" fill="#e5a500" stroke="#b37c00" strokeWidth="1.2" />
-      <path d="M3 7C3 5.9 3.9 5 5 5H19C20.1 5 21 5.9 21 7V10H3V7Z" fill="#ffc800" stroke="#b37c00" strokeWidth="1.2" />
-      <rect x="10.5" y="8.5" width="3" height="4" rx="1" fill="#ffffff" stroke="#b37c00" strokeWidth="1" />
-      <path d="M7 5V21M17 5V21" stroke="#b37c00" strokeWidth="1.2" />
-    </svg>
-  );
-}
-
 function DuoDumbbellIcon({ className = "w-5 h-5" }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className}>
@@ -71,6 +60,16 @@ function DuoAvatarProfileIcon({ className = "w-5 h-5" }) {
       <circle cx="12" cy="9.5" r="2" fill="#0f172a" />
       <path d="M5.5 19.5C6.8 16.5 9.2 15 12 15C14.8 15 17.2 16.5 18.5 19.5" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
       <circle cx="15.5" cy="8" r="1" fill="#ffc800" />
+    </svg>
+  );
+}
+
+function DuoShieldLeagueIcon({ className = "w-5 h-5" }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <path d="M12 2L4 5V11C4 16.5 7.4 21.6 12 23C16.6 21.6 20 16.5 20 11V5L12 2Z" fill="#a855f7" stroke="#7e22ce" strokeWidth="1.2" />
+      <path d="M12 4.5L6 6.8V11.2C6 15.3 8.6 19.1 12 20.3C15.4 19.1 18 15.3 18 11.2V6.8L12 4.5Z" fill="#c084fc" />
+      <circle cx="12" cy="11" r="3" fill="#ffffff" />
     </svg>
   );
 }
@@ -112,11 +111,11 @@ export default function Sidebar({
     { id: 'profile', label: 'PROFILE', icon: User },
   ];
 
-  // Streamlined 5 tabs for Mobile Bottom Bar (Exact Duolingo Mobile App Screenshot Match)
+  // Streamlined 5 tabs for Mobile Bottom Bar (Exact Duolingo Mobile App Match)
   const mobileNavItems = [
     { id: 'learn', label: 'Learn', icon: DuoBirdhouseIcon },
-    { id: 'practice', label: 'Practice', icon: DuoChestIcon },
-    { id: 'leaderboard', label: 'Leagues', icon: DuoDumbbellIcon },
+    { id: 'practice', label: 'Practice', icon: DuoDumbbellIcon },
+    { id: 'leaderboard', label: 'Leagues', icon: DuoShieldLeagueIcon },
     { id: 'quests', label: 'Quests', icon: DuoHeartSpeechIcon, badge: unreadQuestsCount > 0 },
     { id: 'profile', label: 'Profile', icon: DuoAvatarProfileIcon },
   ];
@@ -376,9 +375,9 @@ export default function Sidebar({
         </div>
       </aside>
 
-      {/* Mobile Sticky Bottom Navigation Bar (Optimized Touch Targets) */}
-      <nav className={`lg:hidden fixed bottom-0 left-0 right-0 z-40 border-t flex items-center justify-around px-1 pt-1.5 pb-[max(0.5rem,env(safe-area-inset-bottom))] transition-colors shadow-lg w-full max-w-full overflow-hidden ${
-        isDark ? 'bg-[#131f24]/98 border-[#2b3e48] text-slate-200 backdrop-blur-md' : 'bg-white/98 border-slate-200 text-slate-800 backdrop-blur-md'
+      {/* Mobile Sticky Bottom Navigation Bar (Exact Duolingo Match: 6 Clean Icons, No Cramped Text) */}
+      <nav className={`lg:hidden fixed bottom-0 left-0 right-0 z-40 border-t flex items-center justify-around px-2 py-1.5 pb-[max(0.6rem,env(safe-area-inset-bottom))] transition-colors shadow-2xl w-full max-w-full overflow-hidden ${
+        isDark ? 'bg-[#131f24] border-[#202f36] text-slate-200' : 'bg-white border-slate-200 text-slate-800'
       }`}>
         {mobileNavItems.map((item) => {
           const Icon = item.icon;
@@ -390,18 +389,19 @@ export default function Sidebar({
                 sounds.playPop();
                 onSelectTab(item.id);
               }}
-              className={`flex-1 flex flex-col items-center justify-center py-1.5 px-0.5 rounded-2xl transition-all cursor-pointer relative min-h-[46px] min-w-0 max-w-full ${
+              aria-label={item.label}
+              title={item.label}
+              className={`flex items-center justify-center p-2 rounded-2xl transition-all cursor-pointer relative min-h-[44px] min-w-[44px] ${
                 isActive
                   ? isDark
-                    ? 'border-2 border-[#1cb0f6] bg-[#1cb0f6]/15 text-[#1cb0f6] shadow-sm'
-                    : 'border-2 border-emerald-500 bg-emerald-50 text-emerald-600 shadow-sm'
+                    ? 'border-2 border-[#1cb0f6] bg-[#1cb0f6]/15 text-[#1cb0f6]'
+                    : 'border-2 border-emerald-500 bg-emerald-50 text-emerald-600'
                   : 'border-2 border-transparent text-slate-400 hover:text-slate-200'
               }`}
             >
-              <Icon className="w-4 h-4 sm:w-5 sm:h-5 mb-0.5 shrink-0" />
-              <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-tight truncate w-full text-center px-0.5">{item.label}</span>
+              <Icon className="w-6 h-6 shrink-0" />
               {item.badge && (
-                <span className="absolute top-1 right-1/4 w-2 h-2 rounded-full bg-rose-500" />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-[#131f24]" />
               )}
             </button>
           );
@@ -413,16 +413,17 @@ export default function Sidebar({
             sounds.playPop();
             setIsMoreOpen(true);
           }}
-          className={`flex-1 flex flex-col items-center justify-center py-1 px-0.5 rounded-xl transition-all cursor-pointer relative min-h-[44px] min-w-0 max-w-full ${
+          aria-label="More options"
+          title="More"
+          className={`flex items-center justify-center p-2 rounded-2xl transition-all cursor-pointer relative min-h-[44px] min-w-[44px] ${
             activeTab === 'stories' || activeTab === 'shop'
               ? isDark
-                ? 'bg-[#18262d] text-purple-400'
-                : 'bg-purple-50 text-purple-600'
-              : 'text-slate-400 hover:text-slate-200'
+                ? 'border-2 border-purple-400 bg-purple-500/20 text-purple-400'
+                : 'border-2 border-purple-500 bg-purple-50 text-purple-600'
+              : 'border-2 border-transparent text-slate-400 hover:text-slate-200'
           }`}
         >
-          <MoreHorizontal className="w-4 h-4 sm:w-5 sm:h-5 mb-0.5 shrink-0" />
-          <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-tight truncate w-full text-center px-0.5">More</span>
+          <MoreHorizontal className="w-6 h-6 shrink-0" />
         </button>
       </nav>
 

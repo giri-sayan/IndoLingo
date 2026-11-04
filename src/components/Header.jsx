@@ -61,7 +61,7 @@ export default function Header({
     } ${className}`}>
 
       {/* 1. DUOLINGO TOP COURSE TABS (GERMAN / CHESS / ENGLISH MATCH) */}
-      <div className="w-full bg-black/90 border-b border-[#202f36] px-2 sm:px-4 py-1.5 overflow-x-auto no-scrollbar flex items-center gap-4 sm:gap-6 text-xs font-black uppercase tracking-wider">
+      <div className="w-full bg-[#0e161b] border-b border-[#202f36] px-4 sm:px-6 pr-12 py-1.5 overflow-x-auto no-scrollbar flex items-center gap-4 sm:gap-6 text-xs font-black uppercase tracking-wider overscroll-contain">
         {allLanguages && allLanguages.length > 0 ? (
           allLanguages.map((lang) => {
             const isSelected = lang.id === selectedLanguage.id;
