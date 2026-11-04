@@ -1720,7 +1720,7 @@ export const MALAYALAM_COURSE = {
       "unitNumber": 7,
       "title": "Unit 7: സിനിമ, സൗഹൃദം & ലോക്കൽ ഭാഷ",
       "description": "Mollywood Cinema, Friendship & Kerala Slang (അളിയാ, പൊളി, ചങ്ക്)",
-      "color": "from-indigo-600 via-purple-700 to-rose-800",
+      "color": "from-indigo-600 to-purple-700",
       "guidebook": {
         "title": "Kerala Slang: 'അളിയാ', 'പൊളി' & 'ചങ്ക്'",
         "summary": "Kerala youth slang is vibrant and witty: close friends are called 'അളിയാ' (Aliya) or 'ചങ്ക്' (heart/chunk), and anything awesome is greeted with 'പൊളി!' (Poli!).",
@@ -1955,7 +1955,7 @@ export const MALAYALAM_COURSE = {
       "unitNumber": 8,
       "title": "Unit 8: പഴഞ്ചൊല്ലുകൾ, കവിത & മലയാള ഗരിമ",
       "description": "Classical Literature, Vallathol Poetry, Proverbs & Lifetime Malayali Honor",
-      "color": "from-amber-700 via-rose-800 to-purple-950",
+      "color": "from-purple-600 to-indigo-700",
       "guidebook": {
         "title": "The Classical Soul of Malayalam: 'മധുരിക്കും മലയാളം'",
         "summary": "From Thunchaththu Ezhuthachan (the father of Malayalam literature) to Kumaran Asan and Vallathol, Malayalam's classical heritage blends sanskritic melody with deep Dravidian earthiness.",

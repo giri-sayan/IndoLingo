@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Moon, Sun, Sparkles, Volume2, VolumeX, Target, RotateCcw, Check, Palette } from 'lucide-react';
+import { X, Moon, Sun, Volume2, VolumeX, Target, RotateCcw, Check, Palette } from 'lucide-react';
 import { sounds } from '../utils/audio';
 
 export default function SettingsModal({
@@ -35,13 +35,6 @@ export default function SettingsModal({
       desc: 'Sleek dark mode for late night study',
       icon: Moon,
       color: 'bg-slate-900 text-slate-100 border-slate-700'
-    },
-    {
-      id: 'saffron',
-      name: 'Festive Saffron',
-      desc: 'Warm marigold & saffron aesthetic',
-      icon: Sparkles,
-      color: 'bg-orange-50 text-orange-950 border-orange-300'
     }
   ];
 

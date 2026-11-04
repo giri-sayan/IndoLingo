@@ -181,7 +181,7 @@ export default function QuestsView({
                     </p>
 
                     {/* Progress Bar */}
-                    <div className="mt-3 flex items-center gap-3 w-48 sm:w-64">
+                    <div className="mt-3 flex items-center gap-3 w-full max-w-[14rem] sm:max-w-[16rem]">
                       <div className="flex-1 bg-slate-200 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden">
                         <div 
                           className="bg-amber-500 h-full rounded-full transition-all duration-300"

@@ -289,7 +289,7 @@ export const MARATHI_COURSE = {
       "unitNumber": 1,
       "title": "Unit 1: वर्णमाला & आपुलकीची सुरुवात",
       "description": "Marathi Devanagari, Namaskar, Courteous Introductions & First Words",
-      "color": "from-orange-600 to-amber-700",
+      "color": "from-orange-500 to-amber-500",
       "guidebook": {
         "title": "Marathi Foundations: Dignity, Sweetness & Pride",
         "summary": "Marathi possesses profound literary heritage celebrating chivalry and devotion. Words are spoken with distinct clarity and heartfelt warmth (Namaskar, Kase aahat).",
@@ -536,7 +536,7 @@ export const MARATHI_COURSE = {
       "unitNumber": 2,
       "title": "Unit 2: कुटुंब & नात्यांची माया",
       "description": "Family Kinship, Respectful Suffixes (-राव, -ताई) & Deep Affection",
-      "color": "from-amber-700 to-rose-700",
+      "color": "from-rose-500 to-pink-600",
       "guidebook": {
         "title": "Marathi Family & Kinship: Aai, Baba, Dada, Tai",
         "summary": "In Maharashtra, family words overflow with respect. Calling someone 'Dada' (elder brother) or 'Tai' (elder sister) is universal.",
@@ -1751,7 +1751,7 @@ export const MARATHI_COURSE = {
       "unitNumber": 7,
       "title": "Unit 7: नाटक, सिनेमा & अस्सल मुंबईया स्लाँग",
       "description": "Marathi Theatre (Natak), Cinema, Friendship & Mumbai/Pune Slang (भावा, झकास, राडा)",
-      "color": "from-indigo-600 via-purple-700 to-rose-800",
+      "color": "from-indigo-600 to-purple-700",
       "guidebook": {
         "title": "Marathi Slang: 'भावा', 'एक नंबर' & 'झकास'",
         "summary": "From greeting your best buddy as 'भावा' (Bhava) to celebrating great news with 'एक नंबर!' (Ek number!) and 'झकास!' (Jhakaas!), Marathi slang is electric and witty.",
@@ -1989,7 +1989,7 @@ export const MARATHI_COURSE = {
       "unitNumber": 8,
       "title": "Unit 8: संत साहित्य, म्हणी & मराठी बाणा",
       "description": "Sant Tukaram Abhangas, Shivaji Maharaj Pride, Proverbs & Lifetime Marathi Honor",
-      "color": "from-amber-700 via-rose-800 to-purple-950",
+      "color": "from-purple-600 to-indigo-700",
       "guidebook": {
         "title": "The Classical Soul of Marathi: 'लाभले आम्हास भाग्य बोलतो मराठी'",
         "summary": "From Sant Dnyaneshwar and Sant Tukaram's immortal abhangas to the valor of Chhatrapati Shivaji Maharaj, Marathi carries centuries of spiritual depth, chivalry, and social equality.",

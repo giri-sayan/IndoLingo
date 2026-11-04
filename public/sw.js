@@ -1,5 +1,5 @@
-// IndoLingo Service Worker - Offline PWA Support
-const CACHE_NAME = 'indolingo-v1';
+// IndoLingo Service Worker - Offline PWA Support (v2)
+const CACHE_NAME = 'indolingo-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -26,6 +26,7 @@ self.addEventListener('activate', (event) => {
       return Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
+            console.log('PWA: Clearing legacy cache', key);
             return caches.delete(key);
           }
         })
@@ -43,42 +44,51 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  event.respondWith(
-    caches.match(req).then((cachedResponse) => {
-      if (cachedResponse) {
-        // Fetch in background to update cache (stale-while-revalidate for html/assets)
-        fetch(req)
-          .then((networkResponse) => {
-            if (networkResponse && networkResponse.status === 200) {
-              caches.open(CACHE_NAME).then((cache) => {
-                cache.put(req, networkResponse.clone());
-              });
-            }
-          })
-          .catch(() => {
-            // Network failure is fine since cachedResponse is returned
-          });
-        return cachedResponse;
-      }
+  // Network-First for Navigation / HTML & JS Assets to prevent stale brown screen caching
+  const isCodeOrDoc = req.mode === 'navigate' || 
+                      req.destination === 'document' || 
+                      req.destination === 'script' || 
+                      req.url.endsWith('.html') || 
+                      req.url.includes('/assets/');
 
-      // If not cached, fetch from network and cache
-      return fetch(req)
+  if (isCodeOrDoc) {
+    event.respondWith(
+      fetch(req)
         .then((networkResponse) => {
-          if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-            return networkResponse;
+          if (networkResponse && networkResponse.status === 200) {
+            const clone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(req, clone));
           }
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(req, responseToCache);
-          });
           return networkResponse;
         })
         .catch(() => {
-          // If offline and requesting navigation, return index.html
-          if (req.mode === 'navigate') {
-            return caches.match('/index.html');
-          }
+          return caches.match(req).then((cached) => {
+            if (cached) return cached;
+            if (req.mode === 'navigate') {
+              return caches.match('/index.html');
+            }
+          });
+        })
+    );
+    return;
+  }
+
+  // Cache-First with Network fallback for static images/media
+  event.respondWith(
+    caches.match(req).then((cachedResponse) => {
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      return fetch(req).then((networkResponse) => {
+        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+          return networkResponse;
+        }
+        const responseToCache = networkResponse.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(req, responseToCache);
         });
+        return networkResponse;
+      });
     })
   );
 });

@@ -789,7 +789,7 @@ export const HINDI_COURSE = {
       "unitNumber": 3,
       "title": "Unit 3: गिनती १-२०, समय & दैनिक दिनचर्या",
       "description": "Numbers 1-20, telling time, colors & everyday routines",
-      "color": "from-yellow-500 to-amber-700",
+      "color": "from-amber-500 to-orange-500",
       "guidebook": {
         "title": "Daily Cadence: Numbers, Colours & Time",
         "explanation": "Learn to tell the time, name vibrant colors, count from one to twenty, and describe your daily habits with natural ease.",
@@ -2053,7 +2053,7 @@ export const HINDI_COURSE = {
       "unitNumber": 8,
       "title": "Unit 8: आजीवन हिन्दी महारथ: प्रेमचंद, दिनकर & गौरवशाली धाराप्रवाह",
       "description": "Munshi Premchand, Ramdhari Singh Dinkar, formal oratory & Lifetime Native Masterhood",
-      "color": "from-amber-600 via-orange-700 to-rose-900",
+      "color": "from-purple-600 to-indigo-700",
       "guidebook": {
         "title": "Summit of Hindi: Literary Titans & Lifetime Native Honour",
         "explanation": "Reach the crowning pinnacle of Hindi fluency. Savor the empathetic genius of Munshi Premchand's novels, the fiery heroic poetry of Ramdhari Singh Dinkar's Rashmirathi, engage in eloquent national discourse, and graduate as a Lifetime Native Hindi speaker.",

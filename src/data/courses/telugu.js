@@ -1937,7 +1937,7 @@ export const TELUGU_COURSE = {
       "unitNumber": 8,
       "title": "Unit 8: వేమన శతకం, సామెతలు & అమర సాహిత్యం",
       "description": "Classical Literature, Vemana Verses, Timeless Proverbs & Lifetime Telugu Honor",
-      "color": "from-amber-700 via-rose-800 to-purple-950",
+      "color": "from-purple-600 to-indigo-700",
       "guidebook": {
         "title": "The Classical Soul of Telugu: 'దేశభాషలందు తెలుగు లెస్స'",
         "summary": "Declared by Sri Krishnadevaraya as the finest among Indian vernaculars ('దేశభాషలందు తెలుగు లెస్స'), Telugu holds over two millennia of literary majesty, from Nannaya to Vemana and Annamayya.",

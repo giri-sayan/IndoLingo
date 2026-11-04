@@ -1982,7 +1982,7 @@ export const BENGALI_COURSE = {
       "unitNumber": 8,
       "title": "Unit 8: রবীন্দ্রসাহিত্য, প্রবাদ ও খাঁটি বাঙালিয়ানা",
       "description": "Tagore Wisdom, Timeless Bengali Proverbs & Lifetime Bengali Honor",
-      "color": "from-amber-700 via-rose-800 to-purple-950",
+      "color": "from-purple-600 to-indigo-700",
       "guidebook": {
         "title": "The Soul of Bengali: 'সবার উপরে মানুষ সত্য'",
         "summary": "Home to Rabindranath Tagore, Kazi Nazrul Islam, and the 19th-century Bengal Renaissance, Bengali literature places humanism, poetic sensitivity, and fearless intellect at its pinnacle.",

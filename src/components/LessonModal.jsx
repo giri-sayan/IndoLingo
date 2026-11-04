@@ -679,7 +679,7 @@ export default function LessonModal({
                           key={idx}
                           onClick={() => handlePairClick('left', p)}
                           disabled={isMatched || status !== 'idle'}
-                          className={`w-full p-4 rounded-2xl border-2 border-b-4 text-center font-black text-sm transition-all cursor-pointer ${
+                          className={`w-full p-2.5 sm:p-4 rounded-2xl border-2 border-b-4 text-center font-black text-xs sm:text-sm break-words transition-all cursor-pointer ${
                             isMatched
                               ? 'bg-emerald-100 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 opacity-60 cursor-default'
                               : isSelected
@@ -708,7 +708,7 @@ export default function LessonModal({
                           key={idx}
                           onClick={() => handlePairClick('right', p)}
                           disabled={isMatched || status !== 'idle'}
-                          className={`w-full p-4 rounded-2xl border-2 border-b-4 text-center font-black text-sm transition-all cursor-pointer ${
+                          className={`w-full p-2.5 sm:p-4 rounded-2xl border-2 border-b-4 text-center font-black text-xs sm:text-sm break-words transition-all cursor-pointer ${
                             isMatched
                               ? 'bg-emerald-100 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 opacity-60 cursor-default'
                               : isSelected

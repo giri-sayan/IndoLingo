@@ -160,15 +160,15 @@ export default function ShopView({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Refill Hearts */}
-          <div className={`p-5 rounded-2xl border-2 flex items-center justify-between gap-4 ${
+          <div className={`p-5 rounded-2xl border-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 ${
             isDark ? 'bg-slate-800/40 border-slate-800' : 'bg-rose-50/40 border-rose-100'
           }`}>
-            <div className="flex items-center gap-3.5">
+            <div className="flex items-center gap-3.5 min-w-0">
               <div className="w-12 h-12 rounded-2xl bg-rose-500 text-white flex items-center justify-center shrink-0 shadow-sm">
                 <Heart className="w-6 h-6 fill-white" />
               </div>
-              <div>
-                <h3 className="font-black text-base text-slate-900 dark:text-slate-100">
+              <div className="min-w-0">
+                <h3 className="font-black text-base text-slate-900 dark:text-slate-100 truncate">
                   Refill Full Hearts
                 </h3>
                 <p className={`text-xs font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
@@ -180,7 +180,7 @@ export default function ShopView({
             <button
               onClick={onRefillHearts}
               disabled={hearts >= 5 || gems < 20}
-              className={`px-5 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider transition-all ${
+              className={`px-5 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider transition-all self-end sm:self-center shrink-0 ${
                 hearts >= 5 || gems < 20
                   ? 'btn-duo-gray'
                   : 'btn-duo-green text-white cursor-pointer'
@@ -191,15 +191,15 @@ export default function ShopView({
           </div>
 
           {/* Streak Freeze */}
-          <div className={`p-5 rounded-2xl border-2 flex items-center justify-between gap-4 ${
+          <div className={`p-5 rounded-2xl border-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 ${
             isDark ? 'bg-slate-800/40 border-slate-800' : 'bg-amber-50/40 border-amber-100'
           }`}>
-            <div className="flex items-center gap-3.5">
+            <div className="flex items-center gap-3.5 min-w-0">
               <div className="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-sm">
                 <Shield className="w-6 h-6" />
               </div>
-              <div>
-                <h3 className="font-black text-base text-slate-900 dark:text-slate-100">
+              <div className="min-w-0">
+                <h3 className="font-black text-base text-slate-900 dark:text-slate-100 truncate">
                   Cutting Chai Streak Freeze
                 </h3>
                 <p className={`text-xs font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>

@@ -1,10 +1,40 @@
 @import "tailwindcss";
 
 @layer base {
-  body {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  html {
+    overflow-x: clip;
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
     font-family: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     letter-spacing: -0.01em;
   }
+  body {
+    overflow-x: clip;
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+  }
+  #root {
+    width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+  }
+}
+
+/* Custom utility to completely hide scrollbar while preserving smooth touch & mouse scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* IndoLingo Theme Variables - Distinctive Royal Indian Tech Palette */
@@ -37,15 +67,6 @@ html.dark {
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   color-scheme: dark;
-}
-
-html.theme-saffron {
-  --bg-main: #fffaf0;
-  --bg-card: #ffffff;
-  --border-card: #fbd38d;
-  --border-card-thick: #f6ad55;
-  --text-main: #4a2810;
-  --text-muted: #9c4221;
 }
 
 /* IndoLingo 3D Chunky Buttons */
@@ -112,7 +133,7 @@ html.theme-saffron {
 .btn-duo-yellow {
   background-color: #f59e0b;
   border-bottom: 4px solid #d97706;
-  color: #78350f;
+  color: #ffffff;
   font-weight: 800;
   transition: all 0.08s ease;
 }

@@ -214,7 +214,11 @@ const ProfileView = ({ streak, _gems, _hearts, completedLessonsCount, selectedLa
               <button
                 onClick={() => {
                   sounds.playPop();
-                  navigator.clipboard.writeText(`I'm learning ${selectedLanguage?.name} on IndoLingo! ${streak}-day streak 🔥`);
+                  try {
+                    if (navigator?.clipboard?.writeText) {
+                      navigator.clipboard.writeText(`I'm learning ${selectedLanguage?.name} on IndoLingo! ${streak}-day streak 🔥`);
+                    }
+                  } catch {}
                   setCopiedLink(true);
                   setTimeout(() => setCopiedLink(false), 2000);
                 }}

@@ -73,7 +73,7 @@ export default function InstallAppModal({ isOpen, onClose, theme = 'dark' }) {
         <div className="text-center space-y-3 pt-2 pb-4">
           <div className="flex justify-center">
             <div className="relative">
-              <TigerLogo size={72} />
+              <TigerLogo size={72} withBadge={true} />
               <div className="absolute -bottom-1 -right-1 bg-emerald-500 text-white rounded-full p-1 shadow-md">
                 <Smartphone className="w-4 h-4" />
               </div>

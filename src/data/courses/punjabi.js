@@ -754,7 +754,7 @@ export const PUNJABI_COURSE = {
       "unitNumber": 3,
       "title": "Unit 3: ਗਿਣਤੀ, ਵੇਲਾ & ਰੋਜ਼ਾਨਾ ਜ਼ਿੰਦਗੀ",
       "description": "Numbers 1-20, telling the time, vibrant colors & routines",
-      "color": "from-yellow-500 to-amber-700",
+      "color": "from-amber-500 to-orange-500",
       "guidebook": {
         "title": "Daily Life in Motion: Numbers, Colours & Time",
         "explanation": "Mastering counting, telling time, and talking about your everyday habits will help you navigate Punjab effortlessly.",
@@ -2022,7 +2022,7 @@ export const PUNJABI_COURSE = {
       "unitNumber": 8,
       "title": "Unit 8: ਆਜੀਵਨ ਖ਼ਾਲਸ ਪੰਜਾਬੀ: ਸਾਹਿਤ, ਵਾਰਿਸ ਸ਼ਾਹ & ਉੱਚ ਮੁਹਾਰਤ",
       "description": "Classical Heer Waris Shah, Baba Farid, formal debate & Native Masterhood",
-      "color": "from-yellow-600 via-amber-700 to-rose-900",
+      "color": "from-purple-600 to-indigo-700",
       "guidebook": {
         "title": "Summit of Punjabi: Literary Mastery & Lifetime Native Honour",
         "explanation": "Reach the crowning pinnacle of Punjabi fluency. Savor the sublime verses of Waris Shah, Baba Farid, Bulleh Shah, and Amrita Pritam, engage in high-level debates, and claim your Lifetime Native Diploma.",

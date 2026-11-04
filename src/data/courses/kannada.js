@@ -241,7 +241,7 @@ export const KANNADA_COURSE = {
       "unitNumber": 1,
       "title": "Unit 1: ವರ್ಣಮಾಲೆ & ಮೂಲ ಪದಗಳು",
       "description": "Kannada Alphabet, Namaskara, Polite Introductions & Daily Basics",
-      "color": "from-yellow-600 to-amber-700",
+      "color": "from-amber-500 to-orange-500",
       "guidebook": {
         "title": "Kannada Foundations: Melodic Deccan Heritage",
         "summary": "Kannada is celebrated for its graceful curves and rich literary history dating back to Kavirajamarga. Politeness is woven through respectful suffixes like '-ri' and 'Neevu'.",
@@ -1695,7 +1695,7 @@ export const KANNADA_COURSE = {
       "unitNumber": 7,
       "title": "Unit 7: ಸ್ಯಾಂಡಲ್‌ವುಡ್ ಸಿನಿಮಾ & ಲೋಕಲ್ ಸ್ಲಾಂಗ್",
       "description": "Sandalwood Cinema, Bengaluru Tech & Street Slang (ಮಗಾ, ಸಖತ್, ಬೆಂಕಿ)",
-      "color": "from-indigo-600 via-purple-700 to-rose-800",
+      "color": "from-indigo-600 to-purple-700",
       "guidebook": {
         "title": "Bengaluru Slang: 'ಮಗಾ' & 'ಸಖತ್ ಬೆಂಕಿ'",
         "summary": "From addressing close buddies as 'ಮಗಾ' (Maga) to exclaiming 'ಸಖತ್' (Superb) and 'ಬೆಂಕಿ' (Fire!), modern Kannada crackles with youthful vibrancy.",
@@ -1933,7 +1933,7 @@ export const KANNADA_COURSE = {
       "unitNumber": 8,
       "title": "Unit 8: ವಚನ ಸಾಹಿತ್ಯ, ಗಾದೆಗಳು & ಕನ್ನಡಿಗ ಗೌರವ",
       "description": "Basavanna Vachanas, Timeless Gaadegalu & Lifetime Kannadiga Honor",
-      "color": "from-amber-700 via-rose-800 to-purple-950",
+      "color": "from-purple-600 to-indigo-700",
       "guidebook": {
         "title": "The Classical Soul of Kannada: 'ಸಿರಿಗನ್ನಡಂ ಗೆಲ್ಗೆ'",
         "summary": "From 12th-century Vachana reform poetry (Basaveshwara, Akka Mahadevi) to Rashtrakavi Kuvempu, Kannada literature celebrates social equality, divine simplicity, and cultural pride.",

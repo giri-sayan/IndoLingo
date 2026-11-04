@@ -18,8 +18,11 @@ import { INDIAN_LANGUAGES } from './data/languages';
 import { sounds } from './utils/audio';
 
 export default function App() {
-  // Theme state: 'light' | 'dark' | 'saffron'
-  const [theme, setTheme] = useState(() => localStorage.getItem('bhasha_theme') || 'dark');
+  // Theme state: 'light' | 'dark' (Defaulting to Duolingo dark mode, strictly sanitizing any legacy 'saffron' values)
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem('bhasha_theme');
+    return saved === 'light' ? 'light' : 'dark';
+  });
 
 
   // Selected Indian language (defaults to Hindi)
@@ -72,11 +75,11 @@ export default function App() {
   // Apply theme to <html> element
   useEffect(() => {
     const root = document.documentElement;
-    root.classList.remove('dark', 'theme-saffron');
-    if (theme === 'dark') {
+    root.classList.remove('theme-saffron');
+    if (theme === 'light') {
+      root.classList.remove('dark');
+    } else {
       root.classList.add('dark');
-    } else if (theme === 'saffron') {
-      root.classList.add('theme-saffron');
     }
     localStorage.setItem('bhasha_theme', theme);
   }, [theme]);
@@ -206,11 +209,9 @@ export default function App() {
 
   return (
     <div className={`min-h-screen flex flex-row font-sans transition-colors duration-200 ${
-      theme === 'dark' 
-        ? 'bg-[#131f24] text-white' 
-        : theme === 'saffron'
-        ? 'bg-[#fffaf0] text-[#4a2810]'
-        : 'bg-white text-slate-800'
+      theme === 'light' 
+        ? 'bg-white text-slate-800'
+        : 'bg-[#131f24] text-white'
     }`}>
       
       {/* Duolingo Left Fixed Navigation Sidebar */}
@@ -230,9 +231,14 @@ export default function App() {
       {/* Main Column (Header + Content Area) */}
       <div className="flex-1 flex flex-col min-w-0">
         
-        {/* Top Header Bar (Mobile only for Learn view, or compact top bar for other full-width views) */}
+        {/* Top Header Bar (Mobile/Tablet only for Learn view, or compact top bar for other full-width views) */}
         <Header
           selectedLanguage={selectedLanguage}
+          allLanguages={INDIAN_LANGUAGES}
+          onSelectLanguage={(lang) => {
+            setSelectedLanguage(lang);
+            setActiveTab('learn');
+          }}
           onOpenLanguageSelector={() => setIsLangModalOpen(true)}
           streak={streak}
           gems={gems}
@@ -249,17 +255,17 @@ export default function App() {
           onToggleTheme={handleToggleTheme}
           onOpenSettings={() => setIsSettingsOpen(true)}
           onOpenInstallModal={() => setIsInstallModalOpen(true)}
-          className={activeTab === 'learn' ? 'lg:hidden' : ''}
         />
 
         {/* Dynamic Main View */}
-        <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 lg:pb-12">
+        <main className="flex-1 w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 pb-28 lg:pb-12">
           
           {activeTab === 'learn' && (
-            <div className="flex flex-col lg:flex-row gap-8 items-start justify-center">
+            <div className="flex flex-col xl:flex-row gap-6 xl:gap-8 items-start justify-center w-full">
               {/* Central Duolingo Snake Path */}
-              <div className="flex-1 w-full max-w-xl">
+              <div className="flex-1 w-full max-w-xl mx-auto">
                 <LessonPath
+                  key={selectedLanguage.id}
                   selectedLanguage={selectedLanguage}
                   completedLessons={completedLessons}
                   onStartLesson={handleStartLesson}
@@ -292,6 +298,7 @@ export default function App() {
 
           {(activeTab === 'practice' || activeTab === 'akshara') && (
             <AksharaTrainer
+              key={selectedLanguage.id}
               selectedLanguage={selectedLanguage}
               onAddGems={(amount) => setGems(prev => prev + amount)}
               theme={theme}

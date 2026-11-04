@@ -162,42 +162,42 @@ export default function Leaderboard({
                         : 'hover:bg-slate-50'
                     }`}
                   >
-                    <div className="flex items-center gap-3.5">
-                      <span className={`w-7 text-center font-black text-sm ${
-                        learner.rank === 1 ? 'text-amber-500 text-lg' :
-                        learner.rank === 2 ? 'text-slate-400 text-base' :
-                        learner.rank === 3 ? 'text-amber-700 text-base' :
+                    <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0 flex-1">
+                      <span className={`w-6 sm:w-7 text-center font-black text-xs sm:text-sm shrink-0 ${
+                        learner.rank === 1 ? 'text-amber-500 text-base sm:text-lg' :
+                        learner.rank === 2 ? 'text-slate-400 text-sm sm:text-base' :
+                        learner.rank === 3 ? 'text-amber-700 text-sm sm:text-base' :
                         'text-slate-400'
                       }`}>
                         {learner.rank === 1 ? '🥇' : learner.rank === 2 ? '🥈' : learner.rank === 3 ? '🥉' : `#${learner.rank}`}
                       </span>
                       
-                      <span className="text-2xl">{learner.avatar}</span>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <p className={`text-sm ${
+                      <span className="text-xl sm:text-2xl shrink-0">{learner.avatar}</span>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                          <p className={`text-xs sm:text-sm truncate max-w-[140px] sm:max-w-none ${
                             learner.isUser ? 'font-black text-emerald-600 dark:text-emerald-400' : 'font-extrabold'
                           }`}>
                             {learner.name}
                           </p>
                           {isPromotion && (
-                            <span className="text-[10px] font-black uppercase text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950 px-1.5 py-0.2 rounded-md flex items-center gap-0.5">
+                            <span className="text-[9px] sm:text-[10px] font-black uppercase text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950 px-1.5 py-0.2 rounded-md flex items-center gap-0.5 shrink-0">
                               <ArrowUp className="w-2.5 h-2.5" /> Promotion
                             </span>
                           )}
                           {isDemotion && !isPromotion && (
-                            <span className="text-[10px] font-black uppercase text-rose-600 dark:text-rose-400 bg-rose-100 dark:bg-rose-950 px-1.5 py-0.2 rounded-md flex items-center gap-0.5">
+                            <span className="text-[9px] sm:text-[10px] font-black uppercase text-rose-600 dark:text-rose-400 bg-rose-100 dark:bg-rose-950 px-1.5 py-0.2 rounded-md flex items-center gap-0.5 shrink-0">
                               <ArrowDown className="w-2.5 h-2.5" /> Demotion
                             </span>
                           )}
                         </div>
-                        <p className="text-xs text-slate-400 font-semibold">
+                        <p className="text-[11px] sm:text-xs text-slate-400 font-semibold truncate">
                           {learner.country} • {learner.league} League
                         </p>
                       </div>
                     </div>
 
-                    <div className="text-right">
+                    <div className="text-right shrink-0 ml-2">
                       <span className="font-black text-base">
                         {learner.xp}
                       </span>

@@ -1294,7 +1294,7 @@ export const GUJARATI_COURSE = {
       "unitNumber": 5,
       "title": "Unit 5: વ્યાકરણ, ક્રિયાપદો & સંવાદ",
       "description": "Present, past, future tenses, respectful speech & question structures",
-      "color": "from-rose-600 to-amber-700",
+      "color": "from-rose-500 to-pink-600",
       "guidebook": {
         "title": "Structure & Grace: Gujarati Grammar & Tenses",
         "explanation": "Gujarati verbs inflect for gender, number, and tense. Polite address uses 'તમે' (Tame) or 'આપ' (Aap) with verbs ending in -ઓ (o) or -શો (sho).",
@@ -2051,7 +2051,7 @@ export const GUJARATI_COURSE = {
       "unitNumber": 8,
       "title": "Unit 8: આજીવન ગૌરવવંત ગુજરાતી: નર્મદ, ગાંધી & પરાકાષ્ઠા",
       "description": "Narmad, Mahatma Gandhi, Meghani, oratory, and Lifetime Native Masterhood",
-      "color": "from-amber-600 via-orange-700 to-emerald-900",
+      "color": "from-emerald-500 to-teal-600",
       "guidebook": {
         "title": "Summit of Gujarati: Literature, Truth & Lifetime Native Honour",
         "explanation": "Attain true mastery of the Gujarati language. From Kavi Narmad's thunderous 'Jai Jai Garvi Gujarat' to Mahatma Gandhi's pristine Gujarati prose in 'Satya na Prayogo', complete your transformation into a Lifetime Native.",

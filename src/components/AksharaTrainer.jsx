@@ -62,7 +62,6 @@ export default function AksharaTrainer({ selectedLanguage, onAddGems, theme = 'd
   const [strokeMatch, setStrokeMatch] = useState(null);
 
   // Airlearn SRS Spaced Repetition States
-  const [prevLangId, setPrevLangId] = useState(selectedLanguage.id);
   const [flashcardIdx, setFlashcardIdx] = useState(0);
   const [isCardFlipped, setIsCardFlipped] = useState(false);
   const [srsSubTab, setSrsSubTab] = useState('all'); // 'all' | 'dojo'
@@ -81,14 +80,14 @@ export default function AksharaTrainer({ selectedLanguage, onAddGems, theme = 'd
   const [expandedBsSentence, setExpandedBsSentence] = useState(null);
   const [showCertificate, setShowCertificate] = useState(false);
 
-  // Reset transient sub-mode selections when language changes
-  if (selectedLanguage.id !== prevLangId) {
-    setPrevLangId(selectedLanguage.id);
-    setFlashcardIdx(0);
-    setIsCardFlipped(false);
-    setActiveMatraChar(null);
-    setSelectedLetter(null);
-  }
+  // Clean up speech recognition on unmount
+  useEffect(() => {
+    return () => {
+      if (recognitionRef.current) {
+        try { recognitionRef.current.abort(); } catch {}
+      }
+    };
+  }, []);
 
   // Flashcards derived from course lessons
   const flashcardDeck = useMemo(() => {
@@ -556,7 +555,7 @@ export default function AksharaTrainer({ selectedLanguage, onAddGems, theme = 'd
           }`}
         >
           <MessageSquare className="w-4 h-4 shrink-0" />
-          <span>Falou Dialogs</span>
+          <span>Conversations</span>
         </button>
 
         <button
@@ -568,7 +567,7 @@ export default function AksharaTrainer({ selectedLanguage, onAddGems, theme = 'd
           }`}
         >
           <PenTool className="w-4 h-4 shrink-0" />
-          <span>Ling Akshara</span>
+          <span>Letters & Script</span>
         </button>
 
         <button
@@ -580,7 +579,7 @@ export default function AksharaTrainer({ selectedLanguage, onAddGems, theme = 'd
           }`}
         >
           <Layers className="w-4 h-4 shrink-0" />
-          <span>Airlearn SRS</span>
+          <span>Review Dojo</span>
         </button>
 
         <button
@@ -592,12 +591,12 @@ export default function AksharaTrainer({ selectedLanguage, onAddGems, theme = 'd
           }`}
         >
           <Globe2 className="w-4 h-4 shrink-0" />
-          <span>Bhasha Sangam</span>
+          <span>Pan-Indian Matrix</span>
         </button>
       </div>
 
       {/* ========================================================================= */}
-      {/* 1. FALOU CONVERSATIONAL DIALOGUES */}
+      {/* 1. INTERACTIVE CONVERSATIONAL DIALOGUES */}
       {/* ========================================================================= */}
       {practiceMode === 'conversations' && (
         <div className="space-y-6">
@@ -608,7 +607,7 @@ export default function AksharaTrainer({ selectedLanguage, onAddGems, theme = 'd
                 <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div>
                     <span className="text-[11px] font-black uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full backdrop-blur">
-                      Falou Real-World Conversations
+                      Real-World Indian Dialogues
                     </span>
                     <h1 className="text-2xl sm:text-3xl font-black mt-2">
                       Speak Like an Indian Local
@@ -928,7 +927,7 @@ export default function AksharaTrainer({ selectedLanguage, onAddGems, theme = 'd
             <div className="flex items-center justify-between border-b border-[#2b3e48] pb-3">
               <div>
                 <span className={`text-[11px] font-black uppercase tracking-wider ${srsSubTab === 'dojo' ? 'text-rose-400' : 'text-[#ff9600]'}`}>
-                  {srsSubTab === 'dojo' ? '🥋 SuperMemo-2 Mistake Retention Dojo' : 'Airlearn Spaced Repetition (SRS)'}
+                  {srsSubTab === 'dojo' ? '🥋 SuperMemo-2 Mistake Retention Dojo' : 'Spaced Repetition Review (SRS)'}
                 </span>
                 <h2 className="text-xl font-black mt-0.5">
                   {srsSubTab === 'dojo' ? 'Conquer Tricky Words' : 'Smart Vocabulary Review'}
@@ -1572,8 +1571,8 @@ export default function AksharaTrainer({ selectedLanguage, onAddGems, theme = 'd
         const activeDisplayRoman = activeMatraChar ? `${selectedLetter.roman} + ${activeMatraChar.roman} (${activeMatraChar.name})` : selectedLetter.roman;
 
         return (
-          <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-150">
-            <div className="rounded-3xl max-w-sm w-full p-6 text-center space-y-4 border-2 shadow-2xl bg-[#18262d] border-[#38464f] text-white">
+          <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-150">
+            <div className="rounded-3xl max-w-sm w-full p-4 sm:p-6 text-center space-y-4 border-2 shadow-2xl bg-[#18262d] border-[#38464f] text-white max-h-[90vh] overflow-y-auto">
               <div className="flex justify-between items-center pb-2 border-b border-[#2b3e48]">
                 <span className="text-xs font-black uppercase tracking-wider text-emerald-400">
                   Letter Practice • {selectedLanguage.name}

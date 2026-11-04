@@ -33,10 +33,10 @@ export default function RightSidebar({
   }, []);
 
   return (
-    <aside className="w-full lg:w-92 space-y-4 select-none shrink-0">
+    <aside className="w-full xl:w-80 2xl:w-92 space-y-4 select-none shrink-0 max-w-full">
 
       {/* 1. Duolingo Top Stats Row (Desktop Header Replacement) */}
-      <div ref={statsRef} className="hidden lg:flex items-center justify-between gap-2 px-1 py-1 relative">
+      <div ref={statsRef} className="hidden xl:flex items-center justify-between gap-2 px-1 py-1 relative">
         {/* Course Flag Selector */}
         <button
           onClick={() => {

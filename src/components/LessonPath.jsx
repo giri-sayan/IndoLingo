@@ -8,13 +8,10 @@ import {
   Headphones, 
   Trophy, 
   BookOpen, 
-  Play, 
   X, 
   ArrowUp,
-  Zap,
   Lock,
-  Unlock,
-  Compass
+  Unlock
 } from 'lucide-react';
 import Mascot from './Mascot';
 import { sounds } from '../utils/audio';
@@ -24,7 +21,7 @@ export default function LessonPath({
   selectedLanguage,
   completedLessons = {},
   onStartLesson,
-  onUnlockUpToLesson,
+  _onUnlockUpToLesson,
   onClaimChest,
   onOpenGuidebook,
   equippedOutfit = 'default',
@@ -32,6 +29,7 @@ export default function LessonPath({
 }) {
   // Active selected node popover state: { lesson, unit }
   const [selectedNode, setSelectedNode] = useState(null);
+  const [isDismissed, setIsDismissed] = useState(false);
   const [showGraduationModal, setShowGraduationModal] = useState(false);
   const [freeStudyMode, setFreeStudyMode] = useState(() => {
     return localStorage.getItem('bhasha_free_study_mode') === 'true';
@@ -59,11 +57,48 @@ export default function LessonPath({
   const isCourseGraduated = completedCourseLessonsCount >= Math.min(courseLessons.length, 8);
   const activeDiploma = LIFETIME_DIPLOMAS[selectedLanguage.id] || LIFETIME_DIPLOMAS.hindi;
 
+  // Click outside to dismiss popover without blocking page scroll
+  React.useEffect(() => {
+    const handleDocumentClick = (e) => {
+      if (!isDismissed || selectedNode) {
+        if (!e.target.closest('.lesson-popover-card') && !e.target.closest('.lesson-node-btn')) {
+          setSelectedNode(null);
+          setIsDismissed(true);
+        }
+      }
+    };
+    document.addEventListener('click', handleDocumentClick);
+    return () => document.removeEventListener('click', handleDocumentClick);
+  }, [selectedNode, isDismissed]);
+
+  const handleDismissPopover = () => {
+    sounds.playPop();
+    setSelectedNode(null);
+    setIsDismissed(true);
+  };
+
   const handleNodeClick = (lesson, unit) => {
     sounds.playPop();
-    if (selectedNode?.lesson.id === lesson.id) {
+    const isCompleted = !!completedLessons[lesson.id];
+    const unitLessons = unit.lessons || [];
+    const lessonIdx = unitLessons.findIndex(l => l.id === lesson.id);
+    const unitIdx = selectedLanguage.units.findIndex(u => u.id === unit.id);
+    const isPrevCompleted = lessonIdx === 0 
+      ? (unitIdx === 0 || !!completedLessons[selectedLanguage.units[unitIdx - 1]?.lessons?.slice(-1)[0]?.id])
+      : !!completedLessons[unitLessons[lessonIdx - 1]?.id];
+    const isCurrent = !isCompleted && isPrevCompleted;
+
+    const isThisPopoverOpen = selectedNode 
+      ? selectedNode.lesson.id === lesson.id 
+      : (!isDismissed && isCurrent);
+
+    // If popover is already open, start lesson! Otherwise toggle popover.
+    if (isThisPopoverOpen) {
       setSelectedNode(null);
+      setIsDismissed(false);
+      onStartLesson(lesson, unit);
     } else {
+      setIsDismissed(false);
       setSelectedNode({ lesson, unit });
     }
   };
@@ -74,68 +109,35 @@ export default function LessonPath({
   };
 
   return (
-    <div className="space-y-8 pb-28 max-w-xl mx-auto select-none relative">
-      {/* Click outside popover backdrop */}
-      {selectedNode && (
-        <div 
-          className="fixed inset-0 z-40 bg-black/30 backdrop-blur-[1px]"
-          onClick={() => setSelectedNode(null)}
-        />
-      )}
-
-      {/* Course Overview & Free Study Mode Control Bar */}
-      <div className="bg-[#18262d] border-2 border-[#2b3e48] rounded-3xl p-4 sm:p-5 shadow-xl text-white space-y-4">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <span className="text-3xl leading-none">{selectedLanguage.flagEmoji}</span>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-lg font-black tracking-tight text-white">
-                  {selectedLanguage.name} Course
-                </h1>
-                <span className="text-xs font-black px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                  {selectedLanguage.nativeName}
-                </span>
-              </div>
-              <p className="text-xs text-slate-400 font-bold mt-0.5">
-                {completedCourseLessonsCount} of {courseLessons.length} lessons mastered • {selectedLanguage.units?.length || 8} Units
-              </p>
-            </div>
-          </div>
-
-          {/* Free Study Mode Toggle */}
-          <button
-            onClick={toggleFreeStudyMode}
-            className={`flex items-center gap-2 px-3.5 py-2 rounded-2xl border-2 text-xs font-black uppercase tracking-wider transition-all cursor-pointer shadow-sm ${
-              freeStudyMode
-                ? 'bg-amber-500/20 border-amber-400 text-amber-300 ring-2 ring-amber-400/20'
-                : 'bg-[#20333d] border-[#38464f] text-slate-300 hover:border-slate-400'
-            }`}
-            title="Toggle between sequential unlock and free exploration of any lesson"
-          >
-            {freeStudyMode ? <Unlock className="w-3.5 h-3.5 text-amber-400" /> : <Lock className="w-3.5 h-3.5 text-slate-400" />}
-            <span>{freeStudyMode ? 'FREE STUDY (UNLOCKED)' : 'SEQUENTIAL PATH'}</span>
-          </button>
-        </div>
-
+    <div className="space-y-8 pb-32 max-w-xl mx-auto select-none relative w-full">
+      {/* Duolingo Compact Course Progress & Quick Jump Bar (Tablet / Desktop only) */}
+      <div className="hidden sm:flex flex-row items-center justify-between gap-2.5 px-1 py-1 mb-2">
         {/* Quick Unit Jump Navigator Pills */}
-        <div className="pt-2 border-t border-[#2b3e48]">
-          <div className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-slate-400 mb-2">
-            <Compass className="w-3.5 h-3.5 text-blue-400" />
-            <span>JUMP TO UNIT:</span>
-          </div>
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
-            {selectedLanguage.units.map((u, i) => (
-              <button
-                key={u.id}
-                onClick={() => scrollToUnit(u.id)}
-                className="px-2.5 py-1 rounded-xl bg-[#20333d] hover:bg-[#283f4d] border border-[#38464f] hover:border-blue-400 text-[11px] font-black text-slate-300 hover:text-white transition whitespace-nowrap cursor-pointer shrink-0"
-              >
-                Unit {i + 1}
-              </button>
-            ))}
-          </div>
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar w-full sm:w-auto py-0.5">
+          {selectedLanguage.units.map((u, i) => (
+            <button
+              key={u.id}
+              onClick={() => scrollToUnit(u.id)}
+              className="px-3 py-1.5 rounded-xl bg-[#18262d] hover:bg-[#20333d] border border-[#2b3e48] hover:border-[#1cb0f6] text-xs font-black text-slate-300 hover:text-white transition whitespace-nowrap cursor-pointer shrink-0 shadow-sm"
+            >
+              Unit {i + 1}
+            </button>
+          ))}
         </div>
+
+        {/* Free Study Mode Toggle Pill */}
+        <button
+          onClick={toggleFreeStudyMode}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-[11px] font-black uppercase tracking-wider transition-all cursor-pointer shadow-sm shrink-0 ${
+            freeStudyMode
+              ? 'bg-amber-500/20 border-amber-400 text-amber-300 ring-2 ring-amber-400/20'
+              : 'bg-[#18262d] border-[#2b3e48] text-slate-400 hover:text-slate-200'
+          }`}
+          title="Toggle between sequential unlock and free exploration"
+        >
+          {freeStudyMode ? <Unlock className="w-3.5 h-3.5 text-amber-400" /> : <Lock className="w-3.5 h-3.5 text-slate-400" />}
+          <span>{freeStudyMode ? 'Free Study' : 'Sequential'}</span>
+        </button>
       </div>
 
       {selectedLanguage.units.map((unit, unitIdx) => {
@@ -143,63 +145,122 @@ export default function LessonPath({
         const completedCount = unitLessons.filter(l => completedLessons[l.id]).length;
         const isUnitCompleted = completedCount === unitLessons.length && unitLessons.length > 0;
 
-        // Duolingo unit banner color themes matching screenshots:
-        // Unit 1: Warm bronze/amber (#935323), Unit 2: Green (#58cc02), Unit 3: Blue (#1cb0f6), Unit 4: Purple (#a855f7)
+        // Authentic Duolingo Unit Color Palettes (Vibrant, Cheerful, Screenshot Matched):
+        // Unit 1: Classic Green (#58cc02), Unit 2: Lavender/Purple (#a855f7 - exact match to user screenshot!), Unit 3: Cyan (#1cb0f6), Unit 4: Orange (#ff9600)
         const bannerColorSets = [
-          { bg: 'bg-[#935323]', border: 'border-[#733f17]', text: 'text-[#935323]', activeNodeBg: 'bg-[#935323] border-[#733f17]' },
-          { bg: 'bg-[#58cc02]', border: 'border-[#46a302]', text: 'text-[#58cc02]', activeNodeBg: 'bg-[#58cc02] border-[#46a302]' },
-          { bg: 'bg-[#1cb0f6]', border: 'border-[#1899d6]', text: 'text-[#1cb0f6]', activeNodeBg: 'bg-[#1cb0f6] border-[#1899d6]' },
-          { bg: 'bg-[#a855f7]', border: 'border-[#9333ea]', text: 'text-[#a855f7]', activeNodeBg: 'bg-[#a855f7] border-[#9333ea]' }
+          { 
+            bg: 'bg-[#58cc02]', 
+            border: 'border-[#46a302]', 
+            text: 'text-[#58cc02]', 
+            activeNodeBg: 'bg-[#58cc02] border-[#46a302]', 
+            shadowColor: '#3c8b00', 
+            btnText: 'text-[#58cc02]',
+            hex: '#58cc02',
+            name: 'green' 
+          },
+          { 
+            bg: 'bg-[#a855f7]', 
+            border: 'border-[#9333ea]', 
+            text: 'text-[#a855f7]', 
+            activeNodeBg: 'bg-[#a855f7] border-[#9333ea]', 
+            shadowColor: '#7e22ce', 
+            btnText: 'text-[#a855f7]',
+            hex: '#a855f7',
+            name: 'purple' 
+          },
+          { 
+            bg: 'bg-[#1cb0f6]', 
+            border: 'border-[#1899d6]', 
+            text: 'text-[#1cb0f6]', 
+            activeNodeBg: 'bg-[#1cb0f6] border-[#1899d6]', 
+            shadowColor: '#0e75a7', 
+            btnText: 'text-[#1cb0f6]',
+            hex: '#1cb0f6',
+            name: 'blue' 
+          },
+          { 
+            bg: 'bg-[#ff9600]', 
+            border: 'border-[#e08500]', 
+            text: 'text-[#ff9600]', 
+            activeNodeBg: 'bg-[#ff9600] border-[#e08500]', 
+            shadowColor: '#b86d00', 
+            btnText: 'text-[#ff9600]',
+            hex: '#ff9600',
+            name: 'orange' 
+          },
+          { 
+            bg: 'bg-[#ff4b4b]', 
+            border: 'border-[#ea2b2b]', 
+            text: 'text-[#ff4b4b]', 
+            activeNodeBg: 'bg-[#ff4b4b] border-[#ea2b2b]', 
+            shadowColor: '#c51f1f', 
+            btnText: 'text-[#ff4b4b]',
+            hex: '#ff4b4b',
+            name: 'red' 
+          },
+          { 
+            bg: 'bg-[#00cd9c]', 
+            border: 'border-[#00a880]', 
+            text: 'text-[#00cd9c]', 
+            activeNodeBg: 'bg-[#00cd9c] border-[#00a880]', 
+            shadowColor: '#008263', 
+            btnText: 'text-[#00cd9c]',
+            hex: '#00cd9c',
+            name: 'teal' 
+          },
+          { 
+            bg: 'bg-[#6366f1]', 
+            border: 'border-[#4f46e5]', 
+            text: 'text-[#6366f1]', 
+            activeNodeBg: 'bg-[#6366f1] border-[#4f46e5]', 
+            shadowColor: '#3730a3', 
+            btnText: 'text-[#6366f1]',
+            hex: '#6366f1',
+            name: 'indigo' 
+          },
+          { 
+            bg: 'bg-[#eab308]', 
+            border: 'border-[#ca8a04]', 
+            text: 'text-[#eab308]', 
+            activeNodeBg: 'bg-[#eab308] border-[#ca8a04]', 
+            shadowColor: '#a16207', 
+            btnText: 'text-[#eab308]',
+            hex: '#eab308',
+            name: 'amber' 
+          }
         ];
         const unitTheme = bannerColorSets[unitIdx % bannerColorSets.length];
 
         return (
           <div key={unit.id} id={`unit-banner-${unit.id}`} className="relative scroll-mt-24">
-            {/* Duolingo Unit Header Banner (Image 1 & 2) */}
-            <div className={`rounded-2xl p-5 text-white shadow-lg relative overflow-hidden transition-all ${unitTheme.bg}`}>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between relative z-10 gap-3">
-                <div>
-                  <p className="text-[11px] font-black uppercase tracking-wider text-white/80 flex items-center gap-1.5">
-                    <span>←</span> SECTION {Math.floor(unitIdx / 3) + 1}, UNIT {unitIdx + 1}
-                  </p>
-                  <h2 className="text-xl sm:text-2xl font-black mt-1 leading-snug">
-                    {unit.title.includes(':') ? unit.title.split(':')[1].trim() : unit.title}
-                  </h2>
-                </div>
+            {/* Duolingo Unit Header Banner (Exact Match to Screenshot) */}
+            <div className={`rounded-3xl p-4 sm:p-5 text-white shadow-xl relative overflow-hidden transition-all w-full max-w-full ${unitTheme.bg} flex items-center justify-between`}>
+              <div className="min-w-0 pr-4">
+                <p className="text-[11px] sm:text-xs font-black uppercase tracking-wider text-white/80">
+                  SECTION {Math.floor(unitIdx / 3) + 1}, UNIT {unitIdx + 1}
+                </p>
+                <h2 className="text-lg sm:text-xl font-black mt-0.5 leading-snug break-words">
+                  {unit.title.includes(':') ? unit.title.split(':')[1].trim() : unit.title}
+                </h2>
+              </div>
 
-                {/* Header Action Buttons: Start Unit & Notebook GUIDEBOOK */}
-                <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
-                  {unitLessons[0] && (
-                    <button
-                      onClick={() => {
-                        sounds.playPop();
-                        onStartLesson(unitLessons[0], unit);
-                      }}
-                      className="flex items-center gap-1.5 px-3 py-2.5 rounded-2xl bg-white text-slate-900 font-black text-xs uppercase tracking-wider hover:bg-slate-100 transition shadow-sm cursor-pointer active:scale-95"
-                      title="Start studying this unit"
-                    >
-                      <Play className="w-3.5 h-3.5 fill-slate-900 text-slate-900" />
-                      <span>START UNIT</span>
-                    </button>
-                  )}
-
-                  <button
-                    onClick={() => {
-                      sounds.playPop();
-                      onOpenGuidebook(unit);
-                    }}
-                    className="flex items-center gap-2 px-3.5 py-2.5 rounded-2xl bg-white/20 hover:bg-white/30 backdrop-blur font-black text-xs uppercase tracking-wider transition-all border border-white/30 cursor-pointer shrink-0 active:scale-95"
-                    title="Open Unit Guidebook"
-                  >
-                    <BookOpen className="w-4 h-4 text-white stroke-[2.5]" />
-                    <span className="font-extrabold tracking-wider">GUIDEBOOK</span>
-                  </button>
-                </div>
+              {/* Guidebook Notebook Button with Vertical Divider (Screenshot Match) */}
+              <div className="flex items-center pl-4 border-l border-white/20 shrink-0">
+                <button
+                  onClick={() => {
+                    sounds.playPop();
+                    onOpenGuidebook(unit);
+                  }}
+                  className="p-2 sm:p-2.5 rounded-2xl hover:bg-white/15 transition cursor-pointer flex items-center justify-center text-white active:scale-95"
+                  title="Open Unit Guidebook"
+                >
+                  <BookOpen className="w-6 h-6 stroke-[2.5]" />
+                </button>
               </div>
             </div>
 
             {/* Stepping Stones Path */}
-            <div className="py-10 relative flex flex-col items-center gap-7 z-20">
+            <div className={`py-10 relative flex flex-col items-center gap-7 w-full overflow-visible ${selectedNode?.unit.id === unit.id ? 'z-50' : 'z-20'}`}>
               {unitLessons.map((lesson, lessonIdx) => {
                 const isCompleted = !!completedLessons[lesson.id];
                 const isPrevCompleted = lessonIdx === 0 
@@ -214,19 +275,23 @@ export default function LessonPath({
                 const offsets = ['translate-x-0', '-translate-x-12 sm:-translate-x-16', 'translate-x-0', 'translate-x-12 sm:translate-x-16'];
                 const offsetClass = offsets[lessonIdx % 4];
 
-                const isPopoverOpen = selectedNode?.lesson.id === lesson.id;
-                const openBelow = lessonIdx === 0;
+                const isPopoverOpen = selectedNode 
+                  ? selectedNode.lesson.id === lesson.id 
+                  : (!isDismissed && isCurrent);
 
-                const horizontalAlign = (lessonIdx % 4 === 1)
-                  ? 'left-0 sm:left-1/2 sm:-translate-x-1/2'
+                // Counter-offset on mobile so popover is always centered on screen and never bleeds outside app frame
+                const popoverCounterOffset = (lessonIdx % 4 === 1)
+                  ? 'translate-x-12 sm:translate-x-0'
                   : (lessonIdx % 4 === 3)
-                  ? 'right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2'
-                  : 'left-1/2 -translate-x-1/2';
+                  ? '-translate-x-12 sm:translate-x-0'
+                  : '';
+
+                const horizontalAlign = 'left-1/2 -translate-x-1/2';
 
                 const arrowAlign = (lessonIdx % 4 === 1)
-                  ? 'ml-8 sm:mx-auto'
+                  ? '-translate-x-10 sm:mx-auto'
                   : (lessonIdx % 4 === 3)
-                  ? 'mr-8 sm:mx-auto'
+                  ? 'translate-x-10 sm:mx-auto'
                   : 'mx-auto';
 
                 // Dynamic icon based on lesson type & index
@@ -239,83 +304,82 @@ export default function LessonPath({
                     key={lesson.id} 
                     className={`relative flex items-center justify-center transition-transform ${offsetClass} ${isPopoverOpen ? 'z-50' : 'z-20'}`}
                   >
-                    {/* Mascot illustration on side of path (Image 2) */}
-                    {lessonIdx === 1 && unitIdx === 0 && (
-                      <div className="absolute -left-28 sm:-left-36 top-0 z-10 pointer-events-none hidden sm:block">
+                    {/* Left Quest Avatar Badge (Exact Match to Duolingo App Screenshot) */}
+                    {lessonIdx === 0 && (
+                      <div className="absolute -left-20 sm:-left-28 top-0 z-10 flex flex-col items-center select-none">
+                        <div className="p-1 sm:p-1.5 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-700 border-2 border-indigo-300 shadow-xl flex flex-col items-center animate-bounce-subtle cursor-pointer hover:scale-105 transition">
+                          <span className="text-xl sm:text-2xl">🧙‍♀️</span>
+                          <span className="text-[8px] sm:text-[9px] font-black uppercase text-white bg-indigo-950/90 px-1 sm:px-1.5 py-0.5 rounded-full mt-0.5 shadow-sm">
+                            20 days
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Right Companion Mascot Silhouette (Exact Match to Duolingo App Screenshot) */}
+                    {lessonIdx === 2 && (
+                      <div className="absolute -right-20 sm:-right-28 top-0 z-10 flex flex-col items-center select-none opacity-50 hover:opacity-90 transition">
                         <div className="relative">
-                          <Mascot mood="happy" size={82} outfit={equippedOutfit} />
+                          <Mascot mood="idle" size={54} outfit={equippedOutfit} />
+                        </div>
+                        <div className="flex items-center gap-0.5 sm:gap-1 mt-0.5 text-slate-500 text-[10px] sm:text-xs">
+                          <span>★</span><span>★</span><span>★</span>
                         </div>
                       </div>
                     )}
 
-                    {/* Chest illustration on right side of path (Image 2) */}
-                    {lessonIdx === 1 && unitIdx === 0 && (
-                      <div className="absolute -right-24 sm:-right-32 top-2 z-10 pointer-events-none hidden sm:block opacity-60">
-                        <div className="w-12 h-12 rounded-2xl bg-[#2b3e48] border-2 border-[#38464f] flex items-center justify-center text-2xl">
-                          🔒
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Milestone 3D Node Button */}
+                    {/* Milestone 3D Node Button Container */}
                     <div className={`relative flex flex-col items-center justify-center ${isPopoverOpen ? 'z-50' : ''}`}>
                       
-                      {/* Duolingo START Speech Bubble Tooltip above active node (Image 1) */}
+                      {/* Floating Duolingo START Bubble */}
                       {isCurrent && !isPopoverOpen && (
-                        <div 
-                          onClick={() => {
-                            sounds.playPop();
-                            onStartLesson(lesson, unit);
-                          }}
-                          className="absolute bottom-full mb-3 z-30 animate-bounce-subtle flex flex-col items-center cursor-pointer group"
-                          title="Click to start lesson"
-                        >
-                          <div className={`px-4 py-1.5 rounded-xl font-black text-xs uppercase tracking-wider text-white shadow-lg group-hover:brightness-110 transition ${unitTheme.bg}`}>
+                        <div className="absolute -top-11 z-30 animate-bounce flex flex-col items-center pointer-events-none">
+                          <div className={`px-3 py-1 rounded-xl ${unitTheme.bg} text-white font-black text-xs uppercase tracking-wider shadow-md`}>
                             START
                           </div>
-                          {/* Triangle pointer */}
-                          <div className={`w-3 h-3 rotate-45 -mt-1.5 ${unitTheme.bg}`} />
+                          <div className={`w-2.5 h-2.5 ${unitTheme.bg} rotate-45 -mt-1 shadow-sm`} />
                         </div>
                       )}
 
-                      {/* Circular Progress Ring on active node */}
+                      {/* Duolingo Segmented Progress Capsule Orbit Ring (Screenshot Match) */}
                       {isCurrent && (
-                        <svg className="absolute -inset-3 w-[calc(100%+24px)] h-[calc(100%+24px)] pointer-events-none -rotate-90 z-10" viewBox="0 0 100 100">
+                        <svg className="absolute -inset-3.5 w-[calc(100%+28px)] h-[calc(100%+28px)] pointer-events-none -rotate-90 z-10" viewBox="0 0 100 100">
                           <circle
                             cx="50"
                             cy="50"
                             r="44"
                             fill="none"
-                            stroke="#38464f"
-                            strokeWidth="5"
-                            className="opacity-40"
+                            stroke="rgba(255,255,255,0.2)"
+                            strokeWidth="6"
+                            strokeDasharray="32 14"
+                            strokeLinecap="round"
                           />
                           <circle
                             cx="50"
                             cy="50"
                             r="44"
                             fill="none"
-                            stroke="#ff9600"
-                            strokeWidth="5"
-                            strokeDasharray="276"
-                            strokeDashoffset="120"
+                            stroke="#ffffff"
+                            strokeWidth="6"
+                            strokeDasharray="32 14"
+                            strokeDashoffset="0"
                             strokeLinecap="round"
+                            className="drop-shadow-sm"
                           />
                         </svg>
                       )}
 
+                      {/* 3D Duolingo Tactile Stepping Stone Button */}
                       <button
-                        onClick={() => {
-                          handleNodeClick(lesson, unit);
-                        }}
-                        className={`w-18 h-18 sm:w-20 sm:h-20 rounded-full flex flex-col items-center justify-center font-black transition-all cursor-pointer relative z-20 ${
-                          isCompleted
-                            ? 'bg-[#935323] border-4 border-[#733f17] text-white shadow-[0_6px_0_#5a3111] hover:brightness-110 active:translate-y-1 active:shadow-[0_2px_0_#5a3111]'
-                            : isCurrent
-                            ? `${unitTheme.activeNodeBg} text-white shadow-[0_6px_0_rgba(0,0,0,0.4)] hover:brightness-110 active:translate-y-1 active:shadow-[0_2px_0_rgba(0,0,0,0.4)]`
+                        onClick={() => handleNodeClick(lesson, unit)}
+                        className={`lesson-node-btn rounded-full flex flex-col items-center justify-center font-black transition-all cursor-pointer relative z-20 ${
+                          isCurrent
+                            ? `w-20 h-20 sm:w-22 sm:h-22 ${unitTheme.bg} text-white shadow-[0_8px_0_rgba(0,0,0,0.35)] hover:brightness-110 active:translate-y-2 active:shadow-[0_2px_0_rgba(0,0,0,0.35)]`
+                            : isCompleted
+                            ? `w-18 h-18 sm:w-20 sm:h-20 ${unitTheme.bg} text-white shadow-[0_7px_0_rgba(0,0,0,0.3)] hover:brightness-110 active:translate-y-1.5 active:shadow-[0_2px_0_rgba(0,0,0,0.3)]`
                             : freeStudyMode
-                            ? 'bg-[#1899d6] border-4 border-[#127aa8] text-white shadow-[0_6px_0_#0e5e80] hover:brightness-110 active:translate-y-1'
-                            : 'bg-[#2b3e48] border-4 border-[#38464f] text-slate-400 hover:border-slate-300 shadow-[0_5px_0_#1f2d34]'
+                            ? 'w-18 h-18 sm:w-20 sm:h-20 bg-[#1cb0f6] text-white shadow-[0_7px_0_#127aa8] hover:brightness-110 active:translate-y-1.5 active:shadow-[0_2px_0_#127aa8]'
+                            : 'w-18 h-18 sm:w-20 sm:h-20 bg-[#202f36] border-b-4 border-[#141f24] text-slate-500 shadow-[0_6px_0_#0f171c]'
                         }`}
                         title={`${lesson.title} ${isLocked ? '(Click to unlock or study)' : ''}`}
                       >
@@ -323,11 +387,11 @@ export default function LessonPath({
                           <Check className="w-8 h-8 stroke-[4]" />
                         ) : isCurrent ? (
                           isExam ? (
-                            <Trophy className="w-8 h-8 stroke-[2.5]" />
+                            <Trophy className="w-9 h-9 stroke-[2.5]" />
                           ) : isListening ? (
-                            <Headphones className="w-8 h-8 stroke-[2.5]" />
+                            <Headphones className="w-9 h-9 stroke-[2.5]" />
                           ) : (
-                            <Star className="w-8 h-8 fill-white stroke-[2.5]" />
+                            <Star className="w-9 h-9 fill-white stroke-[2.5]" />
                           )
                         ) : isListening ? (
                           <Headphones className="w-7 h-7 stroke-[2]" />
@@ -340,111 +404,58 @@ export default function LessonPath({
                         )}
                       </button>
 
-                      {/* Duolingo Click Popover */}
+                      {/* Iconic Duolingo Lesson Popover Card (Screenshot Match) */}
                       {isPopoverOpen && (
-                        <div className={`absolute ${openBelow ? 'top-full mt-3' : 'bottom-full mb-3'} ${horizontalAlign} z-50 w-72 sm:w-80 animate-in zoom-in-95 duration-150`}>
-                          {/* Top arrow if opening below */}
-                          {openBelow && (
-                            <div className={`w-4 h-4 bg-[#18262d] border-t-2 border-l-2 border-[#38464f] rotate-45 ${arrowAlign} -mb-2 shadow-sm relative z-30`} />
-                          )}
+                        <div className={`lesson-popover-card absolute top-full mt-3 ${horizontalAlign} ${popoverCounterOffset} z-50 w-[min(calc(100vw-2rem),21rem)] sm:w-84 animate-in zoom-in-95 duration-150`}>
+                          {/* Top arrow pointing directly to the node */}
+                          <div className={`w-4 h-4 ${unitTheme.bg} rotate-45 ${arrowAlign} -mb-2 shadow-sm relative z-30`} />
 
-                          <div className="bg-[#18262d] text-white rounded-3xl p-5 border-2 border-[#38464f] shadow-2xl relative z-20">
+                          <div className={`${unitTheme.bg} text-white rounded-3xl p-5 sm:p-6 shadow-2xl relative z-20 space-y-3.5`}>
                             {/* Close button */}
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
-                                setSelectedNode(null);
+                                handleDismissPopover();
                               }}
-                              className="absolute top-4 right-4 p-1 rounded-full hover:bg-[#2b3e48] text-slate-400 cursor-pointer"
+                              className="absolute top-4 right-4 p-1 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition cursor-pointer"
+                              title="Close"
                             >
                               <X className="w-4 h-4" />
                             </button>
 
-                            <div className="space-y-1 pr-6">
-                              <span className="text-[11px] font-black uppercase tracking-wider text-[#58cc02]">
-                                {isCompleted ? '✓ Review Lesson' : `Lesson ${lessonIdx + 1} of ${unitLessons.length}`}
-                              </span>
-                              <h3 className="text-base font-black leading-tight text-white">
+                            <div>
+                              <h3 className="text-base sm:text-lg font-black leading-snug text-white pr-6">
                                 {lesson.title}
                               </h3>
-                              <p className="text-xs text-slate-400 font-semibold">
-                                {isCompleted ? 'Practice to reinforce your recall' : 'Master essential conversational phrases'}
+                              <p className="text-xs sm:text-sm font-bold text-white/80 mt-1">
+                                Lesson {lessonIdx + 1} of {unitLessons.length}
                               </p>
                             </div>
 
-                            {/* Actions inside popover */}
-                            {isCompleted ? (
-                              <button
-                                onClick={() => {
-                                  setSelectedNode(null);
-                                  onStartLesson(lesson, unit);
-                                }}
-                                className="w-full mt-4 py-3 rounded-2xl font-black text-sm uppercase tracking-wider bg-[#58cc02] hover:bg-[#46a302] text-white flex items-center justify-center gap-2 cursor-pointer shadow-[0_4px_0_#46a302] active:translate-y-1 transition"
-                              >
-                                <Play className="w-4 h-4 fill-white" />
-                                <span>PRACTICE +10 XP</span>
-                              </button>
-                            ) : (!isLocked || freeStudyMode) ? (
-                              <button
-                                onClick={() => {
-                                  setSelectedNode(null);
-                                  onStartLesson(lesson, unit);
-                                }}
-                                className="w-full mt-4 py-3 rounded-2xl font-black text-sm uppercase tracking-wider bg-[#58cc02] hover:bg-[#46a302] text-white flex items-center justify-center gap-2 cursor-pointer shadow-[0_4px_0_#46a302] active:translate-y-1 transition"
-                              >
-                                <Play className="w-4 h-4 fill-white" />
-                                <span>START +{lesson.xp || 20} XP</span>
-                              </button>
-                            ) : (
-                              <div className="space-y-2.5 mt-4">
-                                <div className="rounded-2xl p-2.5 bg-[#20333d] border border-[#38464f] text-[11px] text-amber-300 font-semibold flex items-center gap-1.5">
-                                  <Lock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                                  <span>Locked in Sequential Path. Study freely or jump ahead!</span>
-                                </div>
-
-                                <button
-                                  onClick={() => {
-                                    setSelectedNode(null);
-                                    onStartLesson(lesson, unit);
-                                  }}
-                                  className="w-full py-3 rounded-2xl font-black text-sm uppercase tracking-wider bg-[#58cc02] hover:bg-[#46a302] text-white flex items-center justify-center gap-2 cursor-pointer shadow-[0_4px_0_#46a302] active:translate-y-1 transition"
-                                >
-                                  <Play className="w-4 h-4 fill-white" />
-                                  <span>START LESSON (FREE STUDY)</span>
-                                </button>
-
-                                {onUnlockUpToLesson && (
-                                  <button
-                                    onClick={() => {
-                                      setSelectedNode(null);
-                                      onUnlockUpToLesson(lesson.id);
-                                      onStartLesson(lesson, unit);
-                                    }}
-                                    className="w-full py-2.5 rounded-2xl font-black text-xs uppercase tracking-wider bg-amber-500 hover:bg-amber-600 text-amber-950 flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_3px_0_#b45309] active:translate-y-1 transition"
-                                  >
-                                    <Zap className="w-3.5 h-3.5 fill-amber-950" />
-                                    <span>JUMP HERE & UNLOCK PATH</span>
-                                  </button>
-                                )}
-                              </div>
-                            )}
-
-                            {/* Guidebook link inside popover */}
+                            {/* Massive Chunky 3D White Button (Screenshot Match) */}
                             <button
                               onClick={() => {
                                 setSelectedNode(null);
-                                onOpenGuidebook(unit);
+                                onStartLesson(lesson, unit);
                               }}
-                              className="w-full mt-2.5 py-1 text-center text-xs font-bold text-slate-400 hover:text-[#1cb0f6] cursor-pointer"
+                              className={`w-full py-3.5 sm:py-4 px-6 rounded-2xl bg-white hover:bg-slate-50 font-black text-sm sm:text-base uppercase tracking-wider ${unitTheme.btnText} shadow-[0_5px_0_rgba(0,0,0,0.18)] active:translate-y-1 active:shadow-none transition cursor-pointer flex items-center justify-center gap-2`}
                             >
-                              📖 View Unit Guidebook
+                              <span>{isCompleted ? 'PRACTICE +10 XP' : `CONTINUE +${lesson.xp || 25} XP`}</span>
                             </button>
-                          </div>
 
-                          {/* Bottom arrow if opening above */}
-                          {!openBelow && (
-                            <div className={`w-4 h-4 bg-[#18262d] border-b-2 border-r-2 border-[#38464f] rotate-45 ${arrowAlign} -mt-2 shadow-sm relative z-30`} />
-                          )}
+                            {/* Guidebook link inside popover */}
+                            <div className="pt-0.5 text-center">
+                              <button
+                                onClick={() => {
+                                  setSelectedNode(null);
+                                  onOpenGuidebook(unit);
+                                }}
+                                className="text-xs font-black text-white/80 hover:text-white underline underline-offset-2 cursor-pointer transition"
+                              >
+                                📖 View Unit Guidebook
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       )}
                     </div>
