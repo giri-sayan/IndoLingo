@@ -109,7 +109,17 @@ const ProfileView = ({ streak, _gems, _hearts, completedLessonsCount, selectedLa
         <h2 className="text-xl font-bold mb-4">Courses</h2>
         <div className={`p-4 rounded-2xl border-2 flex items-center justify-between ${isDark ? 'border-slate-700 bg-slate-800' : 'border-slate-200 bg-white'}`}>
           <div className="flex items-center gap-4">
-            <span className="text-3xl">{selectedLanguage?.flagEmoji || selectedLanguage?.flag || '🇮🇳'}</span>
+            {selectedLanguage?.id === 'hindi' || selectedLanguage?.flagEmoji === '🇮🇳' ? (
+              <svg viewBox="0 0 900 600" className="w-8 h-6 rounded-md overflow-hidden shadow-sm shrink-0">
+                <rect width="900" height="200" fill="#FF9933" />
+                <rect y="200" width="900" height="200" fill="#FFFFFF" />
+                <rect y="400" width="900" height="200" fill="#138808" />
+                <circle cx="450" cy="300" r="80" fill="none" stroke="#000080" strokeWidth="10" />
+                <circle cx="450" cy="300" r="16" fill="#000080" />
+              </svg>
+            ) : (
+              <span className="text-3xl">{selectedLanguage?.flagEmoji || '🇮🇳'}</span>
+            )}
             <div>
               <h3 className="font-bold">{selectedLanguage?.name || 'Hindi'}</h3>
               <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Active Course</p>

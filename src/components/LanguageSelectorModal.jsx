@@ -72,7 +72,17 @@ export default function LanguageSelectorModal({
                 >
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-3xl leading-none">{lang.flagEmoji}</span>
+                      {lang.id === 'hindi' || lang.flagEmoji === '🇮🇳' ? (
+                        <svg viewBox="0 0 900 600" className="w-8 h-6 rounded-md overflow-hidden shadow-sm shrink-0">
+                          <rect width="900" height="200" fill="#FF9933" />
+                          <rect y="200" width="900" height="200" fill="#FFFFFF" />
+                          <rect y="400" width="900" height="200" fill="#138808" />
+                          <circle cx="450" cy="300" r="80" fill="none" stroke="#000080" strokeWidth="10" />
+                          <circle cx="450" cy="300" r="16" fill="#000080" />
+                        </svg>
+                      ) : (
+                        <span className="text-3xl leading-none">{lang.flagEmoji}</span>
+                      )}
                       {isSelected && (
                         <span className="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-sm">
                           <Check className="w-3.5 h-3.5 stroke-[3]" />

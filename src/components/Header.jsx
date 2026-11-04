@@ -3,6 +3,21 @@ import { Flame, Heart, Sun, Moon, Settings, ChevronDown, X, Smartphone } from 'l
 import { sounds } from '../utils/audio';
 import TigerLogo from './TigerLogo';
 
+function LanguageFlagIcon({ language }) {
+  if (language?.id === 'hindi' || language?.flagEmoji === '🇮🇳') {
+    return (
+      <svg viewBox="0 0 900 600" className="w-5 h-3.5 rounded-[3px] overflow-hidden shadow-xs shrink-0">
+        <rect width="900" height="200" fill="#FF9933" />
+        <rect y="200" width="900" height="200" fill="#FFFFFF" />
+        <rect y="400" width="900" height="200" fill="#138808" />
+        <circle cx="450" cy="300" r="80" fill="none" stroke="#000080" strokeWidth="10" />
+        <circle cx="450" cy="300" r="16" fill="#000080" />
+      </svg>
+    );
+  }
+  return <span className="text-base sm:text-lg leading-none">{language?.flagEmoji || '🇮🇳'}</span>;
+}
+
 export default function Header({
   selectedLanguage,
   allLanguages = [],
@@ -101,7 +116,7 @@ export default function Header({
             }`}
             title="Switch Course"
           >
-            <span className="text-base sm:text-lg leading-none">{selectedLanguage.flagEmoji || '🇮🇳'}</span>
+            <LanguageFlagIcon language={selectedLanguage} />
             <span className="text-xs sm:text-sm font-black text-white tracking-tight">
               {Math.max(1, completedLessonsCount || 1)}
             </span>

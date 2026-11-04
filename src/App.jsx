@@ -36,7 +36,16 @@ export default function App() {
   });
 
   // Navigation tab: 'learn' | 'akshara' | 'leaderboard' | 'quests' | 'shop' | 'stories'
-  const [activeTab, setActiveTab] = useState('learn');
+  const [activeTab, setActiveTab] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const tabParam = params.get('tab');
+      if (tabParam && ['learn', 'practice', 'leaderboard', 'quests', 'shop', 'profile', 'stories'].includes(tabParam)) {
+        return tabParam;
+      }
+    }
+    return 'learn';
+  });
 
   // Gamification states
   const [streak, setStreak] = useState(() => Number(localStorage.getItem('bhasha_streak') || 3));
@@ -87,6 +96,30 @@ export default function App() {
   // Sync to localStorage
   useEffect(() => {
     localStorage.setItem('bhasha_lang', selectedLanguage.id);
+  }, [selectedLanguage]);
+
+  // Synchronize deep-linking on browser history navigation
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const handlePopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      const tabParam = params.get('tab');
+      if (tabParam && ['learn', 'practice', 'leaderboard', 'quests', 'shop', 'profile', 'stories'].includes(tabParam)) {
+        setActiveTab(tabParam);
+      }
+      const lessonParam = params.get('lesson');
+      if (lessonParam) {
+        const allLessons = selectedLanguage.units?.flatMap(u => u.lessons || []) || [];
+        const targetLesson = allLessons.find(l => l.id === lessonParam);
+        if (targetLesson) {
+          const targetUnit = selectedLanguage.units.find(u => u.lessons?.some(l => l.id === targetLesson.id));
+          setActiveLesson(targetLesson);
+          setActiveUnit(targetUnit);
+        }
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, [selectedLanguage]);
 
   useEffect(() => {
