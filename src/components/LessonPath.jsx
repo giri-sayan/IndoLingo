@@ -17,6 +17,46 @@ import Mascot from './Mascot';
 import { sounds } from '../utils/audio';
 import { LIFETIME_DIPLOMAS } from '../data/diplomas';
 
+function DuoFilledStar({ className = "w-8 h-8" }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="#ffffff">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    </svg>
+  );
+}
+
+function DuoFilledHeadphones({ className = "w-8 h-8" }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="#ffffff">
+      <path d="M12 3a9 9 0 0 0-9 9v7a3 3 0 0 0 3 3h1a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2H5v-1a7 7 0 0 1 14 0v1h-2a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h1a3 3 0 0 0 3-3v-7a9 9 0 0 0-9-9z" />
+    </svg>
+  );
+}
+
+function DuoFilledBook({ className = "w-8 h-8" }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="#ffffff">
+      <path d="M4 6a3 3 0 0 1 3-3h12a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H7a3 3 0 0 0-3 3V6zm14 11V5H7a1 1 0 0 0-1 1v12.2c.3-.13.63-.2 1-.2h11z" />
+    </svg>
+  );
+}
+
+function DuoFilledTrophy({ className = "w-8 h-8" }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="#ffffff">
+      <path d="M19 4h-3V2H8v2H5a3 3 0 0 0-3 3v2a5 5 0 0 0 4.5 4.97A7 7 0 0 0 11 18.9V21H8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2h-3v-2.1a7 7 0 0 0 4.5-4.93A5 5 0 0 0 22 9V7a3 3 0 0 0-3-3zM4 9V7a1 1 0 0 1 1-1h1v4.8A3 3 0 0 1 4 9zm16 0a3 3 0 0 1-2 1.8V6h1a1 1 0 0 1 1 1v2z" />
+    </svg>
+  );
+}
+
+function DuoFilledCheck({ className = "w-8 h-8 sm:w-9 sm:h-9" }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="#ffffff" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  );
+}
+
 function DuolingoChestGraphic({ isClaimed, _isUnitCompleted }) {
   return (
     <svg viewBox="0 0 64 64" className="w-12 h-12 shrink-0 drop-shadow-md">
@@ -183,7 +223,7 @@ export default function LessonPath({
             bg: 'bg-[#58cc02]', 
             border: 'border-[#46a302]', 
             text: 'text-[#58cc02]', 
-            activeNodeBg: 'bg-[#58cc02] border-[#46a302]', 
+            nodeClass: 'duo-node-green', 
             shadowColor: '#3c8b00', 
             btnText: 'text-[#58cc02]',
             hex: '#58cc02',
@@ -193,7 +233,7 @@ export default function LessonPath({
             bg: 'bg-[#a855f7]', 
             border: 'border-[#9333ea]', 
             text: 'text-[#a855f7]', 
-            activeNodeBg: 'bg-[#a855f7] border-[#9333ea]', 
+            nodeClass: 'duo-node-purple', 
             shadowColor: '#7e22ce', 
             btnText: 'text-[#a855f7]',
             hex: '#a855f7',
@@ -203,7 +243,7 @@ export default function LessonPath({
             bg: 'bg-[#1cb0f6]', 
             border: 'border-[#1899d6]', 
             text: 'text-[#1cb0f6]', 
-            activeNodeBg: 'bg-[#1cb0f6] border-[#1899d6]', 
+            nodeClass: 'duo-node-blue', 
             shadowColor: '#0e75a7', 
             btnText: 'text-[#1cb0f6]',
             hex: '#1cb0f6',
@@ -213,7 +253,7 @@ export default function LessonPath({
             bg: 'bg-[#ff9600]', 
             border: 'border-[#e08500]', 
             text: 'text-[#ff9600]', 
-            activeNodeBg: 'bg-[#ff9600] border-[#e08500]', 
+            nodeClass: 'duo-node-orange', 
             shadowColor: '#b86d00', 
             btnText: 'text-[#ff9600]',
             hex: '#ff9600',
@@ -223,7 +263,7 @@ export default function LessonPath({
             bg: 'bg-[#ff4b4b]', 
             border: 'border-[#ea2b2b]', 
             text: 'text-[#ff4b4b]', 
-            activeNodeBg: 'bg-[#ff4b4b] border-[#ea2b2b]', 
+            nodeClass: 'duo-node-purple', 
             shadowColor: '#c51f1f', 
             btnText: 'text-[#ff4b4b]',
             hex: '#ff4b4b',
@@ -233,7 +273,7 @@ export default function LessonPath({
             bg: 'bg-[#00cd9c]', 
             border: 'border-[#00a880]', 
             text: 'text-[#00cd9c]', 
-            activeNodeBg: 'bg-[#00cd9c] border-[#00a880]', 
+            nodeClass: 'duo-node-green', 
             shadowColor: '#008263', 
             btnText: 'text-[#00cd9c]',
             hex: '#00cd9c',
@@ -243,7 +283,7 @@ export default function LessonPath({
             bg: 'bg-[#6366f1]', 
             border: 'border-[#4f46e5]', 
             text: 'text-[#6366f1]', 
-            activeNodeBg: 'bg-[#6366f1] border-[#4f46e5]', 
+            nodeClass: 'duo-node-purple', 
             shadowColor: '#3730a3', 
             btnText: 'text-[#6366f1]',
             hex: '#6366f1',
@@ -253,7 +293,7 @@ export default function LessonPath({
             bg: 'bg-[#ec4899]', 
             border: 'border-[#db2777]', 
             text: 'text-[#ec4899]', 
-            activeNodeBg: 'bg-[#ec4899] border-[#db2777]', 
+            nodeClass: 'duo-node-purple', 
             shadowColor: '#be185d', 
             btnText: 'text-[#ec4899]',
             hex: '#ec4899',
@@ -291,12 +331,12 @@ export default function LessonPath({
             </div>
 
             {/* Duolingo Semicircular Banner Connector Tab (frame 004 match) */}
-            <div className="flex justify-center -mt-0.5 mb-1 pointer-events-none">
+            <div className="flex justify-center -mt-0.5 mb-7 pointer-events-none">
               <div className={`w-16 h-3.5 ${unitTheme.bg} rounded-b-2xl shadow-xs`} />
             </div>
 
             {/* Stepping Stones Path */}
-            <div className={`py-6 relative flex flex-col items-center gap-7 w-full overflow-visible ${selectedNode?.unit.id === unit.id ? 'z-50' : 'z-20'}`}>
+            <div className={`py-4 relative flex flex-col items-center gap-5 w-full overflow-visible ${selectedNode?.unit.id === unit.id ? 'z-50' : 'z-20'}`}>
               {unitLessons.map((lesson, lessonIdx) => {
                 const isCompleted = !!completedLessons[lesson.id];
                 const isPrevCompleted = lessonIdx === 0 
@@ -318,10 +358,10 @@ export default function LessonPath({
 
                 // Exact matching caret alignment relative to centered popover card (immune to transform bugs)
                 const caretPositionClass = (lessonIdx % 4 === 1)
-                  ? 'left-[calc(50%-3.5rem)] sm:left-[calc(50%-4.5rem)]'
+                  ? 'left-[calc(50%-3rem)]'
                   : (lessonIdx % 4 === 3)
-                  ? 'left-[calc(50%+2.5rem)] sm:left-[calc(50%+3.5rem)]'
-                  : 'left-[calc(50%-0.5rem)]';
+                  ? 'left-[calc(50%+3rem)]'
+                  : 'left-1/2 -translate-x-1/2';
 
                 // Dynamic icon based on lesson type & index
                 const isExam = lessonIdx === unitLessons.length - 1;
@@ -332,7 +372,7 @@ export default function LessonPath({
                   <div 
                     key={lesson.id} 
                     id={`lesson-row-${lesson.id}`}
-                    className={`relative w-full flex items-center justify-center ${isPopoverOpen ? 'z-50' : 'z-20'}`}
+                    className={`relative w-full flex flex-col items-center justify-center my-1 ${isPopoverOpen ? 'z-50' : 'z-20'}`}
                   >
                     {/* Node container with zigzag translation offset */}
                     <div 
@@ -341,10 +381,10 @@ export default function LessonPath({
                     >
                       {/* Left Quest Avatar Badge (Exact Match to Duolingo App Screenshot) */}
                       {lessonIdx === 0 && (
-                        <div className="absolute left-1 sm:-left-16 md:-left-24 top-0 z-10 flex flex-col items-center select-none pointer-events-auto">
+                        <div className="absolute right-[calc(100%+1.25rem)] top-1 z-10 flex flex-col items-center select-none pointer-events-auto">
                           <div className="p-1 sm:p-1.5 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-700 border-2 border-indigo-300 shadow-xl flex flex-col items-center animate-bounce-subtle cursor-pointer hover:scale-105 transition pointer-events-auto">
                             <span className="text-xl sm:text-2xl">🧙‍♀️</span>
-                            <span className="text-[8px] sm:text-[9px] font-black uppercase text-white bg-indigo-950/90 px-1 sm:px-1.5 py-0.5 rounded-full mt-0.5 shadow-sm">
+                            <span className="text-[8px] sm:text-[9px] font-black uppercase text-white bg-indigo-950/90 px-1.5 py-0.5 rounded-full mt-0.5 shadow-sm">
                               20 days
                             </span>
                           </div>
@@ -353,11 +393,11 @@ export default function LessonPath({
 
                       {/* Right Companion Mascot Silhouette (Exact Match to Duolingo App Screenshot) */}
                       {lessonIdx === 2 && (
-                        <div className="absolute right-1 sm:-right-16 md:-right-24 top-0 z-10 flex flex-col items-center select-none opacity-60 hover:opacity-100 transition pointer-events-auto">
+                        <div className="absolute left-[calc(100%+1.25rem)] top-0 z-10 flex flex-col items-center select-none opacity-80 hover:opacity-100 transition pointer-events-auto">
                           <div className="relative">
                             <Mascot mood="idle" size={48} outfit={equippedOutfit} />
                           </div>
-                          <div className="flex items-center gap-0.5 sm:gap-1 mt-0.5 text-slate-500 text-[10px] sm:text-xs">
+                          <div className="flex items-center gap-1 mt-0.5 text-amber-400 text-[10px] sm:text-xs">
                             <span>★</span><span>★</span><span>★</span>
                           </div>
                         </div>
@@ -365,7 +405,7 @@ export default function LessonPath({
 
                       {/* Floating Duolingo START Bubble (ONLY when current and NO popover is open!) */}
                       {isCurrent && !selectedNode && (
-                        <div className="absolute -top-11 z-30 animate-bounce flex flex-col items-center pointer-events-none">
+                        <div className="absolute -top-10 z-30 animate-bounce flex flex-col items-center pointer-events-none">
                           <div className={`px-3 py-1 rounded-xl ${unitTheme.bg} text-white font-black text-xs uppercase tracking-wider shadow-md`}>
                             START
                           </div>
@@ -373,75 +413,59 @@ export default function LessonPath({
                         </div>
                       )}
 
-                      {/* Duolingo Segmented Progress Capsule Orbit Ring (Screenshot Match) */}
+                      {/* Duolingo Snug Concentric Progress Orbit Ring (Screenshot Match) */}
                       {isCurrent && (
-                        <svg className="absolute -inset-3.5 w-[calc(100%+28px)] h-[calc(100%+28px)] pointer-events-none -rotate-90 z-10" viewBox="0 0 100 100">
-                          <circle
-                            cx="50"
-                            cy="50"
-                            r="44"
-                            fill="none"
-                            stroke="rgba(255,255,255,0.15)"
-                            strokeWidth="6"
-                            strokeDasharray="48 21"
-                            strokeLinecap="round"
-                          />
-                          <circle
-                            cx="50"
-                            cy="50"
-                            r="44"
-                            fill="none"
-                            stroke={unitTheme.hex}
-                            strokeWidth="6"
-                            strokeDasharray="48 21"
-                            strokeDashoffset="0"
-                            strokeLinecap="round"
-                            className="drop-shadow-sm"
-                          />
-                        </svg>
+                        <div 
+                          className="absolute -inset-2.5 rounded-full border-[3.5px] border-dashed pointer-events-none z-10"
+                          style={{ borderColor: unitTheme.hex }}
+                        />
                       )}
 
                       {/* 3D Duolingo Tactile Stepping Stone Button (Screenshot Match) */}
                       <button
                         onClick={() => handleNodeClick(lesson, unit)}
-                        className={`lesson-node-btn rounded-full flex flex-col items-center justify-center font-black transition-all cursor-pointer relative z-20 ${
-                          isCurrent
-                            ? `w-20 h-20 sm:w-22 sm:h-22 ${unitTheme.bg} text-white shadow-[0_8px_0_rgba(0,0,0,0.35)] hover:brightness-110 active:translate-y-2 active:shadow-[0_2px_0_rgba(0,0,0,0.35)]`
-                            : isCompleted
-                            ? `w-18 h-18 sm:w-20 sm:h-20 ${unitTheme.bg} text-white shadow-[0_7px_0_rgba(0,0,0,0.3)] hover:brightness-110 active:translate-y-1.5 active:shadow-[0_2px_0_rgba(0,0,0,0.3)]`
-                            : freeStudyMode
-                            ? `w-18 h-18 sm:w-20 sm:h-20 ${unitTheme.bg} text-white shadow-[0_7px_0_rgba(0,0,0,0.3)] hover:brightness-110 active:translate-y-1.5`
-                            : `w-18 h-18 sm:w-20 sm:h-20 ${unitTheme.bg} opacity-85 hover:opacity-100 text-white shadow-[0_7px_0_rgba(0,0,0,0.3)] hover:brightness-110 active:translate-y-1.5`
-                        }`}
+                        className={`lesson-node-btn duo-node-base ${
+                          isLocked ? 'duo-node-locked' : unitTheme.nodeClass
+                        } ${
+                          isCurrent ? 'w-20 h-20 sm:w-22 sm:h-22' : 'w-18 h-18 sm:w-20 sm:h-20'
+                        } text-white relative z-20`}
                         title={`${lesson.title} ${isLocked ? '(Click to unlock or study)' : ''}`}
                       >
                         {isCompleted ? (
-                          <Check className="w-8 h-8 stroke-[4]" />
+                          <DuoFilledCheck className="w-8 h-8 sm:w-9 sm:h-9" />
                         ) : isCurrent ? (
                           isExam ? (
-                            <Trophy className="w-9 h-9 stroke-[2.5]" />
+                            <DuoFilledTrophy className="w-8 h-8 sm:w-9 sm:h-9" />
                           ) : isListening ? (
-                            <Headphones className="w-9 h-9 stroke-[2.5]" />
+                            <DuoFilledHeadphones className="w-8 h-8 sm:w-9 sm:h-9" />
                           ) : (
-                            <Star className="w-9 h-9 fill-white stroke-[2.5]" />
+                            <DuoFilledStar className="w-8 h-8 sm:w-9 sm:h-9" />
                           )
                         ) : isListening ? (
-                          <Headphones className="w-7 h-7 stroke-[2]" />
+                          <DuoFilledHeadphones className="w-7 h-7 sm:w-8 sm:h-8" />
                         ) : isExam ? (
-                          <Trophy className="w-7 h-7 stroke-[2]" />
+                          <DuoFilledTrophy className="w-7 h-7 sm:w-8 sm:h-8" />
                         ) : isReading ? (
-                          <BookOpen className="w-7 h-7 stroke-[2]" />
+                          <DuoFilledBook className="w-7 h-7 sm:w-8 sm:h-8" />
                         ) : (
-                          <Star className="w-7 h-7 stroke-[2]" />
+                          <DuoFilledStar className="w-7 h-7 sm:w-8 sm:h-8" />
                         )}
                       </button>
                     </div>
 
+                    {/* Stepping stone connector dots between nodes */}
+                    {lessonIdx < unitLessons.length - 1 && (
+                      <div className="flex flex-col items-center gap-1.5 py-1 pointer-events-none opacity-40">
+                        <div className="w-2.5 h-2 rounded-full bg-slate-500/80" />
+                        <div className="w-2.5 h-2 rounded-full bg-slate-500/80" />
+                      </div>
+                    )}
+
                     {/* Iconic Duolingo Lesson Popover Card - CENTERING IN THE ROW & NEVER BLEEDING */}
                     {isPopoverOpen && (
                       <div 
-                        className={`lesson-popover-card absolute inset-x-0 mx-auto z-50 w-[min(calc(100vw-2.5rem),21rem)] max-w-[calc(100vw-2.5rem)] select-none pointer-events-auto ${
-                          openAbove ? 'bottom-[calc(100%+0.75rem)]' : 'top-[calc(100%+0.75rem)]'
+                        className={`lesson-popover-card absolute left-1/2 -translate-x-1/2 z-50 w-[310px] max-w-[calc(100vw-2rem)] select-none pointer-events-auto ${
+                          openAbove ? 'bottom-[calc(100%+14px)]' : 'top-[calc(100%+14px)]'
                         }`}
                       >
                         {/* Top caret pointing UP at node when popover is below */}
@@ -452,14 +476,14 @@ export default function LessonPath({
                         )}
 
                         {/* Popover Card Body */}
-                        <div className={`${unitTheme.bg} text-white rounded-3xl p-5 sm:p-6 shadow-2xl relative z-20 space-y-3.5`}>
+                        <div className={`${unitTheme.bg} text-white rounded-3xl p-5 shadow-2xl relative z-20 space-y-3.5 border-2 ${unitTheme.border}`}>
                           {/* Close button */}
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
                               handleDismissPopover();
                             }}
-                            className="absolute top-4 right-4 p-1 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition cursor-pointer"
+                            className="absolute top-3.5 right-3.5 p-1 rounded-full text-white/70 hover:text-white hover:bg-white/15 transition cursor-pointer"
                             title="Close"
                           >
                             <X className="w-4 h-4" />
@@ -480,9 +504,9 @@ export default function LessonPath({
                               setSelectedNode(null);
                               onStartLesson(lesson, unit);
                             }}
-                            className={`w-full py-3.5 sm:py-4 px-6 rounded-2xl bg-white hover:bg-slate-50 font-black text-sm sm:text-base uppercase tracking-wider ${unitTheme.btnText} shadow-[0_5px_0_rgba(0,0,0,0.18)] active:translate-y-1 active:shadow-none transition cursor-pointer flex items-center justify-center gap-2`}
+                            className={`w-full py-3.5 px-6 rounded-2xl btn-popover-white font-black text-sm uppercase tracking-wider ${unitTheme.btnText} cursor-pointer flex items-center justify-center gap-2`}
                           >
-                            <span>{isCompleted ? 'PRACTICE +10 XP' : `CONTINUE +${lesson.xp || 25} XP`}</span>
+                            <span>{isCompleted ? 'PRACTICE +10 XP' : `CONTINUE +${lesson.xp || 20} XP`}</span>
                           </button>
 
                           {/* Guidebook link inside popover */}

@@ -1,5 +1,5 @@
-// IndoLingo Service Worker - Offline PWA Support (v3)
-const CACHE_NAME = 'indolingo-v3';
+// IndoLingo Service Worker - Offline PWA Support (v4)
+const CACHE_NAME = 'indolingo-v4';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

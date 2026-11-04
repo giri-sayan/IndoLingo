@@ -245,6 +245,93 @@ html.dark .btn-duo-card:hover:not(:disabled) {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
+/* Authentic Duolingo 3D Stepping Stone Nodes */
+.duo-node-base {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.15s ease;
+}
+
+.duo-node-green {
+  background-color: #58cc02;
+  box-shadow: 0 8px 0 #46a302;
+}
+.duo-node-green:hover {
+  filter: brightness(1.08);
+}
+.duo-node-green:active {
+  transform: translateY(6px) !important;
+  box-shadow: 0 2px 0 #46a302 !important;
+}
+
+.duo-node-purple {
+  background-color: #a855f7;
+  box-shadow: 0 8px 0 #7e22ce;
+}
+.duo-node-purple:hover {
+  filter: brightness(1.08);
+}
+.duo-node-purple:active {
+  transform: translateY(6px) !important;
+  box-shadow: 0 2px 0 #7e22ce !important;
+}
+
+.duo-node-blue {
+  background-color: #1cb0f6;
+  box-shadow: 0 8px 0 #1899d6;
+}
+.duo-node-blue:hover {
+  filter: brightness(1.08);
+}
+.duo-node-blue:active {
+  transform: translateY(6px) !important;
+  box-shadow: 0 2px 0 #1899d6 !important;
+}
+
+.duo-node-orange {
+  background-color: #ff9600;
+  box-shadow: 0 8px 0 #e08500;
+}
+.duo-node-orange:hover {
+  filter: brightness(1.08);
+}
+.duo-node-orange:active {
+  transform: translateY(6px) !important;
+  box-shadow: 0 2px 0 #e08500 !important;
+}
+
+.duo-node-locked {
+  background-color: #2b3e48;
+  box-shadow: 0 8px 0 #1c2a31;
+  opacity: 0.85;
+}
+.duo-node-locked:hover {
+  filter: brightness(1.1);
+}
+.duo-node-locked:active {
+  transform: translateY(6px) !important;
+  box-shadow: 0 2px 0 #1c2a31 !important;
+}
+
+/* Duolingo Popover White 3D Button */
+.btn-popover-white {
+  background-color: #ffffff;
+  box-shadow: 0 4px 0 #cbd5e1;
+  transition: all 0.08s ease;
+}
+.btn-popover-white:hover {
+  background-color: #f8fafc;
+}
+.btn-popover-white:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #cbd5e1;
+}
+
 /* Animations */
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
