@@ -45,40 +45,40 @@
   --border-card-thick: #cbd5e1;
   --text-main: #1e293b;
   --text-muted: #64748b;
-  --brand-green: #059669; /* Royal Emerald / Peacock */
-  --brand-green-shadow: #047857;
-  --brand-blue: #2563eb;  /* Royal Azure */
-  --brand-blue-shadow: #1d4ed8;
-  --brand-red: #e11d48;   /* Gulal Crimson */
-  --brand-red-shadow: #be123c;
-  --brand-purple: #7c3aed; /* Royal Jamun / Amethyst */
-  --brand-purple-shadow: #6d28d9;
-  --brand-yellow: #f59e0b; /* Haldi Saffron */
-  --brand-yellow-shadow: #d97706;
-  --brand-orange: #ea580c; /* Kesari Marigold */
-  --brand-orange-shadow: #c2410c;
+  --brand-green: #58cc02; /* Duolingo Signature Green */
+  --brand-green-shadow: #46a302;
+  --brand-blue: #1cb0f6;  /* Duolingo Vibrant Sky Blue */
+  --brand-blue-shadow: #1899d6;
+  --brand-red: #ff4b4b;   /* Duolingo Coral Red */
+  --brand-red-shadow: #ea2b2b;
+  --brand-purple: #a855f7; /* Duolingo Purple */
+  --brand-purple-shadow: #9333ea;
+  --brand-yellow: #ffc800; /* Duolingo Gold */
+  --brand-yellow-shadow: #e5a500;
+  --brand-orange: #ff9600; /* Duolingo Orange */
+  --brand-orange-shadow: #e08500;
 }
 
 html.dark {
-  --bg-main: #0f172a;
-  --bg-card: #1e293b;
-  --border-card: #334155;
-  --border-card-thick: #475569;
+  --bg-main: #131f24;
+  --bg-card: #18262d;
+  --border-card: #2b3e48;
+  --border-card-thick: #38464f;
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   color-scheme: dark;
 }
 
-/* IndoLingo 3D Chunky Buttons */
+/* Duolingo 3D Tactile Buttons */
 .btn-duo-green {
-  background-color: #059669;
-  border-bottom: 4px solid #047857;
+  background-color: #58cc02;
+  border-bottom: 4px solid #46a302;
   color: #ffffff;
   font-weight: 800;
   transition: all 0.08s ease;
 }
 .btn-duo-green:hover:not(:disabled) {
-  background-color: #10b981;
+  background-color: #61e002;
 }
 .btn-duo-green:active:not(:disabled) {
   transform: translateY(3px);
@@ -86,14 +86,14 @@ html.dark {
 }
 
 .btn-duo-blue {
-  background-color: #2563eb;
-  border-bottom: 4px solid #1d4ed8;
+  background-color: #1cb0f6;
+  border-bottom: 4px solid #1899d6;
   color: #ffffff;
   font-weight: 800;
   transition: all 0.08s ease;
 }
 .btn-duo-blue:hover:not(:disabled) {
-  background-color: #3b82f6;
+  background-color: #28b8f8;
 }
 .btn-duo-blue:active:not(:disabled) {
   transform: translateY(3px);
@@ -101,14 +101,14 @@ html.dark {
 }
 
 .btn-duo-purple {
-  background-color: #7c3aed;
-  border-bottom: 4px solid #6d28d9;
+  background-color: #a855f7;
+  border-bottom: 4px solid #9333ea;
   color: #ffffff;
   font-weight: 800;
   transition: all 0.08s ease;
 }
 .btn-duo-purple:hover:not(:disabled) {
-  background-color: #8b5cf6;
+  background-color: #b56ff8;
 }
 .btn-duo-purple:active:not(:disabled) {
   transform: translateY(3px);
@@ -116,14 +116,14 @@ html.dark {
 }
 
 .btn-duo-red {
-  background-color: #e11d48;
-  border-bottom: 4px solid #be123c;
+  background-color: #ff4b4b;
+  border-bottom: 4px solid #ea2b2b;
   color: #ffffff;
   font-weight: 800;
   transition: all 0.08s ease;
 }
 .btn-duo-red:hover:not(:disabled) {
-  background-color: #f43f5e;
+  background-color: #ff6161;
 }
 .btn-duo-red:active:not(:disabled) {
   transform: translateY(3px);
@@ -131,14 +131,14 @@ html.dark {
 }
 
 .btn-duo-yellow {
-  background-color: #f59e0b;
-  border-bottom: 4px solid #d97706;
+  background-color: #ffc800;
+  border-bottom: 4px solid #e5a500;
   color: #ffffff;
   font-weight: 800;
   transition: all 0.08s ease;
 }
 .btn-duo-yellow:hover:not(:disabled) {
-  background-color: #fbbf24;
+  background-color: #ffd226;
 }
 .btn-duo-yellow:active:not(:disabled) {
   transform: translateY(3px);

@@ -7,7 +7,7 @@ export const PUNJABI_COURSE = {
   "region": "Punjab, Chandigarh, Delhi, Haryana & Global Diaspora",
   "speakers": "125M+",
   "greeting": "ਸਤਿ ਸ਼੍ਰੀ ਅਕਾਲ (Sat Sri Akal)",
-  "color": "from-amber-500 via-orange-500 to-yellow-600",
+  "color": "from-[#58cc02] to-[#46a302]",
   "accentColor": "#f59e0b",
   "flagEmoji": "🌾",
   "mascotQuote": "ਜੀ ਆਇਆਂ ਨੂੰ! ੳ-ਅ ਤੋਂ ਲੈ ਕੇ ਆਜੀਵਨ ਖ਼ਾਲਸ ਪੰਜਾਬੀ ਬਣਨ ਤੱਕ ਸਿੱਖੋ!",
@@ -259,7 +259,7 @@ export const PUNJABI_COURSE = {
       "unitNumber": 1,
       "title": "Unit 1: ਗੁਰਮੁਖੀ ਵਰਣਮਾਲਾ & ਸਤਿ ਸ਼੍ਰੀ ਅਕਾਲ",
       "description": "Gurmukhi 35 Akhari, Sat Sri Akal, Courteous Greetings & First Words",
-      "color": "from-amber-500 to-yellow-600",
+      "color": "from-[#a855f7] to-[#9333ea]",
       "guidebook": {
         "title": "Gurmukhi Foundations: Chardi Kala & Warm Welcome",
         "explanation": "Punjabi is written in the sacred and historic Gurmukhi script. Its heart is the universal greeting 'Sat Sri Akal' (Truth is Eternal God). In this unit, you begin with the core alphabet, respectful greetings, and self-introductions.",
@@ -501,7 +501,7 @@ export const PUNJABI_COURSE = {
       "unitNumber": 2,
       "title": "Unit 2: ਪਰਿਵਾਰ, ਘਰ & ਸੁਆਦਲਾ ਖਾਣਾ",
       "description": "Family relations, Punjabi kitchen, Makki di Roti & Village warmth",
-      "color": "from-orange-500 to-amber-600",
+      "color": "from-[#1cb0f6] to-[#1899d6]",
       "guidebook": {
         "title": "Punjabi Heart & Hearth: Parivar and Rasoi",
         "explanation": "Punjabi hospitality is world-famous. In the household, family ties (Bebe, Bapu, Veer, Bhain) and delicious food (Sarson da Saag, Makki di Roti, Lassi) form the centerpiece of daily celebration.",
@@ -754,7 +754,7 @@ export const PUNJABI_COURSE = {
       "unitNumber": 3,
       "title": "Unit 3: ਗਿਣਤੀ, ਵੇਲਾ & ਰੋਜ਼ਾਨਾ ਜ਼ਿੰਦਗੀ",
       "description": "Numbers 1-20, telling the time, vibrant colors & routines",
-      "color": "from-amber-500 to-orange-500",
+      "color": "from-[#ff9600] to-[#e08500]",
       "guidebook": {
         "title": "Daily Life in Motion: Numbers, Colours & Time",
         "explanation": "Mastering counting, telling time, and talking about your everyday habits will help you navigate Punjab effortlessly.",
@@ -1009,7 +1009,7 @@ export const PUNJABI_COURSE = {
       "unitNumber": 4,
       "title": "Unit 4: ਸਫ਼ਰ, ਪਿੰਡ, ਮੇਲਾ & ਬਾਜ਼ਾਰ",
       "description": "Shopping in bazaar, Phulkari & Jutti, Dhaba dining & village travels",
-      "color": "from-amber-600 to-rose-600",
+      "color": "from-[#ff4b4b] to-[#ea2b2b]",
       "guidebook": {
         "title": "Bazaar, Highway Dhabas & Rustic Melas",
         "explanation": "Explore Punjab's markets, asking prices, bargaining for traditional Phulkaris, and ordering fresh parathas at roadside dhabas.",
@@ -1768,7 +1768,7 @@ export const PUNJABI_COURSE = {
       "unitNumber": 7,
       "title": "Unit 7: ਪੰਜਾਬੀ ਸੱਭਿਆਚਾਰ, ਲੋਕ-ਨਾਚ, ਗਿੱਧਾ-ਭੰਗੜਾ & ਤਿਉਹਾਰ",
       "description": "Vaisakhi harvest, Lohri bonfires, Bhangra beats, Boliyan & Idioms",
-      "color": "from-amber-600 via-orange-600 to-red-700",
+      "color": "from-[#00cd9c] to-[#00a880]",
       "guidebook": {
         "title": "The Soul of Punjab: High Spirits, Folk Rhythms & Timeless Idioms",
         "explanation": "Experience the electric energy of Bhangra and Giddha, celebrate Vaisakhi and Lohri, and savor wise Punjabi proverbs passed down across centuries.",

@@ -7,7 +7,7 @@ export const GUJARATI_COURSE = {
   "region": "Gujarat, Daman & Diu, Dadra & Nagar Haveli & Global Diaspora",
   "speakers": "62M+",
   "greeting": "નમસ્તે / જય શ્રી કૃષ્ણ (Namaste / Jai Shri Krishna)",
-  "color": "from-amber-500 via-orange-500 to-emerald-600",
+  "color": "from-[#58cc02] to-[#46a302]",
   "accentColor": "#f59e0b",
   "flagEmoji": "🦁",
   "mascotQuote": "કેમ છો! ક-ખ-ગ થી શરૂ કરીને આજીવન ગૌરવવંત ગુજરાતી બનવા સુધી શીખો!",
@@ -295,7 +295,7 @@ export const GUJARATI_COURSE = {
       "unitNumber": 1,
       "title": "Unit 1: કક્કો & મીઠો આવકાર",
       "description": "Gujarati Kakko, Kem Chho, Courteous Greetings & First Words",
-      "color": "from-amber-500 to-orange-600",
+      "color": "from-[#a855f7] to-[#9333ea]",
       "guidebook": {
         "title": "Gujarati Foundations: Sweetness, Hospitality & Warmth",
         "explanation": "Gujarati script evolved from Devanagari by shedding the top horizontal line (shirorekha), making it graceful and rapid to write. The traditional inquiry 'કેમ છો?' (Kem Chho?) greeted with 'મજામાં!' (Majama!) is the heartbeat of Gujarati camaraderie.",
@@ -539,7 +539,7 @@ export const GUJARATI_COURSE = {
       "unitNumber": 2,
       "title": "Unit 2: કુટુંબ, ઘર & કાઠિયાવાડી રસોડું",
       "description": "Family relations, Gujarati thali, Thepla, Dhokla, Jalebi-Fafda & Pol houses",
-      "color": "from-orange-500 to-amber-600",
+      "color": "from-[#1cb0f6] to-[#1899d6]",
       "guidebook": {
         "title": "Heart of Gujarat: Kutumb & Farsan Gastronomy",
         "explanation": "Gujarati food balances sweet, salty, and spicy in divine harmony. Sunday mornings without Jalebi-Fafda and a warm cup of masala chai are unimaginable in Gujarat.",
@@ -790,7 +790,7 @@ export const GUJARATI_COURSE = {
       "unitNumber": 3,
       "title": "Unit 3: એકડા ૧-૨૦, સમય & રોજીંદી દિનચર્યા",
       "description": "Numbers 1-20, telling time, colors & everyday routines",
-      "color": "from-amber-500 to-emerald-600",
+      "color": "from-[#00cd9c] to-[#00a880]",
       "guidebook": {
         "title": "Counting & Daily Life: Time and Rhythm",
         "explanation": "Master counting from one to twenty, asking what time it is, and narrating your daily activities from sunrise temple visits to evening strolls.",
@@ -1799,7 +1799,7 @@ export const GUJARATI_COURSE = {
       "unitNumber": 7,
       "title": "Unit 7: નવરાત્રી, ગરબા, લોકગીતો & રૂઢિપ્રયોગો",
       "description": "Navratri nine nights, Dandiya Raas, Dayro folklore & Timeless Proverbs",
-      "color": "from-amber-600 via-rose-600 to-purple-700",
+      "color": "from-[#00cd9c] to-[#00a880]",
       "guidebook": {
         "title": "Garba Beats & Folk Heritage: Nine Nights of Joy",
         "explanation": "Navratri in Gujarat is the world's longest dance festival. Immerse yourself in the whirling energy of Garba, the storytelling of Dayro, and the wisdom of Gujarati proverbs.",

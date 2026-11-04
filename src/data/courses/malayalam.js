@@ -755,7 +755,7 @@ export const MALAYALAM_COURSE = {
       "unitNumber": 3,
       "title": "Unit 3: ചായക്കട, കട്ടൻ ചായ & സദ്യ",
       "description": "Chaya Kada Culture, Sulaimani Tea, Kerala Porotta & Royal Onam Sadhya",
-      "color": "from-amber-600 to-orange-700",
+      "color": "from-[#1cb0f6] to-[#1899d6]",
       "guidebook": {
         "title": "The Chaya Kada & Sadhya Feast Heritage",
         "summary": "From village tea stalls (ചായക്കട) with steaming meter tea and crispy banana fritters (പഴംപൊരി) to the 26-dish grand Onam Sadhya served on fresh plantain leaves.",

@@ -47,20 +47,33 @@ const ProfileView = ({ streak, _gems, _hearts, completedLessonsCount, selectedLa
             <Mascot mood="happy" size={96} outfit={equippedOutfit} />
           </div>
           <div className="mt-4 md:mt-0">
-            <h1 className="text-3xl font-bold">Learner</h1>
-            <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-              Joined {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-            </p>
+            <h1 className="text-2xl sm:text-3xl font-black text-white">Coool Explorer</h1>
+            <p className="text-xs sm:text-sm text-slate-400 font-bold">@coool • Joined {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
+            <div className="flex items-center gap-4 mt-2 text-xs font-black">
+              <span className="text-slate-300"><strong className="text-white">9</strong> Courses</span>
+              <span className="text-slate-300"><strong className="text-white">12</strong> Following</span>
+              <span className="text-slate-300"><strong className="text-white">28</strong> Followers</span>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <button
               onClick={() => {
                 sounds.playPop();
                 setShowShareModal(true);
               }}
-              className="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-md hover:brightness-110 active:translate-y-0.5 cursor-pointer transition"
+              className="px-5 py-3 rounded-2xl bg-[#1cb0f6] hover:bg-[#1899d6] text-white font-black text-xs uppercase tracking-wider shadow-[0_4px_0_#127aa8] active:translate-y-1 transition cursor-pointer flex items-center gap-2"
             >
-              <Share2 className="w-4 h-4" /> Share Desi Milestone
+              <span>+ ADD FRIENDS</span>
+            </button>
+            <button
+              onClick={() => {
+                sounds.playPop();
+                setShowShareModal(true);
+              }}
+              className="p-3 rounded-2xl bg-[#18262d] hover:bg-[#20333d] border-2 border-[#2b3e48] text-slate-300 hover:text-white transition cursor-pointer"
+              title="QR Code"
+            >
+              <Share2 className="w-5 h-5" />
             </button>
           </div>
         </div>

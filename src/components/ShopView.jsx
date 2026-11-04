@@ -192,7 +192,7 @@ export default function ShopView({
 
           {/* Streak Freeze */}
           <div className={`p-5 rounded-2xl border-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 ${
-            isDark ? 'bg-slate-800/40 border-slate-800' : 'bg-amber-50/40 border-amber-100'
+            isDark ? 'bg-slate-800/40 border-slate-800' : 'bg-slate-50 border-slate-200'
           }`}>
             <div className="flex items-center gap-3.5 min-w-0">
               <div className="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-sm">

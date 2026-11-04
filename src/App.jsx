@@ -243,6 +243,7 @@ export default function App() {
           streak={streak}
           gems={gems}
           hearts={hearts}
+          completedLessonsCount={completedLessonsCount}
           onRefillHearts={handleRefillHearts}
           onPracticeHeart={handlePracticeHeart}
           soundMuted={soundMuted}

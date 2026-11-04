@@ -1043,7 +1043,7 @@ export default function AksharaTrainer({ selectedLanguage, onAddGems, theme = 'd
       {/* ========================================================================= */}
       {practiceMode === 'bhashasangam' && (
         <div className="space-y-6">
-          <div className="bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+          <div className="bg-gradient-to-r from-[#1cb0f6] via-[#6366f1] to-[#a855f7] rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
             <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
                 <span className="text-[11px] font-black uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full backdrop-blur">

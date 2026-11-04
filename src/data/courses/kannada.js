@@ -7,7 +7,7 @@ export const KANNADA_COURSE = {
   "region": "Karnataka & Deccan Plateau",
   "speakers": "50M+",
   "greeting": "ನಮಸ್ಕಾರ (Namaskara)",
-  "color": "from-yellow-500 via-amber-600 to-red-600",
+  "color": "from-[#58cc02] to-[#46a302]",
   "accentColor": "#eab308",
   "flagEmoji": "🌸",
   "mascotQuote": "ಬನ್ನಿ! ಅ-ಆ-ಇ-ಈ ನಿಂದ ಸದಾಕಾಲ ಹೆಮ್ಮೆಯ ಕನ್ನಡಿಗರಾಗುವವರೆಗೆ ಪ್ರೀತಿಯಿಂದ ಕಲಿಯೋಣ!",
@@ -241,7 +241,7 @@ export const KANNADA_COURSE = {
       "unitNumber": 1,
       "title": "Unit 1: ವರ್ಣಮಾಲೆ & ಮೂಲ ಪದಗಳು",
       "description": "Kannada Alphabet, Namaskara, Polite Introductions & Daily Basics",
-      "color": "from-amber-500 to-orange-500",
+      "color": "from-[#ff9600] to-[#e08500]",
       "guidebook": {
         "title": "Kannada Foundations: Melodic Deccan Heritage",
         "summary": "Kannada is celebrated for its graceful curves and rich literary history dating back to Kavirajamarga. Politeness is woven through respectful suffixes like '-ri' and 'Neevu'.",
@@ -485,7 +485,7 @@ export const KANNADA_COURSE = {
       "unitNumber": 2,
       "title": "Unit 2: ಕುಟುಂಬ & ಪ್ರೀತಿಯ ಮಾತುಗಳು",
       "description": "Family Kinship, Respectful Address (ಅಣ್ಣ, ಅಕ್ಕ) & Warm Home Traditions",
-      "color": "from-amber-600 to-orange-700",
+      "color": "from-[#1cb0f6] to-[#1899d6]",
       "guidebook": {
         "title": "Kannada Kinship: Amma, Appa, Anna, Akka",
         "summary": "Family ties in Karnataka are expressed with profound respect and affection. Adding '-avaru' (e.g., Appanavaru, Taayiyavaru) elevates respect.",

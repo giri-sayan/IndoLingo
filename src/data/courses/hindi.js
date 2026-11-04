@@ -7,7 +7,7 @@ export const HINDI_COURSE = {
   "region": "North & Central India, Global Indian Diaspora",
   "speakers": "600M+",
   "greeting": "नमस्ते (Namaste)",
-  "color": "from-amber-500 via-orange-500 to-rose-600",
+  "color": "from-[#58cc02] to-[#46a302]",
   "accentColor": "#f97316",
   "flagEmoji": "🇮🇳",
   "mascotQuote": "नमस्ते! अ-आ-इ-ई से लेकर आजीवन गौरवशाली हिन्दी वक्ता बनने तक गर्व से सीखिए!",
@@ -295,7 +295,7 @@ export const HINDI_COURSE = {
       "unitNumber": 1,
       "title": "Unit 1: देवनागरी वर्णमाला & नमस्ते की शुरुआत",
       "description": "Devanagari Varnamala, Namaste, First Words & Courteous Introductions",
-      "color": "from-amber-500 to-orange-600",
+      "color": "from-[#a855f7] to-[#9333ea]",
       "guidebook": {
         "title": "Hindi Foundations: Devanagari, Namaste & Warmth",
         "explanation": "Hindi is written in the phonetically scientific Devanagari script. Every letter represents one exact sound. The respectful greeting 'नमस्ते' (Namaste) folds the palms together in honoring the divine spark in another.",
@@ -536,7 +536,7 @@ export const HINDI_COURSE = {
       "unitNumber": 2,
       "title": "Unit 2: परिवार, घर & स्वादिष्ट भारतीय भोजन",
       "description": "Family relations, aromatic chai, parathas, dal makhani, and cozy home life",
-      "color": "from-orange-500 to-amber-600",
+      "color": "from-[#1cb0f6] to-[#1899d6]",
       "guidebook": {
         "title": "Heart of the Desi Home: Parivar & Rasoi",
         "explanation": "In North India, family and food are sacred bonds of joy. Offering steaming masala chai and hot parathas with white butter is the first gesture of love extended to anyone entering your home.",
@@ -789,7 +789,7 @@ export const HINDI_COURSE = {
       "unitNumber": 3,
       "title": "Unit 3: गिनती १-२०, समय & दैनिक दिनचर्या",
       "description": "Numbers 1-20, telling time, colors & everyday routines",
-      "color": "from-amber-500 to-orange-500",
+      "color": "from-[#ff9600] to-[#e08500]",
       "guidebook": {
         "title": "Daily Cadence: Numbers, Colours & Time",
         "explanation": "Learn to tell the time, name vibrant colors, count from one to twenty, and describe your daily habits with natural ease.",
@@ -1044,7 +1044,7 @@ export const HINDI_COURSE = {
       "unitNumber": 4,
       "title": "Unit 4: सफ़र, बाज़ार & दिल्ली-बनारस की गलियाँ",
       "description": "Chandni Chowk bargains, Auto-rickshaws, Metro, Ghats of Varanasi & street food",
-      "color": "from-amber-600 to-rose-600",
+      "color": "from-[#ff4b4b] to-[#ea2b2b]",
       "guidebook": {
         "title": "Streets, Ghats & Bazaars: Navigating India",
         "explanation": "From taking an auto-rickshaw through the lively lanes of Old Delhi to buying silk sarees in Varanasi and enjoying street snacks, master the everyday survival skills.",
@@ -1796,7 +1796,7 @@ export const HINDI_COURSE = {
       "unitNumber": 7,
       "title": "Unit 7: मुहावरे, लोकगीत, त्यौहार & गंगा-जमुनी तहज़ीब",
       "description": "Diwali, Holi, Eid, Kabir's timeless couplets, and legendary Hindi Muhavare",
-      "color": "from-amber-600 via-rose-600 to-purple-700",
+      "color": "from-[#00cd9c] to-[#00a880]",
       "guidebook": {
         "title": "Ganga-Jamuni Tehzeeb: Festivals, Couplets & Idioms",
         "explanation": "Explore the deep cultural harmony of India. Celebrate Diwali lights, Holi colors, Eid warmth, and understand Kabir and Tulsidas's immortal couplets along with vibrant Hindi idioms.",

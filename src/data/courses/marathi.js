@@ -7,7 +7,7 @@ export const MARATHI_COURSE = {
   "region": "Maharashtra, Goa & Western Deccan",
   "speakers": "99M+",
   "greeting": "नमस्कार (Namaskar)",
-  "color": "from-amber-600 via-orange-600 to-rose-700",
+  "color": "from-[#58cc02] to-[#46a302]",
   "accentColor": "#ea580c",
   "flagEmoji": "🚩",
   "mascotQuote": "चला! अ-आ-इ-ई पासून आजीवन अस्सल मराठी होईपर्यंत अभिमानाने शिकूया!",
@@ -289,7 +289,7 @@ export const MARATHI_COURSE = {
       "unitNumber": 1,
       "title": "Unit 1: वर्णमाला & आपुलकीची सुरुवात",
       "description": "Marathi Devanagari, Namaskar, Courteous Introductions & First Words",
-      "color": "from-orange-500 to-amber-500",
+      "color": "from-[#a855f7] to-[#9333ea]",
       "guidebook": {
         "title": "Marathi Foundations: Dignity, Sweetness & Pride",
         "summary": "Marathi possesses profound literary heritage celebrating chivalry and devotion. Words are spoken with distinct clarity and heartfelt warmth (Namaskar, Kase aahat).",

@@ -27,7 +27,7 @@ export default function CulturalStories({ onEarnChaiPoints, theme = 'light' }) {
     <div className="max-w-4xl mx-auto space-y-8 pb-16 select-none">
       
       {/* Banner */}
-      <div className="bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+      <div className="bg-gradient-to-r from-[#a855f7] via-[#6366f1] to-[#1cb0f6] rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
         <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <span className="text-xs font-black uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full backdrop-blur">

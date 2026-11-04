@@ -736,7 +736,7 @@ export const TELUGU_COURSE = {
       "unitNumber": 3,
       "title": "Unit 3: ఇరానీ చాయ్ & రాయలసీమ రుచులు",
       "description": "Hyderabad Irani Chai, Osmania Biscuits, Biryani & Andhra Pindi Vantalu",
-      "color": "from-amber-600 to-orange-700",
+      "color": "from-[#1cb0f6] to-[#1899d6]",
       "guidebook": {
         "title": "Telugu Culinary Soul: From Irani Cafes to Gongura",
         "summary": "Telugu cuisine ranges from fragrant Hyderabadi Dum Biryani and Irani Chai to spicy Gongura Pachadi and crispy Pesarattu with ginger chutney.",

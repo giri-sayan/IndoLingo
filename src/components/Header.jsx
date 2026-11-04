@@ -3,18 +3,6 @@ import { Flame, Heart, Sun, Moon, Settings, ChevronDown, X, Smartphone } from 'l
 import { sounds } from '../utils/audio';
 import TigerLogo from './TigerLogo';
 
-function IndiaFlagIcon({ className = "w-5 h-3.5" }) {
-  return (
-    <svg viewBox="0 0 900 600" className={className} style={{ borderRadius: '3px', overflow: 'hidden' }}>
-      <rect width="900" height="200" fill="#FF9933" />
-      <rect y="200" width="900" height="200" fill="#FFFFFF" />
-      <rect y="400" width="900" height="200" fill="#138808" />
-      <circle cx="450" cy="300" r="80" fill="none" stroke="#000080" strokeWidth="10" />
-      <circle cx="450" cy="300" r="16" fill="#000080" />
-    </svg>
-  );
-}
-
 export default function Header({
   selectedLanguage,
   allLanguages = [],
@@ -23,6 +11,7 @@ export default function Header({
   streak = 3,
   gems = 240,
   hearts = 5,
+  completedLessonsCount = 1,
   onRefillHearts,
   onPracticeHeart,
   showTransliteration,
@@ -99,22 +88,22 @@ export default function Header({
             <TigerLogo size={30} />
           </div>
 
-          {/* Current Course Pill */}
+          {/* Current Course Flag & Level Pill (Exact Duolingo Match: 🇩🇪 12) */}
           <button
             onClick={() => {
               sounds.playPop();
               onOpenLanguageSelector();
             }}
-            className={`flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-2xl border-2 transition-all cursor-pointer shrink min-w-0 ${
+            className={`flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-2xl border-2 transition-all cursor-pointer shrink-0 ${
               isDark 
-                ? 'border-slate-700 bg-slate-800/80 hover:border-[#1cb0f6] text-slate-200' 
-                : 'border-slate-200 hover:border-emerald-400 hover:bg-emerald-50/50 text-slate-700'
+                ? 'border-[#202f36] bg-[#18262d] hover:border-[#1cb0f6] text-white' 
+                : 'border-slate-200 hover:border-emerald-400 bg-white text-slate-800'
             }`}
             title="Switch Course"
           >
-            <IndiaFlagIcon className="w-5 h-3.5 shadow-sm shrink-0" />
-            <span className="text-xs font-black uppercase tracking-wider truncate">
-              {selectedLanguage.name}
+            <span className="text-base sm:text-lg leading-none">{selectedLanguage.flagEmoji || '🇮🇳'}</span>
+            <span className="text-xs sm:text-sm font-black text-white tracking-tight">
+              {Math.max(1, completedLessonsCount || 1)}
             </span>
             <ChevronDown className="w-3 h-3 text-slate-400 shrink-0" />
           </button>

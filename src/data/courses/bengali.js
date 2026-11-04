@@ -7,7 +7,7 @@ export const BENGALI_COURSE = {
   "region": "West Bengal, Tripura, Assam & Bangladesh",
   "speakers": "275M+ (7th most spoken in the world)",
   "greeting": "নমস্কার (Nomoshkar)",
-  "color": "from-amber-500 via-orange-600 to-red-600",
+  "color": "from-[#58cc02] to-[#46a302]",
   "accentColor": "#f97316",
   "flagEmoji": "🐯",
   "mascotQuote": "আসুন! অ-আ-ক-খ থেকে আজীবন খাঁটি বাঙালি হওয়া পর্যন্ত গর্বের সাথে শিখি!",
@@ -271,7 +271,7 @@ export const BENGALI_COURSE = {
       "unitNumber": 1,
       "title": "Unit 1: বর্ণমালা ও মধুর সম্ভাষণ",
       "description": "Bengali Alphabet, Melodic Greetings, Politeness & First Words",
-      "color": "from-amber-500 to-orange-600",
+      "color": "from-[#a855f7] to-[#9333ea]",
       "guidebook": {
         "title": "Bengali Foundations: The World's Sweetest Language",
         "summary": "Voted by UNESCO among the sweetest languages in the world, Bengali rounds its vowels with poetic gentleness (Nomoshkar, Bhalo, Kemon achhen).",
@@ -1012,7 +1012,7 @@ export const BENGALI_COURSE = {
       "unitNumber": 4,
       "title": "Unit 4: ট্রাম, হলুদ ট্যাক্সি ও পথঘাট",
       "description": "Howrah Bridge, Iconic Yellow Taxis, Kolkata Trams & Metro Directions",
-      "color": "from-yellow-600 via-amber-600 to-orange-700",
+      "color": "from-[#1cb0f6] to-[#1899d6]",
       "guidebook": {
         "title": "Kolkata Commuting: Trams, Metros & Yellow Ambassadors",
         "summary": "Navigating Kolkata means hailing classic yellow Ambassador taxis, taking India's oldest metro, and enjoying vintage electric trams gliding across Esplanade.",

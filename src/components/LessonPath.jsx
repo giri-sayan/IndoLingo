@@ -9,13 +9,30 @@ import {
   Trophy, 
   BookOpen, 
   X, 
-  ArrowUp,
+  ChevronDown,
   Lock,
   Unlock
 } from 'lucide-react';
 import Mascot from './Mascot';
 import { sounds } from '../utils/audio';
 import { LIFETIME_DIPLOMAS } from '../data/diplomas';
+
+function DuolingoChestGraphic({ isClaimed, _isUnitCompleted }) {
+  return (
+    <svg viewBox="0 0 64 64" className="w-12 h-12 shrink-0 drop-shadow-md">
+      <rect x="8" y="24" width="48" height="32" rx="6" fill={isClaimed ? "#38464f" : "#d97706"} stroke={isClaimed ? "#202f36" : "#92400e"} strokeWidth="2" />
+      <line x1="8" y1="38" x2="56" y2="38" stroke={isClaimed ? "#202f36" : "#b45309"} strokeWidth="2" />
+      <rect x="18" y="24" width="6" height="32" fill={isClaimed ? "#4a5568" : "#fbbf24"} stroke={isClaimed ? "#2d3748" : "#d97706"} strokeWidth="1.5" />
+      <rect x="40" y="24" width="6" height="32" fill={isClaimed ? "#4a5568" : "#fbbf24"} stroke={isClaimed ? "#2d3748" : "#d97706"} strokeWidth="1.5" />
+      <path d="M6 24 C6 14 58 14 58 24 Z" fill={isClaimed ? "#4a5568" : "#f59e0b"} stroke={isClaimed ? "#202f36" : "#92400e"} strokeWidth="2" />
+      <path d="M18 16 C20 14 24 14 24 24 L18 24 Z" fill={isClaimed ? "#2d3748" : "#fbbf24"} />
+      <path d="M40 16 C42 14 46 14 46 24 L40 24 Z" fill={isClaimed ? "#2d3748" : "#fbbf24"} />
+      <rect x="28" y="22" width="8" height="10" rx="2" fill={isClaimed ? "#718096" : "#fef08a"} stroke={isClaimed ? "#2d3748" : "#ca8a04"} strokeWidth="1.5" />
+      <circle cx="32" cy="26" r="1.5" fill="#1a202c" />
+      <line x1="32" y1="26" x2="32" y2="29" stroke="#1a202c" strokeWidth="1.2" strokeLinecap="round" />
+    </svg>
+  );
+}
 
 export default function LessonPath({
   selectedLanguage,
@@ -103,7 +120,17 @@ export default function LessonPath({
     }
   };
 
-  const scrollToTop = () => {
+  const scrollToActiveNode = () => {
+    sounds.playPop();
+    const el = document.getElementById('active-lesson-node');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const _scrollToTop = () => {
     sounds.playPop();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -219,14 +246,14 @@ export default function LessonPath({
             name: 'indigo' 
           },
           { 
-            bg: 'bg-[#eab308]', 
-            border: 'border-[#ca8a04]', 
-            text: 'text-[#eab308]', 
-            activeNodeBg: 'bg-[#eab308] border-[#ca8a04]', 
-            shadowColor: '#a16207', 
-            btnText: 'text-[#eab308]',
-            hex: '#eab308',
-            name: 'amber' 
+            bg: 'bg-[#ec4899]', 
+            border: 'border-[#db2777]', 
+            text: 'text-[#ec4899]', 
+            activeNodeBg: 'bg-[#ec4899] border-[#db2777]', 
+            shadowColor: '#be185d', 
+            btnText: 'text-[#ec4899]',
+            hex: '#ec4899',
+            name: 'pink' 
           }
         ];
         const unitTheme = bannerColorSets[unitIdx % bannerColorSets.length];
@@ -329,7 +356,10 @@ export default function LessonPath({
                     )}
 
                     {/* Milestone 3D Node Button Container */}
-                    <div className={`relative flex flex-col items-center justify-center ${isPopoverOpen ? 'z-50' : ''}`}>
+                    <div 
+                      id={isCurrent ? 'active-lesson-node' : undefined}
+                      className={`relative flex flex-col items-center justify-center ${isPopoverOpen ? 'z-50' : ''}`}
+                    >
                       
                       {/* Floating Duolingo START Bubble */}
                       {isCurrent && !isPopoverOpen && (
@@ -349,9 +379,9 @@ export default function LessonPath({
                             cy="50"
                             r="44"
                             fill="none"
-                            stroke="rgba(255,255,255,0.2)"
+                            stroke="rgba(255,255,255,0.15)"
                             strokeWidth="6"
-                            strokeDasharray="32 14"
+                            strokeDasharray="48 21"
                             strokeLinecap="round"
                           />
                           <circle
@@ -359,9 +389,9 @@ export default function LessonPath({
                             cy="50"
                             r="44"
                             fill="none"
-                            stroke="#ffffff"
+                            stroke={unitTheme.hex}
                             strokeWidth="6"
-                            strokeDasharray="32 14"
+                            strokeDasharray="48 21"
                             strokeDashoffset="0"
                             strokeLinecap="round"
                             className="drop-shadow-sm"
@@ -369,7 +399,7 @@ export default function LessonPath({
                         </svg>
                       )}
 
-                      {/* 3D Duolingo Tactile Stepping Stone Button */}
+                      {/* 3D Duolingo Tactile Stepping Stone Button (Screenshot Match) */}
                       <button
                         onClick={() => handleNodeClick(lesson, unit)}
                         className={`lesson-node-btn rounded-full flex flex-col items-center justify-center font-black transition-all cursor-pointer relative z-20 ${
@@ -378,8 +408,8 @@ export default function LessonPath({
                             : isCompleted
                             ? `w-18 h-18 sm:w-20 sm:h-20 ${unitTheme.bg} text-white shadow-[0_7px_0_rgba(0,0,0,0.3)] hover:brightness-110 active:translate-y-1.5 active:shadow-[0_2px_0_rgba(0,0,0,0.3)]`
                             : freeStudyMode
-                            ? 'w-18 h-18 sm:w-20 sm:h-20 bg-[#1cb0f6] text-white shadow-[0_7px_0_#127aa8] hover:brightness-110 active:translate-y-1.5 active:shadow-[0_2px_0_#127aa8]'
-                            : 'w-18 h-18 sm:w-20 sm:h-20 bg-[#202f36] border-b-4 border-[#141f24] text-slate-500 shadow-[0_6px_0_#0f171c]'
+                            ? `w-18 h-18 sm:w-20 sm:h-20 ${unitTheme.bg} text-white shadow-[0_7px_0_rgba(0,0,0,0.3)] hover:brightness-110 active:translate-y-1.5`
+                            : `w-18 h-18 sm:w-20 sm:h-20 ${unitTheme.bg} opacity-85 hover:opacity-100 text-white shadow-[0_7px_0_rgba(0,0,0,0.3)] hover:brightness-110 active:translate-y-1.5`
                         }`}
                         title={`${lesson.title} ${isLocked ? '(Click to unlock or study)' : ''}`}
                       >
@@ -485,11 +515,7 @@ export default function LessonPath({
                           : 'bg-[#18262d] border-[#2b3e48] text-slate-500 cursor-not-allowed'
                       }`}
                     >
-                      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-sm ${
-                        isClaimed ? 'bg-[#2b3e48] text-slate-400' : isUnitCompleted ? 'bg-[#ff9600] text-white animate-bounce' : 'bg-[#20333d] text-slate-500'
-                      }`}>
-                        {isClaimed ? '✓' : '🎁'}
-                      </div>
+                      <DuolingoChestGraphic isClaimed={isClaimed} isUnitCompleted={isUnitCompleted} />
                       <div className="text-left">
                         <p className="text-xs font-black uppercase tracking-wider text-white">
                           {isClaimed ? 'Unit Reward Claimed' : isUnitCompleted ? 'Claim Unit Reward!' : 'Unit Reward Chest'}
@@ -574,7 +600,7 @@ export default function LessonPath({
             </button>
 
             {/* Diploma Certificate Frame */}
-            <div className="border-4 border-amber-400/80 rounded-2xl p-6 sm:p-8 bg-gradient-to-b from-[#241712] via-[#1a1c23] to-[#121c24] text-center space-y-5 relative shadow-inner">
+            <div className="border-4 border-[#ffc800] rounded-2xl p-6 sm:p-8 bg-gradient-to-b from-[#18262d] via-[#131f24] to-[#0f171c] text-center space-y-5 relative shadow-inner">
               
               {/* Traditional Cultural Icons / Seal */}
               <div className="flex justify-center items-center gap-3">
@@ -659,13 +685,13 @@ export default function LessonPath({
         </div>
       )}
 
-      {/* Floating Scroll to Top Button (Image 2) */}
+      {/* Floating Scroll to Active Node Button (Exact Duolingo Mobile App Match) */}
       <button
-        onClick={scrollToTop}
-        className="fixed bottom-6 right-6 lg:right-10 z-30 w-11 h-11 rounded-full bg-[#18262d] border-2 border-[#38464f] text-slate-300 hover:text-white flex items-center justify-center shadow-2xl transition hover:scale-110 active:scale-95 cursor-pointer"
-        title="Scroll to top"
+        onClick={scrollToActiveNode}
+        className="fixed bottom-20 lg:bottom-8 right-4 lg:right-8 z-30 w-12 h-12 rounded-full bg-[#18262d] border-2 border-[#2b3e48] text-[#1cb0f6] hover:text-white hover:border-[#1cb0f6] flex items-center justify-center shadow-2xl transition hover:scale-110 active:scale-95 cursor-pointer"
+        title="Jump to current lesson"
       >
-        <ArrowUp className="w-5 h-5 stroke-[2.5]" />
+        <ChevronDown className="w-6 h-6 stroke-[3]" />
       </button>
 
     </div>

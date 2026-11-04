@@ -118,7 +118,7 @@ export default function InstallAppModal({ isOpen, onClose, theme = 'dark' }) {
                 <span><strong>No Browser URL Bar</strong> — Full-Screen App Experience</span>
               </div>
               <div className="flex items-center gap-3 text-xs font-bold">
-                <span className="w-6 h-6 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">📴</span>
+                <span className="w-6 h-6 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">📴</span>
                 <span><strong>Offline Practice</strong> with Local Storage Sync</span>
               </div>
             </div>
@@ -127,22 +127,22 @@ export default function InstallAppModal({ isOpen, onClose, theme = 'dark' }) {
             {isIOS ? (
               /* iOS Safari Instructions */
               <div className={`p-4 rounded-2xl border space-y-3 ${
-                isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-amber-50/70 border-amber-200'
+                isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-slate-50 border-slate-200'
               }`}>
-                <h4 className="text-xs font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 flex items-center gap-2">
+                <h4 className="text-xs font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
                   <Smartphone className="w-4 h-4" /> How to Install on iPhone / iPad:
                 </h4>
                 <ol className="text-xs font-bold space-y-2.5 text-slate-700 dark:text-slate-300">
                   <li className="flex items-start gap-2.5">
-                    <span className="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px] shrink-0 font-black">1</span>
+                    <span className="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] shrink-0 font-black">1</span>
                     <span>Tap the <strong>Share</strong> button <Share className="w-3.5 h-3.5 inline mx-1 text-blue-500" /> at the bottom of Safari.</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <span className="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px] shrink-0 font-black">2</span>
+                    <span className="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] shrink-0 font-black">2</span>
                     <span>Scroll down and select <strong>"Add to Home Screen"</strong> <PlusSquare className="w-3.5 h-3.5 inline mx-1 text-slate-500" />.</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <span className="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px] shrink-0 font-black">3</span>
+                    <span className="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] shrink-0 font-black">3</span>
                     <span>Tap <strong>"Add"</strong> in the top-right corner. That's it!</span>
                   </li>
                 </ol>

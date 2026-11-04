@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { X, Heart, Volume2, CheckCircle2, XCircle, ArrowRight, Turtle } from 'lucide-react';
+import { X, Heart, Volume2, CheckCircle2, XCircle, ArrowRight, Keyboard, Share2, Timer, Turtle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import Mascot from './Mascot';
 import { sounds } from '../utils/audio';
@@ -39,7 +39,7 @@ export default function LessonModal({
   const [_correctCount, setCorrectCount] = useState(0);
   const [showQuitConfirm, setShowQuitConfirm] = useState(false);
   const [_combo, setCombo] = useState(0);
-  const [maxCombo, setMaxCombo] = useState(0);
+  const [_maxCombo, setMaxCombo] = useState(0);
 
   // Reset or initialize question queue on lesson change
   useEffect(() => {
@@ -339,79 +339,83 @@ export default function LessonModal({
       {/* Main Interactive Stage */}
       <div className="flex-1 max-w-2xl mx-auto w-full px-4 sm:px-8 py-6 flex flex-col justify-center overflow-y-auto overscroll-contain">
 
-        {/* COMPLETED SUCCESS SCREEN */}
+        {/* COMPLETED SUCCESS SCREEN (Exact Duolingo Match: frame_102) */}
         {status === 'completed' && (
-          <div className="text-center space-y-6 py-8 animate-in zoom-in-95 duration-300">
+          <div className="text-center space-y-6 py-6 animate-in zoom-in-95 duration-300 max-w-lg mx-auto w-full">
             <div className="flex justify-center">
-              <Mascot mood="cheering" size={135} outfit={equippedOutfit} />
+              <Mascot mood="cheering" size={145} outfit={equippedOutfit} />
             </div>
+            
             <div>
-              <span className="text-xs font-black uppercase tracking-widest text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950 px-3 py-1 rounded-full">
-                शाबाश! / Excellent Work!
-              </span>
-              <h2 className="text-3xl font-black text-slate-800 dark:text-white mt-3">
-                Lesson Completed!
+              <h2 className="text-3xl sm:text-4xl font-black text-[#ffc800] tracking-tight">
+                High scorer!
               </h2>
-              <p className="text-sm font-bold text-slate-500 dark:text-slate-400 mt-1">
-                You’re mastering {selectedLanguage.name} step by step.
+              <p className="text-sm font-bold text-slate-400 mt-1">
+                You completed a lesson in {selectedLanguage.name}!
               </p>
             </div>
 
-            {/* Stats Summary Cards */}
-            {questionsList.length === baseQuestionsCount && (
-              <div className="flex justify-center mb-2 animate-bounce">
-                <span className="text-sm font-black uppercase tracking-widest text-amber-500 bg-amber-100 dark:bg-amber-900/40 border-2 border-amber-400 px-4 py-1.5 rounded-full shadow-lg flex items-center gap-2">
-                  ✨ NO MISTAKES! ✨
-                </span>
-              </div>
-            )}
-            
-            <div className="grid grid-cols-2 gap-3 max-w-md mx-auto sm:grid-cols-4">
-              <div className={`border-2 rounded-2xl p-4 col-span-2 sm:col-span-1 flex flex-col justify-center ${
-                isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-amber-50 border-amber-200'
-              }`}>
-                <p className="text-xs font-black text-amber-500 uppercase">Total XP</p>
-                <div className="mt-1">
-                  <p className="text-2xl font-black text-amber-500">
-                    +{lesson.xp + (questionsList.length === baseQuestionsCount ? 5 : 0)}
+            {/* Duolingo 2-Card Horizontal Split (Video Frame 102 Match) */}
+            <div className="grid grid-cols-2 gap-3.5 w-full">
+              {/* Card 1: TOTAL XP / COMBO with Yellow Header */}
+              <div className="rounded-2xl border-2 border-[#e5a500] bg-[#18262d] overflow-hidden shadow-lg flex flex-col">
+                <div className="bg-[#ffc800] py-1.5 px-3 text-center">
+                  <p className="text-[11px] font-black uppercase tracking-wider text-[#4a2e00]">
+                    TOTAL XP
                   </p>
-                  {questionsList.length === baseQuestionsCount && (
-                    <p className="text-[10px] font-bold text-amber-600 mt-0.5 whitespace-nowrap">Perfect Bonus: +5</p>
-                  )}
+                </div>
+                <div className="p-4 flex items-center justify-center gap-2">
+                  <span className="text-2xl text-[#ffc800]">⚡</span>
+                  <span className="text-3xl font-black text-white">
+                    +{lesson.xp + (questionsList.length === baseQuestionsCount ? 5 : 0)}
+                  </span>
                 </div>
               </div>
-              <div className={`border-2 rounded-2xl p-4 col-span-1 ${
-                isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-emerald-50 border-emerald-200'
-              }`}>
-                <p className="text-xs font-black text-emerald-600 dark:text-emerald-400 uppercase">Accuracy</p>
-                <p className="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">
-                  {Math.round((baseQuestionsCount / Math.max(1, questionsList.length)) * 100)}%
-                </p>
-              </div>
-              <div className={`border-2 rounded-2xl p-4 col-span-1 ${
-                isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-blue-50 border-blue-200'
-              }`}>
-                <p className="text-[10px] sm:text-xs font-black text-blue-600 dark:text-blue-400 uppercase">Max Combo</p>
-                <p className="text-2xl font-black text-blue-600 dark:text-blue-400 mt-1">
-                  {maxCombo}
-                </p>
-              </div>
-              <div className={`border-2 rounded-2xl p-4 col-span-2 sm:col-span-1 flex flex-col justify-center ${
-                isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-orange-50 border-orange-200'
-              }`}>
-                <p className="text-xs font-black text-orange-500 uppercase">Streak</p>
-                <p className="text-2xl font-black text-orange-500 mt-1 flex items-center justify-center gap-1">
-                  <span>🔥</span> +1
-                </p>
+
+              {/* Card 2: AMAZING / Accuracy with Green Header */}
+              <div className="rounded-2xl border-2 border-[#46a302] bg-[#18262d] overflow-hidden shadow-lg flex flex-col">
+                <div className="bg-[#58cc02] py-1.5 px-3 text-center">
+                  <p className="text-[11px] font-black uppercase tracking-wider text-white">
+                    {Math.round((baseQuestionsCount / Math.max(1, questionsList.length)) * 100) >= 90 ? 'AMAZING' : 'ACCURACY'}
+                  </p>
+                </div>
+                <div className="p-4 flex items-center justify-center gap-2">
+                  <Timer className="w-6 h-6 text-[#58cc02]" />
+                  <span className="text-3xl font-black text-white">
+                    {Math.round((baseQuestionsCount / Math.max(1, questionsList.length)) * 100)}%
+                  </span>
+                </div>
               </div>
             </div>
 
-            <button
-              onClick={onClose}
-              className="w-full max-w-md py-4 rounded-2xl font-black text-base btn-duo-green tracking-wider uppercase cursor-pointer"
-            >
-              CONTINUE TO LEARNING PATH
-            </button>
+            {/* Bottom Actions: Share Button + Cyan Chunky CLAIM XP Button */}
+            <div className="flex items-center gap-3 pt-4 w-full">
+              <button
+                onClick={() => {
+                  sounds.playPop();
+                  if (navigator.share) {
+                    navigator.share({
+                      title: 'IndoLingo Achievement',
+                      text: `I just earned +${lesson.xp} XP in ${selectedLanguage.name} on IndoLingo!`,
+                      url: window.location.origin
+                    }).catch(() => {});
+                  } else {
+                    navigator.clipboard.writeText(`I just earned +${lesson.xp} XP in ${selectedLanguage.name} on IndoLingo!`);
+                  }
+                }}
+                className="w-14 h-14 rounded-2xl bg-[#18262d] hover:bg-[#20333d] border-2 border-[#2b3e48] text-slate-300 hover:text-white flex items-center justify-center shrink-0 shadow-md transition active:scale-95 cursor-pointer"
+                title="Share Lesson Achievement"
+              >
+                <Share2 className="w-6 h-6 stroke-[2.5]" />
+              </button>
+
+              <button
+                onClick={onClose}
+                className="flex-1 py-4 px-6 rounded-2xl bg-[#1cb0f6] hover:bg-[#1899d6] text-white font-black text-base uppercase tracking-wider shadow-[0_5px_0_#127aa8] active:translate-y-1 active:shadow-none transition cursor-pointer flex items-center justify-center gap-2"
+              >
+                <span>CLAIM XP</span>
+              </button>
+            </div>
           </div>
         )}
 
@@ -592,17 +596,19 @@ export default function LessonModal({
               </div>
             )}
 
-            {/* 2. SENTENCE BUILDER */}
+            {/* 2. SENTENCE BUILDER (Notebook Underscore Slots & Duolingo Layout) */}
             {currentQ.type === 'sentence-builder' && (
               <div className="space-y-6 pt-2">
-                {/* Target Sentence Area / Slot */}
-                <div className={`min-h-[72px] p-4 rounded-2xl border-b-3 border-dashed flex flex-wrap gap-2.5 items-center transition-colors ${
-                  isDark ? 'bg-slate-800/40 border-slate-700' : 'bg-slate-50 border-slate-300'
+                {/* Target Sentence Notebook Lines Area */}
+                <div className={`min-h-[90px] p-4 rounded-2xl border-b-2 flex flex-wrap gap-2.5 items-center transition-colors ${
+                  isDark ? 'bg-[#18262d]/60 border-[#38464f]' : 'bg-slate-50 border-slate-300'
                 }`}>
                   {selectedSentenceWords.length === 0 ? (
-                    <span className="text-sm font-bold text-slate-400 italic">
-                      Tap words below to form the sentence...
-                    </span>
+                    <div className="w-full flex items-center justify-center py-4">
+                      <span className="text-xs sm:text-sm font-bold text-slate-400 italic">
+                        Tap words below to form the sentence...
+                      </span>
+                    </div>
                   ) : (
                     selectedSentenceWords.map((word, wIdx) => (
                       <button
@@ -613,12 +619,12 @@ export default function LessonModal({
                             setSelectedSentenceWords(prev => prev.filter((_, i) => i !== wIdx));
                           }
                         }}
-                        className={`px-4 py-2.5 rounded-2xl font-black text-sm border-2 border-b-4 transition cursor-pointer shadow-sm ${
+                        className={`px-4 py-2.5 rounded-2xl font-black text-sm sm:text-base border-2 border-b-4 transition cursor-pointer shadow-sm active:scale-95 ${
                           isDark
-                            ? 'bg-slate-800 border-slate-700 border-b-slate-600 text-white hover:border-rose-400'
+                            ? 'bg-[#18262d] border-[#38464f] border-b-[#202f36] text-white hover:border-rose-400'
                             : 'bg-white border-slate-200 border-b-slate-300 text-slate-800 hover:border-rose-400'
                         }`}
-                        title="Click to remove"
+                        title="Click to return word"
                       >
                         {word}
                       </button>
@@ -626,7 +632,7 @@ export default function LessonModal({
                   )}
                 </div>
 
-                {/* Word Bank */}
+                {/* Word Bank with Static Placeholder Slots */}
                 <div className="flex flex-wrap gap-2.5 justify-center pt-2">
                   {currentQ.wordBank.map((word, bIdx) => {
                     const timesInSentence = selectedSentenceWords.filter(w => w === word).length;
@@ -643,13 +649,13 @@ export default function LessonModal({
                           }
                         }}
                         disabled={isExhausted || status !== 'idle'}
-                        className={`px-4 py-2.5 rounded-2xl font-black text-base transition-all border-2 border-b-4 cursor-pointer ${
+                        className={`px-4 py-2.5 rounded-2xl font-black text-sm sm:text-base transition-all border-2 border-b-4 cursor-pointer select-none ${
                           isExhausted
                             ? isDark
-                              ? 'bg-slate-800/30 border-slate-800 border-b-slate-800 text-transparent pointer-events-none'
-                              : 'bg-slate-100 border-slate-200 border-b-slate-200 text-transparent pointer-events-none'
+                              ? 'bg-[#202f36]/60 border-[#2b3e48] border-b-[#2b3e48] text-transparent shadow-none cursor-default'
+                              : 'bg-slate-100 border-slate-200 border-b-slate-200 text-transparent shadow-none cursor-default'
                             : isDark
-                            ? 'bg-slate-800 border-slate-700 border-b-slate-600 text-slate-100 hover:border-emerald-500 active:translate-y-1'
+                            ? 'bg-[#18262d] border-[#38464f] border-b-[#202f36] text-white hover:border-[#1cb0f6] active:translate-y-1'
                             : 'bg-white border-slate-200 border-b-slate-300 text-slate-800 hover:border-emerald-400 hover:bg-emerald-50 active:translate-y-1'
                         }`}
                       >
@@ -789,13 +795,24 @@ export default function LessonModal({
               </div>
             )}
 
-            {/* Action Buttons */}
-            <div className="w-full sm:w-auto">
+            {/* Action Buttons (Duolingo Keyboard Button + Massive 3D CHECK Button Match) */}
+            <div className="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-3">
+              {status === 'idle' && currentQ?.type === 'sentence-builder' && (
+                <button
+                  type="button"
+                  onClick={() => sounds.playPop()}
+                  className="p-3.5 rounded-2xl border-2 border-[#2b3e48] bg-[#18262d] text-slate-400 hover:text-white transition cursor-pointer shadow-sm active:scale-95 shrink-0"
+                  title="Keyboard input"
+                >
+                  <Keyboard className="w-5 h-5" />
+                </button>
+              )}
+
               {status === 'idle' ? (
                 <button
                   onClick={handleCheckAnswer}
                   disabled={isCheckDisabled()}
-                  className={`w-full sm:w-auto px-10 py-3.5 rounded-2xl font-black text-sm uppercase tracking-wider transition-all cursor-pointer ${
+                  className={`flex-1 sm:flex-none px-10 py-3.5 rounded-2xl font-black text-sm uppercase tracking-wider transition-all cursor-pointer ${
                     isCheckDisabled()
                       ? 'btn-duo-gray'
                       : 'btn-duo-green text-white shadow-md'

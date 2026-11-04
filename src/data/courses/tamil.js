@@ -544,7 +544,7 @@ export const TAMIL_COURSE = {
       "difficulty": "medium",
       "description": "Order steaming degree filter coffee, crunchy medu vadas, crispy roast dosas, and banana leaf feasts.",
       "icon": "Coffee",
-      "color": "bg-amber-500",
+      "color": "bg-[#a855f7]",
       "lessons": [
         {
           "id": "ta-2-1",
