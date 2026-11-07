@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Flame, Heart, Zap, Target, ChevronDown, X } from 'lucide-react';
-import Mascot from './Mascot';
 import { sounds } from '../utils/audio';
+import { DESI_LEAGUES } from '../data/innovations';
 
 export default function RightSidebar({
   selectedLanguage,
@@ -21,6 +21,9 @@ export default function RightSidebar({
   const isDark = theme === 'dark';
   const [activePopover, setActivePopover] = useState(null);
   const statsRef = useRef(null);
+
+  const userXP = completedLessonsCount * 50 + 350;
+  const currentLeague = DESI_LEAGUES.slice().reverse().find(l => userXP >= l.minXp) || DESI_LEAGUES[0];
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -205,46 +208,15 @@ export default function RightSidebar({
         </div>
       </div>
 
-      {/* 2. Duolingo Super Promo Card (Image 1 & 2) */}
-      <div className={`rounded-3xl p-5 border-2 relative overflow-hidden transition-colors ${
-        isDark ? 'bg-[#18262d] border-[#38464f]' : 'bg-white border-slate-200'
-      }`}>
-        {/* Colorful gradient header & glowing mascot */}
-        <div className="flex items-start justify-between gap-2 mb-3">
-          <div>
-            <span className="inline-block bg-gradient-to-r from-[#2ee0f8] via-[#a855f7] to-[#ec4899] font-black text-white text-[11px] px-2.5 py-0.5 rounded-md uppercase italic tracking-wider shadow-sm">
-              SUPER
-            </span>
-            <h3 className="text-lg font-black text-white mt-2 leading-tight">
-              Try Super for free
-            </h3>
-            <p className="text-xs text-slate-300 font-semibold mt-1 leading-relaxed max-w-[210px]">
-              No ads, personalized practice, and unlimited Legendary!
-            </p>
-          </div>
-
-          <div className="shrink-0 -mt-2 -mr-2">
-            <Mascot mood="cheering" size={80} outfit="royal" className="drop-shadow-[0_0_16px_rgba(168,85,247,0.6)]" />
-          </div>
-        </div>
-
-        <button
-          onClick={() => {
-            sounds.playFanfare();
-            if (onOpenShop) onOpenShop();
-          }}
-          className="w-full py-3 rounded-2xl font-black text-xs uppercase tracking-wider border-2 border-white/90 text-white hover:bg-white/10 active:scale-[0.98] transition cursor-pointer"
-        >
-          TRY 1 WEEK FREE
-        </button>
-      </div>
-
-      {/* 3. Pearl League / Leaderboard Card (Image 1 & 2) */}
+      {/* 2. Leaderboard League Card (Duolingo Style synced with user XP) */}
       <div className={`rounded-3xl p-5 border-2 transition-colors ${
         isDark ? 'bg-[#18262d] border-[#38464f]' : 'bg-white border-slate-200'
       }`}>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-black text-sm text-white">Pearl League</h3>
+          <h3 className="font-black text-sm text-white flex items-center gap-2">
+            <span>{currentLeague.icon}</span>
+            <span>{currentLeague.name}</span>
+          </h3>
           <button
             onClick={() => {
               sounds.playPop();
@@ -257,19 +229,18 @@ export default function RightSidebar({
         </div>
 
         <div className="flex items-center gap-4">
-          {/* Pink faceted gem icon (Duolingo Pearl/Amethyst style) */}
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#f472b6] to-[#db2777] p-0.5 shadow-md flex items-center justify-center shrink-0">
-            <div className="w-full h-full rounded-2xl bg-[#ec4899] flex items-center justify-center text-2xl drop-shadow">
-              💎
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#1cb0f6] to-[#0284c7] p-0.5 shadow-md flex items-center justify-center shrink-0">
+            <div className="w-full h-full rounded-2xl bg-[#0369a1] flex items-center justify-center text-2xl drop-shadow">
+              {currentLeague.icon || '🌊'}
             </div>
           </div>
 
           <div>
             <p className="text-sm font-black text-white">
-              You're ranked <span className="text-[#58cc02]">#7</span>
+              You're ranked <span className="text-[#58cc02]">#4</span>
             </p>
             <p className="text-xs text-slate-400 font-bold mt-0.5">
-              3 ranks away from the demotion zone!
+              Top 7 advance to the next league!
             </p>
           </div>
         </div>

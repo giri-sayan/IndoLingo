@@ -24,16 +24,70 @@ export const CULTURAL_STORIES = [
   {
     id: 'story-1',
     title: 'The Secret of Cutting Chai',
-    lang: 'Hindi / Indian Street Culture',
+    lang: 'Hindi & Indian Street Culture',
     langCode: 'hi-IN',
     imageEmoji: '☕',
-    description: 'Why is it called "cutting" chai in Mumbai and across railway stations?',
-    story: [
-      'In India, chai is not just a drink; it is an emotion and a social catalyst.',
-      'A "cutting" chai refers to half a glass of tea—strong, boiled with crushed ginger (adrak), cardamom (elaichi), milk, and sugar.',
-      'Why half? Because people would meet friends multiple times a day at the tapri (roadside tea stall), and half a glass was the perfect portion to sip while chatting without getting overly full!'
+    description: 'Why do friends always ask for "cutting" chai at street stalls?',
+    xpReward: 15,
+    characters: [
+      { name: 'Ramesh', avatar: '👨' },
+      { name: 'Chaiwala', avatar: '🧔' }
     ],
-    desiWord: 'अदरक वाली चाय (Adrak wali chai - Ginger tea)'
+    lines: [
+      { 
+        type: 'dialogue', 
+        speaker: 'Ramesh', 
+        avatar: '👨', 
+        text: 'भैया, दो कटिंग चाय देना!', 
+        roman: 'Bhaiya, do cutting chai dena!', 
+        english: 'Brother, please give two cutting chais!' 
+      },
+      { 
+        type: 'dialogue', 
+        speaker: 'Chaiwala', 
+        avatar: '🧔', 
+        text: 'हाँ बाबूजी, अभी ताज़ा अदरक कूट के बनाता हूँ!', 
+        roman: 'Haan babuji, abhi taaza adrak koot ke banata hoon!', 
+        english: 'Yes sir, making it fresh right now with crushed ginger!' 
+      },
+      { 
+        type: 'question', 
+        prompt: 'Why is it called "cutting" chai in India?', 
+        options: [
+          { text: 'Half a glass of strong tea to sip while chatting with friends', correct: true },
+          { text: 'Tea with cold ice cubes', correct: false },
+          { text: 'Tea served with kitchen scissors', correct: false }
+        ], 
+        explanation: '"Cutting" refers to half a glass—strong, spiced, and ideal for quick road chats without getting overly full!' 
+      },
+      { 
+        type: 'dialogue', 
+        speaker: 'Ramesh', 
+        avatar: '👨', 
+        text: 'वाह! गरमा-गरम चाय की खुशबू बहुत बढ़िया है।', 
+        roman: 'Waah! Garma-garam chai ki khushboo bahut badhiya hai.', 
+        english: 'Wow! The aroma of hot spiced tea is wonderful.' 
+      },
+      { 
+        type: 'dialogue', 
+        speaker: 'Chaiwala', 
+        avatar: '🧔', 
+        text: 'लीजिए, कड़क चाय पीजिए और दिन बनाइए!', 
+        roman: 'Leejiye, kadak chai peejiye aur din banaiye!', 
+        english: 'Here you go, drink this strong tea and enjoy your day!' 
+      },
+      { 
+        type: 'question', 
+        prompt: 'What does "कड़क चाय" (Kadak chai) mean?', 
+        options: [
+          { text: 'Strong and richly brewed tea', correct: true },
+          { text: 'Sour tea', correct: false },
+          { text: 'Watery tea without milk', correct: false }
+        ], 
+        explanation: 'Kadak means strong, rich, and full-bodied tea!' 
+      }
+    ],
+    desiWord: 'अदरक वाली कड़क चाय (Adrak wali kadak chai)'
   },
   {
     id: 'story-2',
@@ -42,10 +96,54 @@ export const CULTURAL_STORIES = [
     langCode: 'ta-IN',
     imageEmoji: '☕',
     description: 'The science of the dabara and the frothy "meter coffee" pour.',
-    story: [
-      'Brewed using a traditional stainless steel double-chamber drip filter with chicory-roasted coffee beans.',
-      'It is served in a "dabara" (wide rim bowl) and "tumbler" (cup).',
-      'The coffee is aerated by pouring it back and forth between cup and dabara from an arm’s length high (hence called "Meter Coffee"), creating a thick heavenly frothy cream without any artificial machine!'
+    xpReward: 15,
+    characters: [
+      { name: 'Priya', avatar: '👩' },
+      { name: 'Coffee Master', avatar: '👨‍🍳' }
+    ],
+    lines: [
+      { 
+        type: 'dialogue', 
+        speaker: 'Priya', 
+        avatar: '👩', 
+        text: 'அண்ணா, ஒரு ஸ்ட்ராங் பில்டர் காபி குடுங்க!', 
+        roman: 'Anna, oru strong filter kaapi kudunga!', 
+        english: 'Brother, please give one strong filter coffee!' 
+      },
+      { 
+        type: 'dialogue', 
+        speaker: 'Coffee Master', 
+        avatar: '👨‍🍳', 
+        text: 'டபரா செட்ல சூடா, நுரை ததும்ப தரேன் அம்மா!', 
+        roman: 'Dabara set-la sooda, nurai thadhumba tharen amma!', 
+        english: 'Giving it hot in a brass dabara set with frothy foam, ma\'am!' 
+      },
+      { 
+        type: 'question', 
+        prompt: 'Why is South Indian filter coffee called "Meter Coffee"?', 
+        options: [
+          { text: 'It is aerated by pouring between cup and dabara from a meter high', correct: true },
+          { text: 'It costs one meter of silk', correct: false },
+          { text: 'It takes one meter of time to brew', correct: false }
+        ], 
+        explanation: 'Masters pour the coffee back and forth from an arm\'s length to create velvety natural crema foam without steam machines!' 
+      },
+      { 
+        type: 'dialogue', 
+        speaker: 'Priya', 
+        avatar: '👩', 
+        text: 'காபி வாசனை தூக்குது! சக்கரை சரியா இருக்கு.', 
+        roman: 'Kaapi vaasanai thookudhu! Sakkari sariyaa irukku.', 
+        english: 'The coffee aroma is heavenly! Sugar is just right.' 
+      },
+      { 
+        type: 'dialogue', 
+        speaker: 'Coffee Master', 
+        avatar: '👨‍🍳', 
+        text: 'நம்ம காபி குடிச்சா நாள் பூரா சுறுசுறுப்பா இருக்கும்!', 
+        roman: 'Namma kaapi kudicha naal poora surusuruppaa irukkum!', 
+        english: 'Drinking our coffee keeps you energetic all day long!' 
+      }
     ],
     desiWord: 'பில்டர் காபி (Filter Kaapi)'
   },
@@ -55,69 +153,213 @@ export const CULTURAL_STORIES = [
     lang: 'Pan-Indian Expression',
     langCode: 'hi-IN',
     imageEmoji: '🙂',
-    description: 'What does the famous Indian head nod actually mean?',
-    story: [
-      'A gentle side-to-side tilt can communicate nuanced meanings depending on speed and context:',
-      '1. Side to side smoothly: "Yes", "I understand", or "Sounds good!"',
-      '2. Quick tilt with a smile: "Thank you" or greeting an acquaintance.',
-      '3. Slight nod with eyebrows raised: "What’s up?" or "Are you ready?"',
-      'It is a warm, polite non-verbal affirmation shared across every state in India!'
+    description: 'What does the famous Indian affirmative head nod actually mean?',
+    xpReward: 15,
+    characters: [
+      { name: 'Traveler', avatar: '🎒' },
+      { name: 'Amit', avatar: '🧑' }
     ],
-    desiWord: 'हाँ भाई / சரிங்க (All good!)'
+    lines: [
+      { 
+        type: 'dialogue', 
+        speaker: 'Traveler', 
+        avatar: '🎒', 
+        text: 'Excuse me, is this the right bus to the railway station?', 
+        roman: 'Excuse me, is this the right bus?', 
+        english: 'Excuse me, is this the right bus to the railway station?' 
+      },
+      { 
+        type: 'dialogue', 
+        speaker: 'Amit', 
+        avatar: '🧑', 
+        text: 'हाँ भाई, बिल्कुल यही बस है! (warm head tilt)', 
+        roman: 'Haan bhai, bilkul yahi bus hai!', 
+        english: 'Yes brother, definitely this bus!' 
+      },
+      { 
+        type: 'question', 
+        prompt: 'What does a gentle side-to-side Indian head nod mean?', 
+        options: [
+          { text: '"Yes", "I understand", or "All good!"', correct: true },
+          { text: '"No, go away"', correct: false },
+          { text: '"I am angry"', correct: false }
+        ], 
+        explanation: 'A smooth side-to-side tilt is a polite, warm non-verbal affirmation shared across all Indian states!' 
+      },
+      { 
+        type: 'dialogue', 
+        speaker: 'Traveler', 
+        avatar: '🎒', 
+        text: 'Thank you so much! You are very kind.', 
+        roman: 'Dhanyavaad!', 
+        english: 'Thank you so much! You are very kind.' 
+      },
+      { 
+        type: 'dialogue', 
+        speaker: 'Amit', 
+        avatar: '🧑', 
+        text: 'अरे कोई बात नहीं, यात्रा मंगलमय हो!', 
+        roman: 'Arre koi baat nahi, yaatra mangalmay ho!', 
+        english: 'No problem at all, have a blessed journey!' 
+      }
+    ],
+    desiWord: 'हाँ भाई / சரிங்க (All good / Affirmative)'
   },
   {
     id: 'story-4',
-    title: 'The Soul of "ழ" (Zha) & 2,500 Years of Classical Tamil',
-    lang: 'Tamil / Classical Heritage',
-    langCode: 'ta-IN',
-    imageEmoji: '📜',
-    description: 'Why is "ழ" the most sacred letter in Tamil, and how did Tamil survive 25 centuries intact?',
-    story: [
-      '"ழ" (Zha) is a unique retroflex approximant found in very few languages on Earth. To pronounce it, you curl the tip of your tongue backwards towards the soft palate without touching the roof.',
-      'It gives the very word "தமிழ்" (Tamizh), "வாழ்க" (Vaazhga), and "மகிழ்ச்சி" (Magizhchi) their musical soul.',
-      'With over 2,500 years of unbroken literary heritage—from Sangam poetry (சங்க இலக்கியம்) to Thirukkural and modern speech—Tamil is celebrated worldwide as a living classical language (செம்மொழி).'
-    ],
-    desiWord: 'தமிழ் என் உயிர் (Tamizh en uyir - Tamil is my life-breath)'
-  },
-  {
-    id: 'story-5',
-    title: 'Why Tamilians Never Say "Goodbye" (போய் வருகிறேன்)',
+    title: 'Why Tamilians Never Say "Goodbye"',
     lang: 'Tamil Culture & Etiquette',
     langCode: 'ta-IN',
     imageEmoji: '🙏',
-    description: 'The heartfelt superstition and emotional warmth behind "Poi Varugiren".',
-    story: [
-      'In Tamil culture, uttering an abrupt "goodbye" or "I am going" (போகிறேன்) is considered inauspicious because it implies a final departure.',
-      'Instead, every Tamilian smiles and says "போய் வருகிறேன்" (Poi varugiren) — literally: "I go, only to return to you".',
-      'The other person warmly responds: "போய் வாருங்கள்" (Poi vaarungal - "Go and return safely"). It turns every departure into an affectionate promise of reunion!'
+    description: 'The heartfelt cultural reason behind saying "Poi Varugiren".',
+    xpReward: 15,
+    characters: [
+      { name: 'Kavitha', avatar: '👧' },
+      { name: 'Paati (Grandmother)', avatar: '👵' }
+    ],
+    lines: [
+      { 
+        type: 'dialogue', 
+        speaker: 'Kavitha', 
+        avatar: '👧', 
+        text: 'பாட்டி, நான் கிளம்புறேன்... போய் வருகிறேன்!', 
+        roman: 'Paati, naan kelamburen... Poi varugiren!', 
+        english: 'Grandma, I am heading out... I will go and return!' 
+      },
+      { 
+        type: 'dialogue', 
+        speaker: 'Paati', 
+        avatar: '👵', 
+        text: 'நல்லபடியா போய் வா கண்ணா, பத்திரமா போ!', 
+        roman: 'Nallabadiya poi vaa kanna, pathirama po!', 
+        english: 'Go and return safely dear, take care on the road!' 
+      },
+      { 
+        type: 'question', 
+        prompt: 'Why do Tamilians say "போய் வருகிறேன்" (Poi varugiren) instead of goodbye?', 
+        options: [
+          { text: 'Saying a blunt "goodbye" implies finality; this promises an affectionate reunion', correct: true },
+          { text: 'They forgot where they are going', correct: false },
+          { text: 'It means they refuse to leave', correct: false }
+        ], 
+        explanation: '"Poi Varugiren" literally means "I go, only to return to you", turning departures into promises of seeing each other again!' 
+      },
+      { 
+        type: 'dialogue', 
+        speaker: 'Kavitha', 
+        avatar: '👧', 
+        text: 'சாயங்காலம் கண்டிப்பா வந்துடுவேன் பாட்டி!', 
+        roman: 'Saayangalam kandippaa vandhuduven paati!', 
+        english: 'I will definitely be back by this evening, grandma!' 
+      }
     ],
     desiWord: 'போய் வருகிறேன் (Poi varugiren - I will go and return)'
   },
   {
-    id: 'story-6',
-    title: 'The Sacred Science of the Banana Leaf Feast (வாழை இலை விருந்து)',
-    lang: 'Tamil Dining Heritage',
+    id: 'story-5',
+    title: 'The Sacred Banana Leaf Feast',
+    lang: 'Tamil & Kerala Dining Heritage',
     langCode: 'ta-IN',
     imageEmoji: '🍃',
-    description: 'Why salt goes on the top-left, payasam on the bottom-right, and leaves fold upward.',
-    story: [
-      'Dining on a freshly cut banana leaf (தலைவாழை இலை) is an ancient culinary science. The warm food melts the leaf\'s natural polyphenol wax coating, releasing aroma and aiding digestion.',
-      'The tapered tip always points to the diner\'s left. Salt, pickles, and pungent items are placed on the top-left (consumed in moderation), while rice, ghee, and vegetable curries sit at the center.',
-      'When you finish, folding the leaf towards yourself (top to bottom) is the highest compliment you can pay the host, declaring you are fully satisfied!'
+    description: 'The ancient culinary etiquette of the banana leaf feast.',
+    xpReward: 15,
+    characters: [
+      { name: 'Host', avatar: '👨‍💼' },
+      { name: 'Guest', avatar: '🧑' }
     ],
-    desiWord: 'வயிறு நிறைந்தது! (Vayiru niraindhadhu - Stomach is fully satisfied!)'
+    lines: [
+      { 
+        type: 'dialogue', 
+        speaker: 'Host', 
+        avatar: '👨‍💼', 
+        text: 'வாருங்கள்! தலைவாழை இலை விருந்து தயார்!', 
+        roman: 'Vaarungal! Thalaivaazhai ilai virundhu thayaar!', 
+        english: 'Welcome! The fresh banana leaf feast is ready!' 
+      },
+      { 
+        type: 'dialogue', 
+        speaker: 'Guest', 
+        avatar: '🧑', 
+        text: 'பாயாசம், சாம்பார், வடை... எல்லாமே அருமை!', 
+        roman: 'Paayasam, saambaar, vadai... ellame arumai!', 
+        english: 'Payasam, sambar, vadai... everything smells amazing!' 
+      },
+      { 
+        type: 'question', 
+        prompt: 'After dining on a banana leaf, why do guests fold it towards themselves?', 
+        options: [
+          { text: 'It is the highest compliment showing the guest is deeply satisfied', correct: true },
+          { text: 'To hide food leftovers', correct: false },
+          { text: 'Because the leaf is dirty', correct: false }
+        ], 
+        explanation: 'Folding the top half down towards yourself indicates pure gastronomic satisfaction and heartfelt gratitude to the host!' 
+      },
+      { 
+        type: 'dialogue', 
+        speaker: 'Guest', 
+        avatar: '🧑', 
+        text: 'வயிறு நிறைந்தது, மனசும் நிறைந்தது!', 
+        roman: 'Vayiru niraindhadhu, manasum niraindhadhu!', 
+        english: 'My stomach is full, and my heart is completely satisfied!' 
+      }
+    ],
+    desiWord: 'வயிறு நிறைந்தது! (Vayiru niraindhadhu - Fully satisfied)'
   },
   {
-    id: 'story-7',
-    title: 'The Magic of "சும்மா" (Summa): The Word That Does Everything',
+    id: 'story-6',
+    title: 'The Magic of "சும்மா" (Summa)',
     lang: 'Tamil Colloquial Genius',
     langCode: 'ta-IN',
     imageEmoji: '✨',
     description: 'The one untranslatable word every Tamilian uses dozens of times each day.',
-    story: [
-      'If you ask a Tamilian: "What are you doing?", they will reply: "சும்மா இருக்கேன்" (Summa irukken - Just chilling / Doing nothing).',
-      'If you ask: "Why did you call?", they say: "சும்மா தான்" (Summa dhaan - Just like that, to hear your voice).',
-      'If someone sings amazingly, friends say: "சும்மா அதிருதுல்ல!" (Summa adhirudhulla - It\'s rocking effortlessly!). It is the ultimate Swiss-army knife of Tamil conversational intimacy!'
+    xpReward: 15,
+    characters: [
+      { name: 'Mani', avatar: '🧔' },
+      { name: 'Siva', avatar: '🧑' }
+    ],
+    lines: [
+      { 
+        type: 'dialogue', 
+        speaker: 'Mani', 
+        avatar: '🧔', 
+        text: 'மச்சி, என்ன பண்ற இப்போ?', 
+        roman: 'Machi, enna panra ippo?', 
+        english: 'Buddy, what are you doing right now?' 
+      },
+      { 
+        type: 'dialogue', 
+        speaker: 'Siva', 
+        avatar: '🧑', 
+        text: 'சும்மா தான் இருக்கேன் டா, சொல்லு!', 
+        roman: 'Summa dhaan irukken da, sollu!', 
+        english: 'Just chilling doing nothing bro, tell me!' 
+      },
+      { 
+        type: 'question', 
+        prompt: 'What does "சும்மா" (Summa) mean in Tamil colloquial speech?', 
+        options: [
+          { text: '"Just like that", "simply", or "just chilling"', correct: true },
+          { text: '"Very serious official work"', correct: false },
+          { text: '"Danger ahead"', correct: false }
+        ], 
+        explanation: '"Summa" is the versatile Tamil word for "just like that", "simply", or "casually"!' 
+      },
+      { 
+        type: 'dialogue', 
+        speaker: 'Mani', 
+        avatar: '🧔', 
+        text: 'டீ குடிக்க போலாமா? சும்மா ஒரு ரவுண்ட்!', 
+        roman: 'Tea kudikka polaama? Summa oru round!', 
+        english: 'Shall we go drink tea? Just a quick casual walk!' 
+      },
+      { 
+        type: 'dialogue', 
+        speaker: 'Siva', 
+        avatar: '🧑', 
+        text: 'வா போலாம்! சும்மா அதிர வைக்கலாம்!', 
+        roman: 'Vaa polaam! Summa adhira vaikkalaam!', 
+        english: 'Come let\'s go! Let\'s have a blast!' 
+      }
     ],
     desiWord: 'சும்மா (Summa - Just like that / Simply)'
   }

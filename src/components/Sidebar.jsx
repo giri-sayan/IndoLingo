@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
   Home, 
-  Dumbbell, 
   Shield, 
   Target, 
   Store, 
@@ -19,6 +18,15 @@ import {
 import TigerLogo from './TigerLogo';
 import { sounds } from '../utils/audio';
 
+function DuoLettersIcon({ className = "w-5 h-5" }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <rect x="2.5" y="2.5" width="19" height="19" rx="5" fill="#1cb0f6" stroke="#0284c7" strokeWidth="1.2" />
+      <text x="12" y="16.5" textAnchor="middle" fill="#ffffff" fontSize="13" fontWeight="900" fontFamily="sans-serif">Aa</text>
+    </svg>
+  );
+}
+
 function DuoBirdhouseIcon({ className = "w-5 h-5" }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className}>
@@ -26,18 +34,6 @@ function DuoBirdhouseIcon({ className = "w-5 h-5" }) {
       <path d="M12 2.5L2 10.2H6L12 5.5L18 10.2H22L12 2.5Z" fill="#ff4b4b" stroke="#e53935" strokeWidth="1" strokeLinejoin="round" />
       <circle cx="12" cy="14" r="2.8" fill="#582a0a" stroke="#3a1b06" strokeWidth="0.8" />
       <rect x="11.2" y="17.8" width="1.6" height="3" rx="0.8" fill="#e5a500" />
-    </svg>
-  );
-}
-
-function DuoDumbbellIcon({ className = "w-5 h-5" }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className}>
-      <rect x="6" y="10.5" width="12" height="3" rx="1.5" fill="#a855f7" />
-      <rect x="4" y="8" width="2.5" height="8" rx="1.2" fill="#9333ea" />
-      <rect x="2" y="9.5" width="2" height="5" rx="1" fill="#7e22ce" />
-      <rect x="17.5" y="8" width="2.5" height="8" rx="1.2" fill="#9333ea" />
-      <rect x="20" y="9.5" width="2" height="5" rx="1" fill="#7e22ce" />
     </svg>
   );
 }
@@ -103,8 +99,7 @@ export default function Sidebar({
 
   const navItems = [
     { id: 'learn', label: 'LEARN', icon: Home },
-    { id: 'courses', label: 'COURSES', icon: Globe, isAction: true },
-    { id: 'practice', label: 'PRACTICE', icon: Dumbbell },
+    { id: 'letters', label: 'LETTERS', icon: DuoLettersIcon },
     { id: 'leaderboard', label: 'LEADERBOARDS', icon: Shield },
     { id: 'quests', label: 'QUESTS', icon: Target, badge: unreadQuestsCount > 0 },
     { id: 'shop', label: 'SHOP', icon: Store },
@@ -114,7 +109,7 @@ export default function Sidebar({
   // Streamlined 5 tabs for Mobile Bottom Bar (Exact Duolingo Mobile App Match)
   const mobileNavItems = [
     { id: 'learn', label: 'Learn', icon: DuoBirdhouseIcon },
-    { id: 'practice', label: 'Practice', icon: DuoDumbbellIcon },
+    { id: 'letters', label: 'Letters', icon: DuoLettersIcon },
     { id: 'leaderboard', label: 'Leagues', icon: DuoShieldLeagueIcon },
     { id: 'quests', label: 'Quests', icon: DuoHeartSpeechIcon, badge: unreadQuestsCount > 0 },
     { id: 'profile', label: 'Profile', icon: DuoAvatarProfileIcon },
@@ -142,22 +137,7 @@ export default function Sidebar({
         <span className="text-base">{selectedLanguage?.flagEmoji || '🇮🇳'}</span>
       </button>
 
-      {/* Bhasha Sangam */}
-      <button
-        onClick={() => {
-          sounds.playPop();
-          setIsMoreOpen(false);
-          onSelectTab('practice');
-        }}
-        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition cursor-pointer text-left ${
-          isDark ? 'hover:bg-[#20333d]' : 'hover:bg-slate-100'
-        }`}
-      >
-        <Languages className="w-4 h-4 text-blue-400" />
-        <span>BHASHA SANGAM MATRIX</span>
-      </button>
-
-      {/* Cultural Chai Stories */}
+      {/* Duolingo Stories */}
       <button
         onClick={() => {
           sounds.playPop();
@@ -165,11 +145,56 @@ export default function Sidebar({
           onSelectTab('stories');
         }}
         className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition cursor-pointer text-left ${
-          isDark ? 'hover:bg-[#20333d]' : 'hover:bg-slate-100'
+          isDark ? 'hover:bg-[#20333d] text-amber-400' : 'hover:bg-slate-100 text-amber-600'
         }`}
       >
         <Coffee className="w-4 h-4 text-amber-400" />
-        <span>CHAI STORIES</span>
+        <span>DUOLINGO STORIES</span>
+      </button>
+
+      {/* Mistakes Inbox */}
+      <button
+        onClick={() => {
+          sounds.playPop();
+          setIsMoreOpen(false);
+          onSelectTab('mistakes');
+        }}
+        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition cursor-pointer text-left ${
+          isDark ? 'hover:bg-[#20333d] text-rose-400' : 'hover:bg-slate-100 text-rose-600'
+        }`}
+      >
+        <span className="w-4 h-4 flex items-center justify-center font-black text-rose-400">⚠️</span>
+        <span>MISTAKES INBOX</span>
+      </button>
+
+      {/* Spoken Roleplay */}
+      <button
+        onClick={() => {
+          sounds.playPop();
+          setIsMoreOpen(false);
+          onSelectTab('roleplay');
+        }}
+        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition cursor-pointer text-left ${
+          isDark ? 'hover:bg-[#20333d] text-cyan-400' : 'hover:bg-slate-100 text-cyan-600'
+        }`}
+      >
+        <span className="w-4 h-4 flex items-center justify-center font-black text-cyan-400">💬</span>
+        <span>SPOKEN ROLEPLAY</span>
+      </button>
+
+      {/* 9-Language Matrix */}
+      <button
+        onClick={() => {
+          sounds.playPop();
+          setIsMoreOpen(false);
+          onSelectTab('matrix');
+        }}
+        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition cursor-pointer text-left ${
+          isDark ? 'hover:bg-[#20333d] text-purple-400' : 'hover:bg-slate-100 text-purple-600'
+        }`}
+      >
+        <Languages className="w-4 h-4 text-purple-400" />
+        <span>9-LANGUAGE MATRIX</span>
       </button>
 
       {/* Install Mobile App (PWA) */}
@@ -309,7 +334,7 @@ export default function Sidebar({
           <nav className="space-y-1 pt-1">
             {navItems.map((item) => {
               const Icon = item.icon;
-              const isActive = activeTab === item.id;
+              const isActive = activeTab === item.id || (item.id === 'letters' && (activeTab === 'practice' || activeTab === 'akshara' || activeTab === 'letters'));
               return (
                 <button
                   key={item.id}
@@ -335,7 +360,7 @@ export default function Sidebar({
                   <Icon className={`w-6 h-6 shrink-0 ${
                     isActive 
                       ? (isDark ? 'text-[#1cb0f6]' : 'text-emerald-600') 
-                      : (item.id === 'learn' ? 'text-amber-500' : item.id === 'courses' ? 'text-emerald-400' : item.id === 'practice' ? 'text-blue-400' : item.id === 'leaderboard' ? 'text-amber-400' : item.id === 'quests' ? 'text-amber-500' : item.id === 'shop' ? 'text-rose-500' : 'text-slate-400')
+                      : (item.id === 'learn' ? 'text-amber-500' : item.id === 'courses' ? 'text-emerald-400' : item.id === 'letters' ? 'text-[#1cb0f6]' : item.id === 'leaderboard' ? 'text-amber-400' : item.id === 'quests' ? 'text-amber-500' : item.id === 'shop' ? 'text-rose-500' : 'text-slate-400')
                   }`} />
                   <span className="truncate">{item.label}</span>
                   {item.badge && (
@@ -381,7 +406,7 @@ export default function Sidebar({
       }`}>
         {mobileNavItems.map((item) => {
           const Icon = item.icon;
-          const isActive = activeTab === item.id;
+          const isActive = activeTab === item.id || (item.id === 'letters' && (activeTab === 'practice' || activeTab === 'akshara' || activeTab === 'letters'));
           return (
             <button
               key={item.id}

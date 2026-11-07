@@ -1,21 +1,14 @@
 import React, { useState } from 'react';
-import confetti from 'canvas-confetti';
 import { 
-  Printer, 
-  CheckCircle2, 
-  Check, 
-  Star, 
-  Headphones, 
-  Trophy, 
-  BookOpen, 
   X, 
   ChevronDown,
   Lock,
-  Unlock
+  Unlock,
+  Sparkles,
+  BookOpen
 } from 'lucide-react';
 import Mascot from './Mascot';
 import { sounds } from '../utils/audio';
-import { LIFETIME_DIPLOMAS } from '../data/diplomas';
 
 function DuoFilledStar({ className = "w-8 h-8" }) {
   return (
@@ -99,7 +92,6 @@ export default function LessonPath({
     }
     return null;
   });
-  const [showGraduationModal, setShowGraduationModal] = useState(false);
   const [freeStudyMode, setFreeStudyMode] = useState(() => {
     return localStorage.getItem('bhasha_free_study_mode') === 'true';
   });
@@ -124,7 +116,6 @@ export default function LessonPath({
   const courseLessons = selectedLanguage.units?.flatMap(u => u.lessons || []) || [];
   const completedCourseLessonsCount = courseLessons.filter(l => completedLessons[l.id]).length;
   const isCourseGraduated = completedCourseLessonsCount >= Math.min(courseLessons.length, 8);
-  const activeDiploma = LIFETIME_DIPLOMAS[selectedLanguage.id] || LIFETIME_DIPLOMAS.hindi;
 
   // Click outside to dismiss popover without blocking page scroll
   React.useEffect(() => {
@@ -591,140 +582,33 @@ export default function LessonPath({
         );
       })}
 
-      {/* Grand Lifetime Native / Course Graduation Trophy Milestone */}
-      <div className="relative mt-8 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-amber-600 via-rose-700 to-purple-900 text-white shadow-2xl border-4 border-amber-400 text-center space-y-4 overflow-hidden">
-        <div className="absolute -right-10 -bottom-10 opacity-15 text-9xl pointer-events-none select-none">
-          {activeDiploma.icons[1] || '🌴'}
-        </div>
+      {/* Duolingo Course Completion Milestone Trophy */}
+      <div className="relative mt-8 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#18262d] to-[#131f24] text-white shadow-xl border-2 border-[#38464f] text-center space-y-4 overflow-hidden">
         <div className="flex justify-center -mt-12 sm:-mt-14">
-          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-amber-400 to-yellow-200 border-4 border-white shadow-xl flex items-center justify-center text-4xl sm:text-5xl animate-bounce">
+          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-[#ffc800] to-[#ffd900] border-4 border-[#18262d] shadow-xl flex items-center justify-center text-4xl sm:text-5xl animate-bounce">
             🏆
           </div>
         </div>
         <div>
-          <span className="text-[11px] font-black uppercase tracking-widest px-3 py-1 rounded-full bg-white/20 backdrop-blur">
-            {isCourseGraduated ? activeDiploma.milestoneCompleted : activeDiploma.milestoneBadge}
+          <span className="text-[11px] font-black uppercase tracking-widest px-3 py-1 rounded-full bg-[#58cc02]/20 text-[#58cc02]">
+            {isCourseGraduated ? 'Course Completed! ✓' : 'Course Milestone'}
           </span>
-          <h3 className="text-2xl sm:text-3xl font-black mt-2">
-            {activeDiploma.milestoneHeading}
+          <h3 className="text-2xl sm:text-3xl font-black mt-2 text-white">
+            {selectedLanguage.name} Champion
           </h3>
-          <p className="text-xs sm:text-sm text-white/90 font-semibold max-w-md mx-auto mt-1 leading-relaxed">
-            {activeDiploma.milestoneDesc}
+          <p className="text-xs sm:text-sm text-slate-300 font-semibold max-w-md mx-auto mt-1 leading-relaxed">
+            {isCourseGraduated 
+              ? `You've completed every unit in ${selectedLanguage.name}! Keep practicing to stay sharp and maintain your streak.` 
+              : `Complete all units in ${selectedLanguage.name} to unlock the permanent Course Champion Trophy!`}
           </p>
         </div>
         <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <button
-            onClick={() => {
-              sounds.playFanfare();
-              confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
-              setShowGraduationModal(true);
-            }}
-            className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg hover:scale-105 active:scale-95 transition cursor-pointer flex items-center justify-center gap-2"
-          >
-            <Trophy className="w-4 h-4 text-slate-950" />
-            <span>{activeDiploma.viewBtn}</span>
-          </button>
-        </div>
-      </div>
-
-      {/* LIFETIME DIPLOMA & CERTIFICATE MODAL */}
-      {showGraduationModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200">
-          <div className="bg-[#18262d] border-4 border-amber-400 rounded-3xl max-w-2xl w-full max-h-[92vh] overflow-y-auto text-white shadow-2xl relative p-6 sm:p-10 space-y-6">
-            
-            {/* Close Button */}
-            <button
-              onClick={() => { sounds.playPop(); setShowGraduationModal(false); }}
-              className="absolute top-4 right-4 p-2 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition cursor-pointer"
-            >
-              <X className="w-6 h-6" />
-            </button>
-
-            {/* Diploma Certificate Frame */}
-            <div className="border-4 border-[#ffc800] rounded-2xl p-6 sm:p-8 bg-gradient-to-b from-[#18262d] via-[#131f24] to-[#0f171c] text-center space-y-5 relative shadow-inner">
-              
-              {/* Traditional Cultural Icons / Seal */}
-              <div className="flex justify-center items-center gap-3">
-                {activeDiploma.icons.map((ic, idx) => (
-                  <span key={idx} className="text-3xl">{ic}</span>
-                ))}
-              </div>
-
-              <div>
-                <p className="text-[11px] sm:text-xs font-black uppercase tracking-widest text-amber-400">
-                  {activeDiploma.academy}
-                </p>
-                <h2 className="text-2xl sm:text-3xl font-black text-white mt-1">
-                  {activeDiploma.title}
-                </h2>
-                <p className="text-xs sm:text-sm font-bold text-amber-200 tracking-wider">
-                  {activeDiploma.subtitle}
-                </p>
-              </div>
-
-              <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto" />
-
-              <p className="text-xs sm:text-sm text-slate-200 leading-relaxed max-w-lg mx-auto font-medium">
-                {activeDiploma.text}
-              </p>
-
-              {/* Pillars of Mastery */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-left text-xs bg-black/40 rounded-2xl p-4 border border-amber-400/20">
-                {activeDiploma.pillars.map((pillar, idx) => (
-                  <div key={idx} className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span><strong>{pillar.strong}</strong> {pillar.text}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Golden Seal & Signatures */}
-              <div className="pt-3 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-amber-400/30">
-                <div className="text-center sm:text-left">
-                  <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">{activeDiploma.dateLabel}</p>
-                  <p className="text-xs font-bold text-amber-300">
-                    {new Date().toLocaleDateString(activeDiploma.locale || 'en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}
-                  </p>
-                </div>
-
-                <div className="w-16 h-16 rounded-full border-2 border-dashed border-amber-400 flex flex-col items-center justify-center bg-amber-950/60 shadow-lg">
-                  <span className="text-lg">🎖️</span>
-                  <span className="text-[8px] font-black uppercase text-amber-300">CERTIFIED</span>
-                </div>
-
-                <div className="text-center sm:text-right">
-                  <p className="text-xs font-black text-amber-300 font-serif italic">{activeDiploma.sealSign}</p>
-                  <p className="text-[10px] font-bold text-slate-400">{activeDiploma.sealSub}</p>
-                </div>
-              </div>
-
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              <button
-                onClick={() => {
-                  sounds.playPop();
-                  window.print();
-                }}
-                className="flex-1 py-3.5 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs uppercase tracking-wider cursor-pointer shadow-md flex items-center justify-center gap-2"
-              >
-                <Printer className="w-4 h-4" /> {activeDiploma.printBtn}
-              </button>
-              <button
-                onClick={() => {
-                  sounds.playPop();
-                  setShowGraduationModal(false);
-                }}
-                className="py-3.5 px-6 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-black text-xs uppercase tracking-wider cursor-pointer border border-slate-700"
-              >
-                {activeDiploma.continueBtn}
-              </button>
-            </div>
-
+          <div className="px-6 py-3 rounded-2xl bg-[#20333d] border border-[#2b3e48] text-xs font-black uppercase tracking-wider text-slate-300 flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-[#ffc800]" />
+            <span>{completedCourseLessonsCount} / {courseLessons.length} Lessons Finished</span>
           </div>
         </div>
-      )}
+      </div>
 
       {/* Floating Scroll to Active Node Button (Exact Duolingo Mobile App Match) */}
       <button

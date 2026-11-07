@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Share2, X, Check, Sparkles, MessageCircle } from 'lucide-react';
 import Mascot from './Mascot';
-import { LIFETIME_ACHIEVEMENTS } from '../data/diplomas';
+import { DESI_LEAGUES } from '../data/innovations';
 import { sounds } from '../utils/audio';
 
 const ProfileView = ({ streak, _gems, _hearts, completedLessonsCount, selectedLanguage, equippedOutfit, theme }) => {
@@ -10,6 +10,7 @@ const ProfileView = ({ streak, _gems, _hearts, completedLessonsCount, selectedLa
   const [copiedLink, setCopiedLink] = useState(false);
   
   const totalXp = completedLessonsCount * 50 + 350;
+  const currentLeague = DESI_LEAGUES.slice().reverse().find(l => totalXp >= l.minXp) || DESI_LEAGUES[0];
 
   const flawlessCount = Number(localStorage.getItem('bhasha_flawless') || (completedLessonsCount > 0 ? 1 : 0));
   const completed = (() => {
@@ -24,7 +25,6 @@ const ProfileView = ({ streak, _gems, _hearts, completedLessonsCount, selectedLa
   const isWeekend = ([0, 6].includes(new Date().getDay()) && completedLessonsCount > 0) ? 1 : 0;
   
   const langKey = selectedLanguage?.id || 'tamil';
-  const nativeBadge = LIFETIME_ACHIEVEMENTS[langKey] || LIFETIME_ACHIEVEMENTS.hindi;
 
   const achievements = [
     { id: 'wildfire', title: 'Wildfire', description: 'Reach a 3 day streak', icon: '🔥', current: streak, max: 3, levels: [3, 7, 14, 30, 50, 100, 365] },
@@ -35,7 +35,7 @@ const ProfileView = ({ streak, _gems, _hearts, completedLessonsCount, selectedLa
     { id: 'night', title: 'Night Owl', description: 'Complete a lesson after 10pm', icon: '🦉', current: isNight, max: 1, levels: [1, 5] },
     { id: 'weekend', title: 'Weekend Warrior', description: 'Complete a lesson on the weekend', icon: '⚔️', current: isWeekend, max: 1, levels: [1, 5] },
     { id: 'polyglot', title: 'Polyglot Explorer', description: 'Explore multiple language courses', icon: '🌍', current: polyglotCount, max: 2, levels: [2, 3, 5] },
-    { id: `lifetime_${langKey}`, title: nativeBadge.title, description: nativeBadge.description, icon: nativeBadge.icon, current: Math.max(1, completedLessonsCount), max: 8, levels: [1, 4, 8, 25] },
+    { id: `master_${langKey}`, title: `${selectedLanguage?.name || 'Language'} Master`, description: `Master lessons in ${selectedLanguage?.name || 'language'}`, icon: '🏆', current: Math.max(1, completedLessonsCount), max: 8, levels: [1, 4, 8, 25] },
   ];
 
   return (
@@ -93,8 +93,8 @@ const ProfileView = ({ streak, _gems, _hearts, completedLessonsCount, selectedLa
             <span className={`text-xs font-bold uppercase ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Total XP</span>
           </div>
           <div className={`p-4 rounded-2xl border-2 flex flex-col items-center justify-center gap-2 ${isDark ? 'border-slate-700 bg-slate-800' : 'border-slate-200 bg-white'}`}>
-            <span className="text-2xl">💎</span>
-            <span className="font-bold text-xl">Amethyst</span>
+            <span className="text-2xl">{currentLeague.icon || '💎'}</span>
+            <span className="font-bold text-xl">{currentLeague.name}</span>
             <span className={`text-xs font-bold uppercase ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Current League</span>
           </div>
           <div className={`p-4 rounded-2xl border-2 flex flex-col items-center justify-center gap-2 ${isDark ? 'border-slate-700 bg-slate-800' : 'border-slate-200 bg-white'}`}>

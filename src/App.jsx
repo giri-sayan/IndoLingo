@@ -43,12 +43,12 @@ export default function App() {
     return INDIAN_LANGUAGES[0];
   });
 
-  // Navigation tab: 'learn' | 'akshara' | 'leaderboard' | 'quests' | 'shop' | 'stories'
+  // Navigation tab: 'learn' | 'letters' | 'practice' | 'mistakes' | 'roleplay' | 'matrix' | 'leaderboard' | 'quests' | 'shop' | 'stories' | 'profile'
   const [activeTab, setActiveTab] = useState(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
       const tabParam = params.get('tab');
-      if (tabParam && ['learn', 'practice', 'leaderboard', 'quests', 'shop', 'profile', 'stories'].includes(tabParam)) {
+      if (tabParam && ['learn', 'letters', 'practice', 'akshara', 'mistakes', 'roleplay', 'matrix', 'leaderboard', 'quests', 'shop', 'profile', 'stories'].includes(tabParam)) {
         return tabParam;
       }
     }
@@ -112,7 +112,7 @@ export default function App() {
     const handlePopState = () => {
       const params = new URLSearchParams(window.location.search);
       const tabParam = params.get('tab');
-      if (tabParam && ['learn', 'practice', 'leaderboard', 'quests', 'shop', 'profile', 'stories'].includes(tabParam)) {
+      if (tabParam && ['learn', 'letters', 'practice', 'akshara', 'mistakes', 'roleplay', 'matrix', 'leaderboard', 'quests', 'shop', 'profile', 'stories'].includes(tabParam)) {
         setActiveTab(tabParam);
       }
       const lessonParam = params.get('lesson');
@@ -338,11 +338,18 @@ export default function App() {
             </div>
           )}
 
-          {(activeTab === 'practice' || activeTab === 'akshara') && (
+          {['letters', 'practice', 'akshara', 'mistakes', 'roleplay', 'matrix'].includes(activeTab) && (
             <AksharaTrainer
               key={selectedLanguage.id}
               selectedLanguage={selectedLanguage}
               onAddGems={(amount) => setGems(prev => prev + amount)}
+              onPracticeHeart={handlePracticeHeart}
+              onNavigateLearn={() => setActiveTab('learn')}
+              initialSubMode={
+                activeTab === 'mistakes' ? 'mistakes' :
+                activeTab === 'roleplay' ? 'roleplay' :
+                activeTab === 'matrix' ? 'matrix' : 'letters'
+              }
               theme={theme}
             />
           )}
