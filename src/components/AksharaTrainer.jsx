@@ -17,6 +17,16 @@ export default function AksharaTrainer({
   const isDark = theme === 'dark';
   // Sub-modes: 'letters' (Duolingo Letters) | 'mistakes' (Mistakes Inbox) | 'roleplay' (Spoken Scenarios) | 'matrix' (9-Language Matrix)
   const [subMode, setSubMode] = useState(initialSubMode);
+  const [prevInitial, setPrevInitial] = useState(initialSubMode);
+
+  if (initialSubMode !== prevInitial) {
+    setPrevInitial(initialSubMode);
+    setSubMode(initialSubMode);
+  }
+
+  const inactiveBtnStyle = isDark
+    ? 'text-slate-400 hover:text-white hover:bg-[#20333d]'
+    : 'text-slate-600 hover:text-slate-900 hover:bg-white';
 
   return (
     <div className="space-y-6">
@@ -29,7 +39,7 @@ export default function AksharaTrainer({
           className={`flex items-center justify-center gap-2 py-3 px-2 rounded-xl font-black text-xs uppercase tracking-wider transition cursor-pointer ${
             subMode === 'letters'
               ? 'bg-[#58cc02] text-white shadow-md'
-              : 'text-slate-400 hover:text-white hover:bg-[#20333d]'
+              : inactiveBtnStyle
           }`}
         >
           <PenTool className="w-4 h-4 shrink-0" />
@@ -41,7 +51,7 @@ export default function AksharaTrainer({
           className={`flex items-center justify-center gap-2 py-3 px-2 rounded-xl font-black text-xs uppercase tracking-wider transition cursor-pointer ${
             subMode === 'mistakes'
               ? 'bg-rose-500 text-white shadow-md'
-              : 'text-slate-400 hover:text-white hover:bg-[#20333d]'
+              : inactiveBtnStyle
           }`}
         >
           <AlertCircle className="w-4 h-4 shrink-0" />
@@ -53,7 +63,7 @@ export default function AksharaTrainer({
           className={`flex items-center justify-center gap-2 py-3 px-2 rounded-xl font-black text-xs uppercase tracking-wider transition cursor-pointer ${
             subMode === 'roleplay'
               ? 'bg-[#1cb0f6] text-white shadow-md'
-              : 'text-slate-400 hover:text-white hover:bg-[#20333d]'
+              : inactiveBtnStyle
           }`}
         >
           <MessageSquare className="w-4 h-4 shrink-0" />
@@ -65,7 +75,7 @@ export default function AksharaTrainer({
           className={`flex items-center justify-center gap-2 py-3 px-2 rounded-xl font-black text-xs uppercase tracking-wider transition cursor-pointer ${
             subMode === 'matrix'
               ? 'bg-[#a855f7] text-white shadow-md'
-              : 'text-slate-400 hover:text-white hover:bg-[#20333d]'
+              : inactiveBtnStyle
           }`}
         >
           <Globe2 className="w-4 h-4 shrink-0" />

@@ -38,7 +38,7 @@ export default function Leaderboard({
     },
     {
       title: 'Akshara Scholar 📜',
-      desc: 'Mastered the vowels & consonants in Script Studio',
+      desc: 'Mastered the vowels & consonants in Characters & Letters',
       unlocked: true,
       icon: '✍️'
     },
@@ -68,7 +68,9 @@ export default function Leaderboard({
               className={`px-4 py-2.5 rounded-2xl font-black text-xs uppercase tracking-wider flex items-center gap-2 transition cursor-pointer shrink-0 border-2 ${
                 isSelected
                   ? 'bg-gradient-to-r ' + l.color + ' text-white border-white/40 shadow-lg scale-105'
-                  : 'bg-[#18262d] border-[#38464f] text-slate-300 hover:border-slate-400'
+                  : isDark
+                  ? 'bg-[#18262d] border-[#38464f] text-slate-300 hover:border-slate-400'
+                  : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300 shadow-sm'
               }`}
             >
               <span className="text-base">{l.icon}</span>

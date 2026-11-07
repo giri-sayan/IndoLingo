@@ -49,7 +49,7 @@ export default function QuestsView({
     {
       id: 'q-akshara',
       title: 'Practice 10 Akshara characters',
-      desc: 'Test your phonetic recognition in Script Studio',
+      desc: 'Test your phonetic recognition in Characters & Letters',
       current: Math.min(10, aksharaCount),
       target: 10,
       reward: 25,
@@ -135,13 +135,13 @@ export default function QuestsView({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="font-black text-base text-white">Friends Quest</h3>
-                <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400">
+                <h3 className="font-black text-base text-slate-900 dark:text-white">Friends Quest</h3>
+                <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
                   Active
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-bold mt-0.5">
-                Complete 15 lessons together with Vikram • <strong className="text-white">11 / 15</strong>
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-bold mt-0.5">
+                Complete 15 lessons together with Vikram • <strong className="text-slate-800 dark:text-white">11 / 15</strong>
               </p>
             </div>
           </div>
@@ -157,7 +157,7 @@ export default function QuestsView({
               className={`px-4 py-2.5 rounded-2xl font-black text-xs uppercase tracking-wider transition cursor-pointer flex items-center gap-1.5 ${
                 nudged
                   ? 'bg-emerald-500 text-white'
-                  : 'bg-[#20333d] hover:bg-[#2b3e48] border border-[#38464f] text-slate-200'
+                  : 'bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 dark:bg-[#20333d] dark:hover:bg-[#2b3e48] dark:border-[#38464f] dark:text-slate-200'
               }`}
             >
               <Bell className="w-3.5 h-3.5" />
@@ -198,7 +198,7 @@ export default function QuestsView({
               Complete daily goals to open tiered treasure chests.
             </p>
           </div>
-          <span className="text-xs font-bold text-emerald-400 bg-emerald-950/40 px-3 py-1 rounded-full flex items-center gap-1">
+          <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/40 px-3 py-1 rounded-full flex items-center gap-1">
             <Clock className="w-3.5 h-3.5" /> Resets in 6h
           </span>
         </div>
@@ -215,40 +215,40 @@ export default function QuestsView({
                 key={q.id}
                 className={`p-4 sm:p-5 rounded-2xl border-2 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
                   isClaimed
-                    ? 'bg-[#131f24]/50 border-[#202f36] opacity-60'
+                    ? isDark ? 'bg-[#131f24]/50 border-[#202f36] opacity-60' : 'bg-slate-50 border-slate-200 opacity-60'
                     : isCompleted
-                    ? 'bg-emerald-950/20 border-emerald-500/50'
-                    : 'bg-[#20333d]/60 border-[#2b3e48]'
+                    ? isDark ? 'bg-emerald-950/20 border-emerald-500/50' : 'bg-emerald-50/60 border-emerald-300'
+                    : isDark ? 'bg-[#20333d]/60 border-[#2b3e48]' : 'bg-slate-50/80 border-slate-200'
                 }`}
               >
                 <div className="flex items-start gap-4">
                   <div className={`p-3 rounded-2xl shrink-0 ${
-                    isDark ? 'bg-[#18262d] text-slate-200' : 'bg-slate-100 text-slate-700'
+                    isDark ? 'bg-[#18262d] text-slate-200' : 'bg-white text-slate-700 border border-slate-200'
                   }`}>
                     <Icon className={`w-6 h-6 ${q.color}`} />
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <h3 className="font-extrabold text-base text-slate-100">
+                      <h3 className="font-extrabold text-base text-slate-900 dark:text-slate-100">
                         {q.title}
                       </h3>
-                      <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">
+                      <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-slate-200 text-slate-700 border border-slate-300 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700">
                         {q.tier}
                       </span>
                     </div>
-                    <p className="text-xs font-semibold mt-0.5 text-slate-400">
+                    <p className="text-xs font-semibold mt-0.5 text-slate-500 dark:text-slate-400">
                       {q.desc}
                     </p>
 
                     {/* Progress Bar */}
                     <div className="mt-3 flex items-center gap-3 w-full max-w-[14rem] sm:max-w-[16rem]">
-                      <div className="flex-1 bg-[#131f24] h-2.5 rounded-full overflow-hidden">
+                      <div className="flex-1 bg-slate-200 dark:bg-[#131f24] h-2.5 rounded-full overflow-hidden">
                         <div 
                           className="bg-[#58cc02] h-full rounded-full transition-all duration-300"
                           style={{ width: `${pct}%` }}
                         />
                       </div>
-                      <span className="text-xs font-bold text-slate-400">
+                      <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
                         {q.current} / {q.target}
                       </span>
                     </div>
@@ -262,7 +262,7 @@ export default function QuestsView({
                   </span>
 
                   {isClaimed ? (
-                    <span className="px-4 py-2 rounded-xl text-xs font-black bg-slate-800 text-slate-400 flex items-center gap-1">
+                    <span className="px-4 py-2 rounded-xl text-xs font-black bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400 flex items-center gap-1">
                       <CheckCircle2 className="w-3.5 h-3.5" /> Claimed
                     </span>
                   ) : isCompleted ? (

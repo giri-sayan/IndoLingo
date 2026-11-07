@@ -47,22 +47,16 @@ export default function MistakesInboxView({
   const currentMistake = activeMistakes[reviewIdx];
 
   // Options for the current mistake
-  const options = React.useMemo(() => {
-    if (!currentMistake) return [];
-
-    const correctText = currentMistake.answer || currentMistake.nativeWord;
-    const distractors = [
+  const correctText = currentMistake ? (currentMistake.answer || currentMistake.nativeWord) : '';
+  const options = currentMistake ? [
+    { text: correctText, correct: true },
+    ...[
       selectedLanguage?.greeting ? selectedLanguage.greeting.split('(')[0].trim() : 'नमस्ते',
       'धन्यवाद (Thank you)',
       'हाँ भाई (Yes brother)',
       'अलविदा (Goodbye)'
-    ].filter(d => d !== correctText).slice(0, 3);
-
-    return [
-      { text: correctText, correct: true },
-      ...distractors.map(d => ({ text: d, correct: false }))
-    ];
-  }, [currentMistake, selectedLanguage]);
+    ].filter(d => d !== correctText).slice(0, 3).map(d => ({ text: d, correct: false }))
+  ] : [];
 
   const handleSelectOption = (opt) => {
     if (feedback) return;
@@ -193,10 +187,10 @@ export default function MistakesInboxView({
                 <span className="text-xs font-black uppercase tracking-widest text-[#58cc02] bg-[#58cc02]/10 px-3 py-1 rounded-full">
                   Inbox Clear!
                 </span>
-                <h2 className="text-2xl sm:text-3xl font-black text-white mt-2">
+                <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-2">
                   All Mistakes Resolved!
                 </h2>
-                <p className="text-sm font-semibold text-slate-400 mt-1">
+                <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 mt-1">
                   You cleared {clearedCount} mistakes, restored +1 Heart, and earned +15 XP!
                 </p>
               </div>

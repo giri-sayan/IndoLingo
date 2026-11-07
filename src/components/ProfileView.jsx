@@ -47,12 +47,12 @@ const ProfileView = ({ streak, _gems, _hearts, completedLessonsCount, selectedLa
             <Mascot mood="happy" size={96} outfit={equippedOutfit} />
           </div>
           <div className="mt-4 md:mt-0">
-            <h1 className="text-2xl sm:text-3xl font-black text-white">Coool Explorer</h1>
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">Coool Explorer</h1>
             <p className="text-xs sm:text-sm text-slate-400 font-bold">@coool • Joined {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
             <div className="flex items-center gap-4 mt-2 text-xs font-black">
-              <span className="text-slate-300"><strong className="text-white">9</strong> Courses</span>
-              <span className="text-slate-300"><strong className="text-white">12</strong> Following</span>
-              <span className="text-slate-300"><strong className="text-white">28</strong> Followers</span>
+              <span className="text-slate-500 dark:text-slate-300"><strong className="text-slate-900 dark:text-white">9</strong> Courses</span>
+              <span className="text-slate-500 dark:text-slate-300"><strong className="text-slate-900 dark:text-white">12</strong> Following</span>
+              <span className="text-slate-500 dark:text-slate-300"><strong className="text-slate-900 dark:text-white">28</strong> Followers</span>
             </div>
           </div>
           <div className="flex items-center gap-2.5">
@@ -70,7 +70,7 @@ const ProfileView = ({ streak, _gems, _hearts, completedLessonsCount, selectedLa
                 sounds.playPop();
                 setShowShareModal(true);
               }}
-              className="p-3 rounded-2xl bg-[#18262d] hover:bg-[#20333d] border-2 border-[#2b3e48] text-slate-300 hover:text-white transition cursor-pointer"
+              className="p-3 rounded-2xl bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 text-slate-700 dark:bg-[#18262d] dark:hover:bg-[#20333d] dark:border-[#2b3e48] dark:text-slate-300 dark:hover:text-white transition cursor-pointer"
               title="QR Code"
             >
               <Share2 className="w-5 h-5" />
@@ -201,7 +201,7 @@ const ProfileView = ({ streak, _gems, _hearts, completedLessonsCount, selectedLa
                   Learning {selectedLanguage?.name || 'Indian Languages'}!
                 </h3>
                 <p className="text-xs text-slate-300 font-semibold">
-                  "{nativeBadge.title} • {selectedLanguage?.nativeName}"
+                  "{selectedLanguage?.name || 'Indian Languages'} Explorer • {selectedLanguage?.nativeName || 'भारत'}"
                 </p>
               </div>
 

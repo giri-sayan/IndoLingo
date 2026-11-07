@@ -246,10 +246,10 @@ export default function RoleplayView({ selectedLanguage, onAddGems, theme = 'dar
               <div className="flex justify-center">
                 <Mascot mood="cheering" size={120} />
               </div>
-              <h3 className="text-2xl font-black text-white">
+              <h3 className="text-2xl font-black text-slate-900 dark:text-white">
                 Dialogue Completed!
               </h3>
-              <p className="text-sm font-semibold text-slate-400">
+              <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
                 You successfully held a conversation in {selectedLanguage.name}!
               </p>
               <button

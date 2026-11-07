@@ -213,7 +213,7 @@ export default function RightSidebar({
         isDark ? 'bg-[#18262d] border-[#38464f]' : 'bg-white border-slate-200'
       }`}>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-black text-sm text-white flex items-center gap-2">
+          <h3 className="font-black text-sm text-slate-900 dark:text-white flex items-center gap-2">
             <span>{currentLeague.icon}</span>
             <span>{currentLeague.name}</span>
           </h3>
@@ -236,7 +236,7 @@ export default function RightSidebar({
           </div>
 
           <div>
-            <p className="text-sm font-black text-white">
+            <p className="text-sm font-black text-slate-900 dark:text-white">
               You're ranked <span className="text-[#58cc02]">#4</span>
             </p>
             <p className="text-xs text-slate-400 font-bold mt-0.5">
@@ -251,7 +251,7 @@ export default function RightSidebar({
         isDark ? 'bg-[#18262d] border-[#38464f]' : 'bg-white border-slate-200'
       }`}>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-black text-sm text-white">Daily Quests</h3>
+          <h3 className="font-black text-sm text-slate-900 dark:text-white">Daily Quests</h3>
           <button
             onClick={() => {
               sounds.playPop();
@@ -270,11 +270,11 @@ export default function RightSidebar({
               <Zap className="w-5 h-5 fill-[#ff9600]" />
             </div>
             <div className="flex-1 space-y-1">
-              <div className="flex justify-between text-xs font-bold text-slate-200">
+              <div className="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-200">
                 <span>Earn 20 XP</span>
                 <span className="text-[10px] text-slate-400">{Math.min(20, completedLessonsCount * 15)} / 20</span>
               </div>
-              <div className="w-full bg-[#2b3e48] h-3 rounded-full overflow-hidden">
+              <div className="w-full bg-slate-200 dark:bg-[#2b3e48] h-3 rounded-full overflow-hidden">
                 <div
                   className="bg-[#ff9600] h-full rounded-full transition-all duration-500"
                   style={{ width: `${Math.min(100, Math.round((Math.min(20, completedLessonsCount * 15) / 20) * 100))}%` }}
@@ -292,11 +292,11 @@ export default function RightSidebar({
               <Target className="w-5 h-5 stroke-[2.5]" />
             </div>
             <div className="flex-1 space-y-1">
-              <div className="flex justify-between text-xs font-bold text-slate-200">
+              <div className="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-200">
                 <span>Complete 1 perfect lesson</span>
                 <span className="text-[10px] text-slate-400">{Math.min(1, completedLessonsCount > 0 ? 1 : 0)} / 1</span>
               </div>
-              <div className="w-full bg-[#2b3e48] h-3 rounded-full overflow-hidden">
+              <div className="w-full bg-slate-200 dark:bg-[#2b3e48] h-3 rounded-full overflow-hidden">
                 <div
                   className="bg-[#58cc02] h-full rounded-full transition-all duration-500"
                   style={{ width: `${completedLessonsCount > 0 ? 100 : 0}%` }}
@@ -314,11 +314,11 @@ export default function RightSidebar({
               <Zap className="w-5 h-5 fill-[#ff9600]" />
             </div>
             <div className="flex-1 space-y-1">
-              <div className="flex justify-between text-xs font-bold text-slate-200">
+              <div className="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-200">
                 <span>Earn 15 Combo Bonus XP</span>
                 <span className="text-[10px] text-slate-400">0 / 15</span>
               </div>
-              <div className="w-full bg-[#2b3e48] h-3 rounded-full overflow-hidden">
+              <div className="w-full bg-slate-200 dark:bg-[#2b3e48] h-3 rounded-full overflow-hidden">
                 <div className="bg-[#ff9600] h-full rounded-full w-0" />
               </div>
             </div>

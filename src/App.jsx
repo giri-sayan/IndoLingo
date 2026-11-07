@@ -130,6 +130,17 @@ export default function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [selectedLanguage]);
 
+  // Synchronize URL query params whenever activeTab or selectedLanguage changes
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const url = new URL(window.location.href);
+    if (url.searchParams.get('tab') !== activeTab || url.searchParams.get('lang') !== selectedLanguage.id) {
+      url.searchParams.set('tab', activeTab);
+      url.searchParams.set('lang', selectedLanguage.id);
+      window.history.replaceState(null, '', url.toString());
+    }
+  }, [activeTab, selectedLanguage]);
+
   useEffect(() => {
     localStorage.setItem('bhasha_streak', streak);
     localStorage.setItem('bhasha_gems', gems);

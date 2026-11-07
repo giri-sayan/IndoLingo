@@ -117,7 +117,7 @@ export default function Header({
             title="Switch Course"
           >
             <LanguageFlagIcon language={selectedLanguage} />
-            <span className="text-xs sm:text-sm font-black text-white tracking-tight">
+            <span className="text-xs sm:text-sm font-black text-slate-800 dark:text-white tracking-tight">
               {Math.max(1, completedLessonsCount || 1)}
             </span>
             <ChevronDown className="w-3 h-3 text-slate-400 shrink-0" />
@@ -137,7 +137,7 @@ export default function Header({
             }`}
             title="Toggle English phonetic transliteration"
           >
-            <span>Aa / {selectedLanguage.alphabet[0]?.char}</span>
+            <span>Aa / {selectedLanguage?.alphabet?.[0]?.char || 'अ'}</span>
             <span className="text-[10px] px-1 py-0.2 rounded bg-emerald-200/60 dark:bg-emerald-800/60 text-emerald-800 dark:text-emerald-200 uppercase">
               {showTransliteration ? 'Phonetics: ON' : 'Native'}
             </span>

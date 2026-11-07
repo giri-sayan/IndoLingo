@@ -152,9 +152,9 @@ export default function LettersView({ selectedLanguage, onAddGems, theme = 'dark
               <div className="flex flex-col items-center justify-center">
                 <button
                   onClick={() => sounds.speak(qItem.target.char, selectedLanguage?.code || 'hi-IN')}
-                  className="w-36 h-36 rounded-3xl bg-[#18262d] border-4 border-[#38464f] hover:border-[#1cb0f6] flex flex-col items-center justify-center shadow-xl group transition cursor-pointer"
+                  className="w-36 h-36 rounded-3xl bg-slate-100 dark:bg-[#18262d] border-4 border-slate-300 dark:border-[#38464f] hover:border-[#1cb0f6] flex flex-col items-center justify-center shadow-xl group transition cursor-pointer"
                 >
-                  <span className="text-6xl font-black text-white group-hover:scale-105 transition">
+                  <span className="text-6xl font-black text-slate-900 dark:text-white group-hover:scale-105 transition">
                     {qItem.target.char}
                   </span>
                   <div className="flex items-center gap-1.5 text-xs text-[#1cb0f6] font-bold mt-2">
@@ -194,10 +194,10 @@ export default function LettersView({ selectedLanguage, onAddGems, theme = 'dark
           ) : (
             <div className="space-y-6 animate-in zoom-in-95 duration-300">
               <Mascot mood="cheering" size={120} outfit="royal" />
-              <h2 className="text-3xl font-black text-white">
+              <h2 className="text-3xl font-black text-slate-900 dark:text-white">
                 Letter Practice Complete!
               </h2>
-              <p className="text-sm font-semibold text-slate-400">
+              <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
                 You mastered {quizScore} out of {quizDeck.length} letters in {selectedLanguage.name}!
               </p>
               <button

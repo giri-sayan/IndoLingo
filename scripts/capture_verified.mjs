@@ -78,11 +78,11 @@ async function run() {
   });
 
   try {
-    let versionData = null;
+    let _versionData = null;
     for (let i = 0; i < 20; i++) {
       try {
-        const res = await fetch('http://127.0.0.1:9222/json/version');
-        versionData = await res.json();
+        const res = await fetch('http://127.0.0.1/json/version');
+        _versionData = await res.json();
         break;
       } catch {
         await new Promise(r => setTimeout(r, 300));

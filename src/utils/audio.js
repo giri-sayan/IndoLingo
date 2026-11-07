@@ -144,9 +144,10 @@ class SoundFX {
     try {
       window.speechSynthesis.cancel(); // Stop ongoing speech
       const safeLangCode = typeof langCode === 'string' && langCode ? langCode : 'hi-IN';
-      const utterance = new SpeechSynthesisUtterance(text);
+      const cleanText = text.includes('(') ? text.split('(')[0].trim() : text.trim();
+      const utterance = new SpeechSynthesisUtterance(cleanText || text.trim());
       utterance.lang = safeLangCode;
-      utterance.rate = rate; // Configurable speech rate
+      utterance.rate = Math.max(0.4, Math.min(1.5, rate)); // Configurable speech rate
       
       // Try to find native voice if available
       const voicesList = this.voices.length > 0 ? this.voices : window.speechSynthesis.getVoices();
